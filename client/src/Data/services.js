@@ -1,8 +1,16 @@
+import rct from "../assets/images/rct.jpeg";
+import scaling from "../assets/images/scaling.jpeg";
+import denture from "../assets/images/denture.jpeg";
+import orthodontic from "../assets/images/orthodontic.jpeg";
+import dentalImplant from "../assets/images/dental-implant.jpeg";
+import cosmeticDentistry from "../assets/images/cosmetic-dentistry.jpeg";
+import minororal from "../assets/images/Minor-Oral-Surgery.jpeg";
+
 export const services = [
   {
     id: "cosmetic-dentistry",
     title: "Cosmetic Dentistry",
-    heroImage: "/src/assets/images/cosmetic-dentistry.jpeg",
+    heroImage: cosmeticDentistry,
     breadcrumb: ["Home", "Services", "Cosmetic Dentistry"],
     heading: "Our Service Keeps you Smile",
 
@@ -74,7 +82,7 @@ export const services = [
   {
     id: "implant-dentistry",
     title: "Implant Dentistry",
-    heroImage: "/src/assets/images/dental-implant.jpeg",
+    heroImage: dentalImplant,
     breadcrumb: ["Home", "Services", "Implant Dentistry"],
     heading: "Our Service Keeps you Smile",
 
@@ -145,7 +153,7 @@ export const services = [
   {
     id: "minor-oral-surgery",
     title: "Minor Oral Surgery",
-    heroImage: "/src/assets/images/Minor-Oral-Surgery.jpeg",
+    heroImage: minororal,
     breadcrumb: ["Home", "Services", "Minor Oral Surgery"],
     subtitle: "Our Service Keeps you Smile",
 
@@ -221,7 +229,7 @@ export const services = [
   {
     id: "orthodontics",
     title: "Orthodontics",
-    heroImage: "/src/assets/images/orthodontic.jpeg",
+    heroImage: orthodontic,
     breadcrumb: ["Home", "Services", "Orthodontics"],
     subtitle: "Our Service Keeps you Smile",
 
@@ -316,7 +324,7 @@ export const services = [
   {
     id: "wisdom-tooth-extraction",
     title: "Wisdom Tooth Extraction",
-    heroImage: "/src/assets/images/scaling.jpeg",
+    heroImage: scaling,
     breadcrumb: ["Home", "Services", "Wisdom Tooth Extraction"],
     subtitle: "Our Service Keeps you Smile",
 
@@ -407,7 +415,7 @@ export const services = [
   {
     id: "root-canal-treatment",
     title: "Root Canal Treatment",
-    heroImage: "/src/assets/images/rct.jpeg",
+    heroImage: rct,
     breadcrumb: ["Home", "Services", "Root Canal Treatment"],
     subtitle: "Our Service Keeps you Smile",
 
@@ -487,7 +495,7 @@ export const services = [
   {
     id: "removable-dentures",
     title: "Removable Dentures",
-    heroImage: "/src/assets/images/denture.jpeg",
+    heroImage: denture,
     breadcrumb: ["Home", "Services", "Removable Dentures"],
     subtitle: "Our Service Keeps you Smile",
 
@@ -567,7 +575,7 @@ export const services = [
   {
     id: "scaling-and-polishing",
     title: "Scaling and Polishing",
-    heroImage: "/src/assets/images/scaling.jpeg",
+    heroImage: scaling,
     breadcrumb: ["Home", "Services", "Scaling and Polishing"],
     subtitle: "Our Service Keeps you Smile",
 

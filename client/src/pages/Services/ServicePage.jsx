@@ -16,22 +16,16 @@ const ServicePage = () => {
     return <div className="text-center mt-20">Service not found</div>;
   }
 
-  // Helper function to get the appropriate content array (points or procedures)
   const getContentItems = () => {
     return service.points || service.procedures || [];
   };
-
-  // Helper to get image (use heroImage or fallback)
   const getImage = () => {
     return service.heroImage || service.image || "/src/assets/images/bg_1.jpg";
   };
-
-  // Helper to get description (use intro or description or empty string)
   const getDescription = () => {
     return service.intro || service.description || "";
   };
 
-  // Helper to get title (use title or name)
   const getTitle = () => {
     return service.title || service.name || "";
   };
@@ -40,7 +34,7 @@ const ServicePage = () => {
     <div className="bg-gray-50 min-h-screen">
       {/* HERO */}
       <Hero
-        image={service.heroImage}
+        bgImage={service.heroImage}
         title={getTitle()}
         subtitle={service.subtitle || getDescription()}
       />

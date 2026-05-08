@@ -1,4 +1,4 @@
-import React from "react";
+
 import HeroSlider from "../components/HeroSlider";
 import Contact from "../components/Contact";
 

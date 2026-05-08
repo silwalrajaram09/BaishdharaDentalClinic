@@ -1,0 +1,14 @@
+@import "tailwindcss";
+html {
+  overflow-y: scroll;
+}
+.leaflet-container {
+  z-index: 0 !important;
+}
+
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom,
+.leaflet-control {
+  z-index: 0 !important;
+}

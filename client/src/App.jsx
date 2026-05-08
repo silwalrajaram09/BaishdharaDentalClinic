@@ -12,6 +12,7 @@ import Pricing from './pages/Pricing';
 import DoctorProfile from './pages/Doctors/DoctorProfile';
 import ServicePage from './pages/Services/ServicePage';
 
+
 function App() {
   return (
     <Router>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/doctor/:id" element={<DoctorProfile />} />
           <Route path="/services/:id" element={<ServicePage />} />
+          
         </Routes>
       </Layout>
      
