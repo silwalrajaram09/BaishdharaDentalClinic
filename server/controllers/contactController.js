@@ -1,38 +1,72 @@
-const { sendEmail, templates } = require('../utils/emailService');
-const Contact = require('../models/Contact');
+const { sendEmail, templates } = require("../utils/emailService");
+const { z } = require("zod");
 
-// Submit contact form
+const submitContactSchema = z.object({
+  name: z
+    .string({ required_error: "Name is required" })
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name must be at most 100 characters"),
+
+  email: z
+    .string({ required_error: "Email is required" })
+    .trim()
+    .email("Please enter a valid email"),
+
+  phone: z
+    .string()
+    .optional()
+    .or(z.literal(""))
+    .transform((v) => (v === "" ? undefined : v))
+    .refine(
+      (v) => !v || /^[0-9+\-\s()]{7,20}$/.test(v),
+      "Please enter a valid phone number",
+    ),
+
+  message: z
+    .string({ required_error: "Message is required" })
+    .trim()
+    .min(10, "Message must be at least 10 characters")
+    .max(2000, "Message must be at most 2000 characters"),
+});
+
+const toFieldErrors = (zodError) => {
+  const errors = {};
+
+  for (const issue of zodError.issues) {
+    const path = issue.path?.[0];
+
+    if (path) {
+      errors[path] = issue.message;
+    }
+  }
+
+  return errors;
+};
+
+// Submit contact form - Email only
 const submitContact = async (req, res) => {
   try {
-    const { name, email, phone, message } = req.body;
+    const parseResult = submitContactSchema.safeParse(req.body);
 
-    // Basic validation
-    if (!name || !email || !message) {
+    if (!parseResult.success) {
       return res.status(400).json({
         success: false,
-        message: 'Name, email, and message are required.',
+        message: "Invalid contact form submission",
+        errors: toFieldErrors(parseResult.error),
       });
     }
 
-    console.log('Received contact form:', {
-      name,
-      email,
-      phone,
-    });
+    const { name, email, phone, message } = parseResult.data;
 
-    // Save to database
-    const contactEntry = new Contact({
+    console.log("Received contact form:", {
       name,
       email,
       phone,
       message,
     });
 
-    await contactEntry.save();
-
-    console.log('Contact saved to database');
-
-    // Generate email template once
+    // Generate email template
     const notificationTemplate = templates.contactNotification({
       name,
       email,
@@ -40,64 +74,27 @@ const submitContact = async (req, res) => {
       message,
     });
 
-    // Send email to clinic/admin
-    const emailSent = await sendEmail(
+    // Send email
+    await sendEmail(
       process.env.RECIPIENT_EMAIL,
       notificationTemplate.subject,
-      notificationTemplate.html
+      notificationTemplate.html,
     );
-
-    if (!emailSent) {
-      console.error('Failed to send clinic notification email');
-    }
-
-    // Optional auto-reply
-    /*
-    const autoReplyTemplate = templates.autoReply(
-      { name },
-      'contact'
-    );
-
-    await sendEmail(
-      email,
-      autoReplyTemplate.subject,
-      autoReplyTemplate.html
-    );
-    */
 
     return res.status(200).json({
       success: true,
-      message: 'Message sent successfully!',
+      message: "Message sent successfully!",
     });
-
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error("Contact form error:", error);
 
     return res.status(500).json({
       success: false,
-      message: 'Failed to send message. Please try again later.',
+      message: "Failed to send message. Please try again later.",
     });
   }
 };
 
-// Placeholder endpoints
-const getContacts = async (req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: 'This endpoint is disabled in email-only mode',
-    data: [],
-  });
-};
-
-const markAsRead = async (req, res) => {
-  return res.status(200).json({
-    success: true,
-    message: 'This endpoint is disabled in email-only mode',
-  });
-};
-
 module.exports = {
   submitContact,
-  getContacts,
-  markAsRead,
 };

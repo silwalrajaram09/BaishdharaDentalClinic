@@ -5,7 +5,7 @@ import bg2 from "../assets/images/bg_2.jpg";
 import { motion, AnimatePresence } from "framer-motion";
 import { chapters } from "../Data/chapters";
 
-// ─────────────── Animation variants ───────────────────────────────────────
+
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
   visible: {

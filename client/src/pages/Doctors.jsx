@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import HeroSlider from "../components/HeroSlider";
-import doctors from "../data/doctors";
+import { doctors } from "../data/doctors.js";
 
 const Doctors = () => {
   return (

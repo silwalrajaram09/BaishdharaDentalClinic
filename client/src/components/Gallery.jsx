@@ -6,10 +6,13 @@ import gallery1 from "../assets/images/gallery-1.jpg";
 import gallery2 from "../assets/images/gallery-2.jpg";
 import gallery3 from "../assets/images/gallery-3.jpg";
 import gallery4 from "../assets/images/gallery-4.jpg";
-import beforeAfter1 from "../assets/images/cosmetic-dentistry.jpeg";
-import beforeAfter2 from "../assets/images/orthodontic.jpeg";
-import beforeAfter3 from "../assets/images/dental-implant.jpeg";
 import beforeAfterBg from "../assets/images/before_after.jpg";
+import ba1 from "../assets/images/ba1.jpeg";
+import ba2 from "../assets/images/ba2.jpeg";
+import ba3 from "../assets/images/ba4.jpeg"; // Note: adjusted map based on your variable sequence if needed
+import ba4 from "../assets/images/ba4.jpeg";
+import ba5 from "../assets/images/ba5.jpeg";
+import ba6 from "../assets/images/ba6.jpeg";
 
 const GalleryImages = [
   { src: gallery1, alt: "Dental Gallery 1" },
@@ -20,22 +23,22 @@ const GalleryImages = [
 
 const BeforeAfterPairs = [
   {
-    before: beforeAfter1,
-    after: beforeAfterBg,
-    service: "Cosmetic Dentistry",
-    link: "/services/cosmetic-dentistry",
+    after: ba1,
   },
   {
-    before: beforeAfter2,
-    after: beforeAfterBg,
-    service: "Orthodontics",
-    link: "/services/orthodontics",
+    after: ba2,
   },
   {
-    before: beforeAfter3,
-    after: beforeAfterBg,
-    service: "Dental Implants",
-    link: "/services/implant-dentistry",
+    after: ba3,
+  },
+  {
+    after: ba4,
+  },
+  {
+    after: ba5,
+  },
+  {
+    after: ba6,
   },
 ];
 
@@ -108,86 +111,59 @@ const Gallery = () => {
 
         {/* BEFORE / AFTER SLIDER */}
         <motion.div variants={fadeUp} className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-[#0b2a4a] mb-8">
+          <h3 className="text-3xl font-bold text-[#0b2a4a] mb-3">
             Before & After Transformations
           </h3>
+          <p className="text-gray-500">
+            Real results from our dental treatments
+          </p>
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          {/* Active Pair */}
+          {/* Main Card */}
           <motion.div
             key={activePair}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-r from-blue-50 to-teal-50 p-8 rounded-3xl shadow-xl mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
           >
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              {/* Before */}
-              <div>
-                <div className="text-center mb-4">
-                  <span className="bg-red-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    BEFORE
-                  </span>
-                </div>
-                <img
-                  src={BeforeAfterPairs[activePair].after}
-                  alt="After"
-                  className="w-full max-w-md mx-auto h-64 object-cover rounded-2xl shadow-lg"
-                />
-              </div>
-              {/* Arrow */}
-              <div className="hidden md:flex justify-center items-center">
-                <svg
-                  className="w-16 h-16 text-gray-400 mx-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </div>
-              {/* After */}
-              <div>
-                <div className="text-center mb-4">
-                  <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
-                    AFTER
-                  </span>
-                </div>
-                {/* <img
-                  src={BeforeAfterPairs[activePair].after}
-                  alt="After"
-                  className="w-full max-w-md mx-auto h-64 object-cover rounded-2xl shadow-lg"
-                /> */}
-              </div>
+            {/* Before / After Labels */}
+            <div className="absolute top-4 left-4 z-10 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
+              After
             </div>
-            {/* <div className="text-center mt-6">
-              <h4 className="text-2xl font-bold text-[#0b2a4a] mb-2">
-                {BeforeAfterPairs[activePair].service}
-              </h4>
-              <Link
-                to={BeforeAfterPairs[activePair].link}
-                className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition"
-              >
-                Learn More →
-              </Link>
-            </div> */}
+
+            {/* Image */}
+            <div className="relative">
+              <img
+                src={BeforeAfterPairs[activePair].after}
+                alt={`Case ${activePair + 1}`}
+                className="w-full h-[400px] object-contain"
+              />
+
+              {/* Gradient overlay for premium feel */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+            </div>
+
+            {/* Bottom info bar */}
+            <div className="p-4 bg-gradient-to-r from-blue-50 to-teal-50 flex justify-between items-center">
+              <p className="text-sm text-gray-600">Case #{activePair + 1}</p>
+              <p className="text-sm font-medium text-[#0b2a4a]">
+                Smile Transformation
+              </p>
+            </div>
           </motion.div>
 
-          {/* Dots Navigation */}
-          <div className="flex justify-center gap-3">
+          {/* Navigation Dots (improved) */}
+          <div className="flex justify-center gap-2 mt-6">
             {BeforeAfterPairs.map((_, index) => (
               <button
                 key={index}
                 onClick={() => toggleBeforeAfter(index)}
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`transition-all duration-300 rounded-full ${
                   index === activePair
-                    ? "w-8 bg-blue-600 shadow-lg"
-                    : "bg-gray-300 hover:bg-gray-400"
+                    ? "w-10 h-3 bg-[#0b2a4a]"
+                    : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
                 }`}
               />
             ))}

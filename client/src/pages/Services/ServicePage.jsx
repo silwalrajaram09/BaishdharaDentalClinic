@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { services } from "../../Data/services.js";
 import Hero from "../../components/HeroSection.jsx";
 import { motion } from "framer-motion";
-
+import bg1 from "../../assets/images/bg_1.jpg";
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   show: { opacity: 1, y: 0 },
@@ -20,7 +20,7 @@ const ServicePage = () => {
     return service.points || service.procedures || [];
   };
   const getImage = () => {
-    return service.heroImage || service.image || "/src/assets/images/bg_1.jpg";
+    return service.heroImage || service.image || bg1;
   };
   const getDescription = () => {
     return service.intro || service.description || "";

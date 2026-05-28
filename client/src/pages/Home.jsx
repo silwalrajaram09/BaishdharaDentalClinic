@@ -369,14 +369,24 @@ const Home = () => {
                 />
 
                 {/* TIME */}
-                <input
+                <select name="time" id="time" value={formData.time} onChange={handleChange} className="p-3 rounded border text-black">
+                  <option value="">select time </option>
+                  <option value="9:00">9:00 AM</option>
+                  <option value="9:30">9:30 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="12:00">12:00 ApM</option>
+                  <option value="1:00">1:00 PM</option>
+                  <option value="2:00">2:00 PM</option>
+                </select>
+                {/* <input
                   type="time"
                   name="time"
                   value={formData.time}
                   onChange={handleChange}
                   required
                   className="p-3 rounded border text-black"
-                />
+                /> */}
 
                 {/* PHONE */}
                 <input

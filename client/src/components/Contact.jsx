@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
+import { PhoneCall, Phone, MapPin, MailIcon } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -26,6 +27,8 @@ const Contact = () => {
     message: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [submitSuccess, setSubmitSuccess] = useState({
@@ -37,30 +40,76 @@ const Contact = () => {
     type: "",
     message: "",
   });
-  
-  // Auto clear success message
-  useEffect(() => {
-    let timer;
 
-    if (submitSuccess?.type === "success") {
-      timer = setTimeout(() => {
+  // AUTO CLEAR SUCCESS MESSAGE
+  useEffect(() => {
+    if (submitSuccess.message) {
+      const timer = setTimeout(() => {
         setSubmitSuccess({
           type: "",
           message: "",
         });
       }, 5000);
-    }
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [submitSuccess]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  // VALIDATION
+  const validateForm = () => {
+    const newErrors = {};
 
-    // Clear messages while typing
+    // NAME
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    // EMAIL
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      newErrors.email = "Please enter a valid email";
+    }
+
+    // PHONE
+    if (!formData.phone.trim()) {
+      newErrors.phone = "phone is required";
+    } else if (formData.phone && !/^[0-9+\-\s()]{7,20}$/.test(formData.phone)) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+
+    // MESSAGE
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    return newErrors;
+  };
+
+  // HANDLE CHANGE
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    // CLEAR FIELD ERROR WHILE TYPING
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+
+    // CLEAR API ERROR
     if (submitError.message) {
       setSubmitError({
         type: "",
@@ -69,11 +118,11 @@ const Contact = () => {
     }
   };
 
+  // HANDLE SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsSubmitting(true);
-
+    // RESET STATES
     setSubmitSuccess({
       type: "",
       message: "",
@@ -83,6 +132,18 @@ const Contact = () => {
       type: "",
       message: "",
     });
+
+    // CLIENT VALIDATION
+    const validationErrors = validateForm();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setErrors({});
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch(`${APP_URL}/api/contact/submit`, {
@@ -95,28 +156,36 @@ const Contact = () => {
 
       const data = await response.json();
 
+      // BACKEND VALIDATION ERROR
       if (!response.ok || !data.success) {
+        if (data.errors) {
+          setErrors(data.errors);
+        }
+
         throw new Error(data.message || "Failed to send message");
       }
 
+      // SUCCESS
       setSubmitSuccess({
         type: "success",
         message: data.message || "Message sent successfully!",
       });
 
-      // Reset form
+      // RESET FORM
       setFormData({
         name: "",
         email: "",
         phone: "",
         message: "",
       });
+
+      setErrors({});
     } catch (error) {
       console.error("Submit Error:", error);
 
       setSubmitError({
         type: "error",
-        message: error.message || "Something went wrong. Please try again.",
+        message: error.message || "Something went wrong",
       });
     } finally {
       setIsSubmitting(false);
@@ -144,151 +213,134 @@ const Contact = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-white p-5 sm:p-6 md:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
+          className="bg-white p-5 sm:p-6 md:p-8 rounded-xl shadow-lg"
         >
-          <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-800">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
             Send Us a Message
           </h2>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-            {/* SUCCESS MESSAGE */}
-            {submitSuccess?.message && (
-              <div className="bg-green-100 border border-green-200 text-green-700 p-3 rounded-lg text-sm">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* SUCCESS */}
+            {submitSuccess.message && (
+              <div className="bg-green-100 border border-green-300 text-green-700 p-3 rounded-lg text-sm">
                 {submitSuccess.message}
               </div>
             )}
 
-            {/* ERROR MESSAGE */}
-            {submitError?.message && (
-              <div className="bg-red-100 border border-red-200 text-red-700 p-3 rounded-lg text-sm">
+            {/* ERROR */}
+            {submitError.message && (
+              <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded-lg text-sm">
                 {submitError.message}
               </div>
             )}
 
             {/* NAME */}
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Full Name *
               </label>
 
               <input
-                id="name"
                 type="text"
                 name="name"
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={handleChange}
-                required
-                className="w-full border border-gray-300 p-3 sm:p-3.5 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  errors.name
+                    ? "border-red-400 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-400"
+                }`}
               />
+
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
+              )}
             </div>
 
             {/* EMAIL */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email Address *
               </label>
 
               <input
-                id="email"
                 type="email"
                 name="email"
                 placeholder="your@email.com"
                 value={formData.email}
                 onChange={handleChange}
-                required
-                className="w-full border border-gray-300 p-3 sm:p-3.5 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  errors.email
+                    ? "border-red-400 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-400"
+                }`}
               />
+
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+              )}
             </div>
 
             {/* PHONE */}
             <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
-                Phone Number
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number*
               </label>
 
               <input
-                id="phone"
                 type="tel"
                 name="phone"
-                placeholder="+977 XXXXXXXXX"
+                placeholder="phone number"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-3 sm:p-3.5 rounded-lg text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition ${
+                  errors.phone
+                    ? "border-red-400 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-400"
+                }`}
               />
+
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
+              )}
             </div>
 
             {/* MESSAGE */}
             <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Message *
               </label>
 
               <textarea
-                id="message"
                 name="message"
                 placeholder="How can we help you?"
                 value={formData.message}
                 onChange={handleChange}
-                required
-                rows={4}
-                className="w-full border border-gray-300 p-3 sm:p-3.5 rounded-lg h-28 sm:h-32 md:h-36 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
+                rows={5}
+                className={`w-full border p-3 rounded-lg resize-none focus:outline-none focus:ring-2 transition ${
+                  errors.message
+                    ? "border-red-400 focus:ring-red-300"
+                    : "border-gray-300 focus:ring-blue-400"
+                }`}
               />
+
+              {errors.message && (
+                <p className="mt-1 text-sm text-red-600">{errors.message}</p>
+              )}
             </div>
 
             {/* BUTTON */}
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-[#0b2a4a] text-white py-3 sm:py-3.5 rounded-lg font-semibold transition-all duration-300 ${
+              className={`w-full bg-[#0b2a4a] text-white py-3 rounded-lg font-semibold transition ${
                 isSubmitting
                   ? "opacity-70 cursor-not-allowed"
-                  : "hover:bg-[#081f36] hover:shadow-lg transform hover:-translate-y-0.5"
+                  : "hover:bg-[#081f36]"
               }`}
             >
-              {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 
-                      0 0 5.373 0 12h4zm2 5.291A7.962 
-                      7.962 0 014 12H0c0 3.042 1.135 
-                      5.824 3 7.938l3-2.647z"
-                    />
-                  </svg>
-                  Sending...
-                </span>
-              ) : (
-                "Send Message"
-              )}
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         </motion.div>
@@ -299,27 +351,33 @@ const Contact = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="space-y-6 sm:space-y-8"
+          className="space-y-6"
         >
-          <div className="bg-white p-5 sm:p-6 md:p-8 rounded-xl shadow-lg">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-800">
+          {/* CONTACT INFO */}
+          <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-800">
               Contact Details
             </h2>
 
-            <div className="space-y-4">
-              <p className="text-gray-600">
-                📍 Baishdhara, Balaju, Kathmandu, Nepal
+            <div className="space-y-4 text-gray-600">
+              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                {" "}
+                <MapPin size={16} color="red" />
+                Tarun Marga , Bypass, Balaju kathmandu Nepal
               </p>
-
-              <p className="text-gray-600">📞 +977-9803291582</p>
-
-              <p className="text-gray-600">✉️ info@baishdharadental.com</p>
+              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <PhoneCall size={16} />
+                +977-9803421766
+              </p>
+              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <MailIcon size={16} /> info@baishdharadental.com
+              </p>
             </div>
           </div>
 
           {/* MAP */}
-          <div className="bg-white p-5 sm:p-6 md:p-8 rounded-xl shadow-lg">
-            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-800">
+          <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg relative z-0">
+            <h2 className="text-2xl font-semibold mb-6 text-gray-800">
               Find Us on Map
             </h2>
 
@@ -328,7 +386,7 @@ const Contact = () => {
                 center={position}
                 zoom={15}
                 scrollWheelZoom={false}
-                className="w-full h-[300px]"
+                className="w-full h-[300px] z-0"
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -340,15 +398,17 @@ const Contact = () => {
                     <div>
                       <strong>Baishdhara Dental Clinic</strong>
                       <br />
-                      Kathmandu, Nepal
+                      Tarun Marga , Bypass, Balaju kathmandu Nepal
                     </div>
                   </Popup>
                 </Marker>
               </MapContainer>
             </div>
           </div>
+         
         </motion.div>
       </div>
+       
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from "react";
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import HeroSlider from "../components/HeroSlider";
@@ -9,7 +9,6 @@ import merina from "../assets/images/merina.jpg";
 import about from "../assets/images/about.jpg";
 import logo from "../assets/images/logo.png";
 
-/* ---------------- ANIMATIONS ---------------- */
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
@@ -46,7 +45,7 @@ const stagger = {
   },
 };
 
-/* ---------------- COMPONENT ---------------- */
+
 
 const About = () => {
   return (
@@ -55,7 +54,7 @@ const About = () => {
       {/* HERO */}
       <HeroSlider />
 
-      {/* ================= ABOUT SECTION ================= */}
+      {/* about*/}
       <motion.div
         variants={stagger}
         initial="hidden"
@@ -67,7 +66,7 @@ const About = () => {
         <motion.div
           variants={fadeLeft}
           whileHover={{ scale: 1.03 }}
-          className="w-full h-[420px] bg-cover bg-center rounded-2xl shadow-xl"
+          className="w-full h-105 bg-cover bg-center rounded-2xl shadow-xl"
           style={{ backgroundImage: `url(${about})` }}
         />
 
@@ -91,7 +90,7 @@ const About = () => {
         </motion.div>
       </motion.div>
 
-      {/* ================= DOCTORS ================= */}
+      {/* doctors */}
       <section className="max-w-6xl mx-auto px-4 py-20">
         <motion.div
           initial="hidden"
@@ -163,7 +162,7 @@ const About = () => {
         </motion.div>
       </section>
 
-      {/* ================= OUR STORY ================= */}
+      {/* story*/}
       <motion.section
         initial="hidden"
         whileInView="visible"
