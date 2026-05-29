@@ -1,7 +1,6 @@
 import  { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import bg1 from "../assets/images/bg_1.jpg";
-import HeroSection from "../components/HeroSection";
+
 const prices = [
   { service: "New Patient Registration, Consultation, and Treatment Plan", price: "NRs 500", category: "Registration" },
   { service: "Digital X-Ray (IOPA) - per x-ray", price: "NRs 400", category: "Diagnostic" },
@@ -58,11 +57,7 @@ const Pricing = () => {
 
   return (
     <>
-      <HeroSection
-        bgImage={bg1}
-        title="Transparent Dental Pricing"
-        subtitle="We believe in providing clear and affordable dental care. Check out our pricing below:"
-      />
+      
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-4 py-10">
         {/* HEADER */}
         <motion.h1

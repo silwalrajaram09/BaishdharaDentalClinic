@@ -2,9 +2,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { services } from "../Data/services.js";
-import HeroSection from "../components/HeroSection.jsx";
 import Gallery from "../components/Gallery.jsx";
-import service from "../assets/images/image_4.jpg";
+
 
 const Services = () => {
   // useEffect(() => {
@@ -13,11 +12,7 @@ const Services = () => {
 
   return (
     <>
-      <HeroSection
-        bgImage={service}
-        title="Our Dental Services"
-        subtitle="Comprehensive care for your smile"
-      />
+      
 
       <div className="bg-gray-50 min-h-screen py-16">
         {/* HEADER */}

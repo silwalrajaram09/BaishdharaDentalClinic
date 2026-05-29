@@ -29,6 +29,8 @@ app.use(
       "http://127.0.0.1:5173",
       "https://baishdharadental.com",
       "https://www.baishdharadental.com",
+      "https://test1.baishdharadental.com",
+      "https://www.test1.baishdharadental.com",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],

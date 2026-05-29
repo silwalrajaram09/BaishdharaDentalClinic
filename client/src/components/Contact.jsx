@@ -370,7 +370,7 @@ const Contact = () => {
                 +977-9803421766
               </p>
               <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <MailIcon size={16} /> info@baishdharadental.com
+                <MailIcon size={16} /> baishdharadental@gmail.com
               </p>
             </div>
           </div>

@@ -1,14 +1,10 @@
-
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import HeroSlider from "../components/HeroSlider";
-
-import bishwo from "../assets/images/bishwo.jpg";
-import dinesh from "../assets/images/dinesh.jpg";
-import merina from "../assets/images/merina.jpg";
+// import HeroSection from "../components/HeroSection";
+// import doctor from "../assets/images/doctor.PNG";
 import about from "../assets/images/about.jpg";
 import logo from "../assets/images/logo.png";
 
+import TeamSection from "../components/TeamSection";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 60 },
@@ -45,123 +41,59 @@ const stagger = {
   },
 };
 
-
-
 const About = () => {
   return (
     <div className="bg-gray-50 overflow-hidden">
-
-      {/* HERO */}
-      <HeroSlider />
-
-      {/* about*/}
-      <motion.div
+      <motion.section
         variants={stagger}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto px-4 py-20 grid md:grid-cols-2 gap-12 items-center"
+        className="max-w-6xl mx-auto px-4 py-20"
       >
-        {/* IMAGE */}
-        <motion.div
-          variants={fadeLeft}
-          whileHover={{ scale: 1.03 }}
-          className="w-full h-105 bg-cover bg-center rounded-2xl shadow-xl"
-          style={{ backgroundImage: `url(${about})` }}
-        />
-
-        {/* TEXT */}
-        <motion.div variants={fadeRight}>
-          <h2 className="text-4xl font-bold text-[#0b2a4a] mb-5">
-            About Us
-          </h2>
-
-          <p className="text-gray-600 leading-relaxed text-justify">
-            Welcome to Baishdhara Dental Clinic, where smiles are crafted with
-            care and confidence. Our clinic blends expertise, innovation, and
-            personalized care to ensure every patient feels comfortable.
-          </p>
-
-          <p className="text-gray-600 mt-4 leading-relaxed text-justify">
-            From routine check-ups to advanced smile transformations, we are
-            committed to delivering a brighter, healthier, and more confident
-            smile.
+        {/* TOP HEADING */}
+        <motion.div variants={fadeUp} className="text-center mb-14">
+          <h2 className="text-5xl font-bold text-[#0b2a4a]">About Us</h2>
+          <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+            Creating confident smiles with modern dental care and a personal
+            touch.
           </p>
         </motion.div>
-      </motion.div>
+
+        {/* IMAGE + TEXT */}
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          {/* IMAGE */}
+          <motion.div
+            variants={fadeLeft}
+            whileHover={{ scale: 1.03 }}
+            className="w-full h-[450px] bg-cover bg-center rounded-3xl shadow-2xl"
+            style={{ backgroundImage: `url(${about})` }}
+          />
+
+          {/* TEXT */}
+          <motion.div variants={fadeRight}>
+            <h3 className="text-3xl font-semibold text-[#0b2a4a] mb-5">
+              Welcome to Baishdhara Dental Clinic
+            </h3>
+
+            <p className="text-gray-600 leading-relaxed text-justify">
+              Welcome to Baishdhara Dental Clinic, where smiles are crafted with
+              care and confidence. Our clinic blends expertise, innovation, and
+              personalized care to ensure every patient feels comfortable.
+            </p>
+
+            <p className="text-gray-600 mt-5 leading-relaxed text-justify">
+              From routine check-ups to advanced smile transformations, we are
+              committed to delivering a brighter, healthier, and more confident
+              smile for every patient and family.
+            </p>
+          </motion.div>
+        </div>
+      </motion.section>
 
       {/* doctors */}
-      <section className="max-w-6xl mx-auto px-4 py-20">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl font-bold text-[#0b2a4a]">
-            Meet Our Doctors
-          </h2>
-          <p className="text-gray-500 mt-2">
-            Experienced professionals dedicated to your smile
-          </p>
-        </motion.div>
 
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-10"
-        >
-          {[
-            {
-              name: "Dr. Bishwo Prachanda Sedhain",
-              role: "Oral Surgeon",
-              img: bishwo,
-              link: "/doctor/bishwo",
-            },
-            {
-              name: "Dr. Dinesh Sharma Bhusal",
-              role: "Prosthodontist",
-              img: dinesh,
-              link: "/doctor/dinesh",
-            },
-            {
-              name: "Dr. Merina Joshi",
-              role: "Orthodontist",
-              img: merina,
-              link: "/doctor/merina",
-            },
-          ].map((doc, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              whileHover={{ y: -8, scale: 1.05 }}
-              className="bg-white p-6 rounded-2xl shadow-md hover:shadow-2xl transition text-center"
-            >
-              <div
-                className="w-36 h-36 mx-auto rounded-full bg-cover bg-center shadow-lg border-4 border-white"
-                style={{ backgroundImage: `url(${doc.img})` }}
-              />
-
-              <h3 className="mt-5 font-semibold text-[#0b2a4a]">
-                {doc.name}
-              </h3>
-
-              <p className="text-gray-500 text-sm">{doc.role}</p>
-
-              <Link
-                to={doc.link}
-                className="inline-block mt-3 text-blue-500 text-sm hover:underline"
-              >
-                Read More →
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
+      <TeamSection />
       {/* story*/}
       <motion.section
         initial="hidden"
@@ -171,7 +103,6 @@ const About = () => {
         className="py-20 bg-[#f8f9fb]"
       >
         <div className="max-w-6xl mx-auto px-4">
-
           {/* TOP */}
           <motion.div
             variants={fadeUp}
@@ -200,7 +131,7 @@ const About = () => {
           </motion.div>
 
           {/* TEXT BLOCKS */}
-          {[ 
+          {[
             {
               title: "Welcome to Baishdhara Dental Clinic",
               text: "We provide expert care with a personal touch. Located in Balaju, Kathmandu, we deliver high-quality, affordable dental services for every family.",
@@ -222,9 +153,7 @@ const About = () => {
               <h3 className="text-2xl font-semibold text-[#1a2a3a] mb-3">
                 {item.title}
               </h3>
-              <p className="text-gray-600 leading-relaxed">
-                {item.text}
-              </p>
+              <p className="text-gray-600 leading-relaxed">{item.text}</p>
             </motion.div>
           ))}
         </div>

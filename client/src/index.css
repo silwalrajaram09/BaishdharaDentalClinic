@@ -12,3 +12,15 @@ html {
 .leaflet-control {
   z-index: 0 !important;
 }
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-progress {
+  animation: progress linear forwards;
+}

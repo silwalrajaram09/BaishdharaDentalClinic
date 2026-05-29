@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import HeroSection from "../components/HeroSection";
-import bg2 from "../assets/images/bg_2.jpg";
+// import HeroSection from "../components/HeroSection";
+// import doctor from "../assets/images/doctor.PNG";
 import { motion, AnimatePresence } from "framer-motion";
 import { chapters } from "../Data/chapters";
 
@@ -35,7 +35,6 @@ const categories = [
   { key: "myths", label: "भ्रम" },
 ];
 
-// ─────────────── Main component ──────────────────────────────────────────
 const MeroDaat = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
@@ -56,11 +55,11 @@ const MeroDaat = () => {
 
   return (
     <>
-      <HeroSection
-        bgImage={bg2}
+      {/* <HeroSection
+        bgImage={doctor}
         title="मेरो दाँत, मेरो कथा"
         subtitle="तपाईंको दाँतको सम्बन्धमा जानकारी प्राप्त गर्नुहोस्"
-      />
+      /> */}
       <div className="max-w-5xl mx-auto px-4 pb-20">
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-6 mt-5">
           मेरो दाँत, मेरो कथा

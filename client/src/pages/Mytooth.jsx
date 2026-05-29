@@ -1,6 +1,5 @@
-
 import HeroSection from "../components/HeroSection";
-import bg3 from "../assets/images/bg_3.jpg";
+import doctor from "../assets/images/doctor.PNG";
 import { motion } from "framer-motion";
 
 const topics = [
@@ -90,11 +89,11 @@ const MyTooth = () => {
   return (
     <div>
       {/* HERO */}
-      <HeroSection
-        bgImage={bg3}
+      {/* <HeroSection
+        bgImage={doctor}
         title="Your Complete Guide to Oral Health"
         subtitle="Simple, practical dental knowledge for a healthy smile"
-      />
+      /> */}
 
       <div className="max-w-7xl mx-auto px-4 py-16">
 

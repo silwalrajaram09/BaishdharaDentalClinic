@@ -244,7 +244,7 @@ const Home = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto px-4 -mt-15 md:-mt-6.25"
+        className="max-w-6xl mx-auto px-4 -mt-16 md:-mt-6"
       >
         <div className="w-full px-6 -mt-24 relative z-20">
           <div className="grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden shadow-xl">
@@ -369,7 +369,13 @@ const Home = () => {
                 />
 
                 {/* TIME */}
-                <select name="time" id="time" value={formData.time} onChange={handleChange} className="p-3 rounded border text-black">
+                <select
+                  name="time"
+                  id="time"
+                  value={formData.time}
+                  onChange={handleChange}
+                  className="p-3 rounded border text-black"
+                >
                   <option value="">select time </option>
                   <option value="9:00">9:00 AM</option>
                   <option value="9:30">9:30 AM</option>
@@ -561,7 +567,7 @@ const Home = () => {
                     {HappyPatients[activeIndex].name}
                   </h3>
 
-                  {/* WORK */}
+                 {/* WORK */}
                   <p className="text-xs md:text-sm text-gray-500 mb-4 md:mb-6">
                     {HappyPatients[activeIndex].work}
                   </p>

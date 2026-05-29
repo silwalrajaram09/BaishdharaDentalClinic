@@ -1,16 +1,13 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 
 const HeroSection = ({
-  bgImage,
-  title,
-  subtitle,
-  buttonText = "Get Started",
-  buttonLink = "/",
+  bgImage = "/default-hero.jpg",
+  title = "Welcome",
+  subtitle = "Your subtitle here",
 }) => {
   return (
     <section
-      className="relative h-[80vh] w-full bg-cover bg-center flex items-center"
+      className="relative h-[80vh] w-full bg-cover bg-center bg-no-repeat flex items-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       {/* Overlay */}
@@ -19,13 +16,12 @@ const HeroSection = ({
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6">
         <div className="max-w-2xl text-white space-y-6">
-
           {/* TITLE */}
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold leading-tight"
+            className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight"
           >
             {title}
           </motion.h1>
@@ -40,20 +36,8 @@ const HeroSection = ({
             {subtitle}
           </motion.p>
 
-          {/* BUTTON */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            <Link
-              to={buttonLink}
-              className="inline-block bg-[#0b2a4a] hover:bg-[#081f36] text-white px-6 py-3 rounded-full font-semibold transition"
-            >
-              {buttonText}
-            </Link>
-          </motion.div>
-
+          
+        
         </div>
       </div>
     </section>

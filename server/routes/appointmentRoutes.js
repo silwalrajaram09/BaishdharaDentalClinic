@@ -8,8 +8,5 @@ const {
 } = require('../controllers/appointmentController');
 
 router.post('/submit', submitAppointment);
-// router.put('/:id/confirm', confirmAppointment);
-// router.put('/:id/cancel', cancelAppointment);
-// router.get('/all', getAppointments);
 
 module.exports = router;

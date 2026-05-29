@@ -87,8 +87,10 @@ const Footer = () => {
             <Link className="hover:text-blue-600 transition" to="/pricing">
               Pricing
             </Link>
-
             <Link className="hover:text-blue-600 transition" to="/my-teeth">
+             My Teeth
+            </Link>
+            <Link className="hover:text-blue-600 transition" to="/मेरो-दाँत">
               मेरो दाँत
             </Link>
           </div>
@@ -101,7 +103,7 @@ const Footer = () => {
           <div className="space-y-3 text-sm text-gray-600">
             <p className="flex items-center gap-2">
               <FaMapMarkerAlt className="text-blue-600" />
-              Balaju, Kathmandu
+               Tarun Marga , Bypass, Balaju kathmandu Nepal
             </p>
 
             <p className="flex items-center gap-2">
@@ -111,7 +113,7 @@ const Footer = () => {
 
             <p className="flex items-center gap-2">
               <FaEnvelope className="text-blue-600" />
-              info@baishdharadental.com
+              baishdharadental@gmail.com
             </p>
           </div>
         </motion.div>
