@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { color, motion } from "framer-motion";
-import { PhoneCall, Phone, MapPin, MailIcon } from "lucide-react";
+import { PhoneCall, MapPin, MailIcon } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { TelephoneIcon } from "@hugeicons/core-free-icons";
+import { FaWhatsapp } from "react-icons/fa";
+
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -195,15 +199,29 @@ const Contact = () => {
   const position = [27.738446, 85.302198];
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen py-16">
       {/* HEADER */}
-      <motion.h2
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center pt-8 sm:pt-10 md:pt-12 pb-4 sm:pb-6 px-4"
-      >
-        Our Contact
-      </motion.h2>
+      <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <h1
+            className="text md:text-3xl font-bold text-[#0b2a4a]"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Our Contact
+          </h1>
+          <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
+          <p className="mt-4 text-gray-500 max-w-md mx-auto text-base">
+            Contact us for appointments, inquiries, or to learn more about our
+            dental services. We're here to help you achieve a healthy, beautiful
+            smile!
+          </p>
+        </motion.div>
+      </div>
 
       {/* MAIN GRID */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
@@ -334,10 +352,10 @@ const Contact = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-[#0b2a4a] text-white py-3 rounded-lg font-semibold transition ${
+              className={`w-full bg-primary text-white py-3 rounded-lg font-semibold transition ${
                 isSubmitting
                   ? "opacity-70 cursor-not-allowed"
-                  : "hover:bg-[#081f36]"
+                  : "hover:bg-primary-dark"
               }`}
             >
               {isSubmitting ? "Sending..." : "Send Message"}
@@ -362,12 +380,22 @@ const Contact = () => {
             <div className="space-y-4 text-gray-600">
               <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                 {" "}
-                <MapPin size={16} color="red" />
+                <MapPin size={16} color="gray" />
                 Tarun Marga , Bypass, Balaju kathmandu Nepal
               </p>
               <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <PhoneCall size={16} />
-                +977-9803421766
+                <FaWhatsapp size={16} />
+                <a
+                  href="https://wa.me/9779803421766"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  +9779803421766
+                </a>
+              </p>
+              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <HugeiconsIcon icon={TelephoneIcon} />
+                <span>014962513</span>
               </p>
               <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                 <MailIcon size={16} /> baishdharadental@gmail.com
@@ -405,10 +433,8 @@ const Contact = () => {
               </MapContainer>
             </div>
           </div>
-         
         </motion.div>
       </div>
-       
     </div>
   );
 };

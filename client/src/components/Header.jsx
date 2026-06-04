@@ -9,8 +9,9 @@ const navigation = [
   { name: "About", path: "/about" },
   { name: "Services", path: "/services" },
   { name: "Doctors", path: "/doctors" },
-  { name: "Contact", path: "/contact" },
   { name: "Pricing", path: "/pricing" },
+  { name: "Gallery", path: "/gallery" },
+  { name: "Contact", path: "/contact" },
   { name: "My teeth", path: "/my-teeth" },
   { name: "मेरो दाँत", path: "/मेरो-दाँत" },
 ];
@@ -20,12 +21,17 @@ function Header() {
   const [showModal, setShowModal] = useState(false);
   const location = useLocation();
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    try {
+      return decodeURIComponent(location.pathname) === path;
+    } catch (e) {
+      return location.pathname === path;
+    }
+  };
 
-  // Backend URL - change to your backend port
+ 
   const APP_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-  // Form data with 'fullname' (matches backend)
   const [formData, setFormData] = useState({
     service: "",
     fullname: "",
@@ -50,14 +56,154 @@ function Header() {
     }
   }, [successMessage, errorMessage]);
 
-  /* HANDLE INPUT CHANGE */
+  useEffect(() => {
+    const headerEl = document.querySelector('header[data-autohide="true"]');
+    if (!headerEl) return;
+
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+    let lastDirection = null;
+
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      headerEl.style.setProperty("--nav-translate-y", `0px`);
+      headerEl.style.setProperty("--nav-opacity", `1`);
+      return;
+    }
+
+    const measureHeaderHeight = () => {
+      const headerHeight = headerEl.getBoundingClientRect().height;
+      // Used by Layout to avoid fighting fixed header.
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${Math.ceil(headerHeight)}px`,
+      );
+      return headerHeight;
+    };
+
+    const applyFromScroll = () => {
+      const currentY = window.scrollY;
+      const atTop = currentY <= 0;
+
+      // Always update baseline height/offset.
+      measureHeaderHeight();
+
+      if (atTop) {
+        headerEl.style.setProperty("--nav-translate-y", `0px`);
+        headerEl.style.setProperty("--nav-opacity", `1`);
+        lastDirection = null;
+        lastScrollY = currentY;
+        return;
+      }
+
+      // Initial state: if we're already scrolled, hide if above indicates user is moving down.
+      // On refresh, lastScrollY will be set to restored scroll position before this runs.
+      const direction = currentY > lastScrollY ? "down" : "up";
+      const headerHeight = headerEl.getBoundingClientRect().height;
+      const translateY = direction === "down" ? `-${headerHeight}px` : `0px`;
+
+      headerEl.style.setProperty("--nav-translate-y", translateY);
+      headerEl.style.setProperty(
+        "--nav-opacity",
+        direction === "down" ? `0.85` : `1`,
+      );
+    };
+
+    const update = () => {
+      const currentY = window.scrollY;
+      const atTop = currentY <= 0;
+
+      if (atTop) {
+        headerEl.style.setProperty("--nav-translate-y", `0px`);
+        headerEl.style.setProperty("--nav-opacity", `1`);
+
+        lastDirection = null;
+        ticking = false;
+        lastScrollY = currentY;
+        return;
+      }
+
+      const direction = currentY > lastScrollY ? "down" : "up";
+
+      // Avoid jitter
+      const delta = Math.abs(currentY - lastScrollY);
+      if (delta < 8) {
+        ticking = false;
+        return;
+      }
+
+      if (direction !== lastDirection) {
+        lastDirection = direction;
+
+        const headerHeight = headerEl.getBoundingClientRect().height;
+        const translateY = direction === "down" ? `-${headerHeight}px` : `0px`;
+        headerEl.style.setProperty("--nav-translate-y", translateY);
+        headerEl.style.setProperty(
+          "--nav-opacity",
+          direction === "down" ? `0.85` : `1`,
+        );
+      }
+
+      ticking = false;
+      lastScrollY = currentY;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Delay initialization until after browser scroll restoration settles.
+    // This prevents race where header state is computed before restored scrollY.
+    const init = () => {
+      // Give layout/paint a chance to finish.
+      measureHeaderHeight();
+      lastScrollY = window.scrollY;
+      applyFromScroll();
+    };
+
+    const raf2 = () =>
+      new Promise((resolve) => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => resolve());
+        });
+      });
+
+    const runInitAfterRestore = async () => {
+      // If the browser has already loaded, we still wait a couple frames.
+      // If not, wait for load first.
+      if (document.readyState !== "complete") {
+        await new Promise((r) =>
+          window.addEventListener("load", r, { once: true }),
+        );
+      }
+      await raf2();
+      init();
+    };
+
+    // Initialize
+    runInitAfterRestore();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    // Clear messages while typing
+   
     if (successMessage) setSuccessMessage("");
     if (errorMessage) setErrorMessage("");
   };
@@ -65,14 +211,13 @@ function Header() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prevent double submit
+    
     if (isSubmitting) return;
 
-    // Reset messages
     setSuccessMessage("");
     setErrorMessage("");
 
-    // Validation - using 'fullname'
+    
     if (
       !formData.service ||
       !formData.fullname ||
@@ -85,7 +230,7 @@ function Header() {
       return;
     }
 
-    // Email validation
+    
     const emailRegex = /^\S+@\S+\.\S+$/;
     if (!emailRegex.test(formData.email)) {
       setErrorMessage("Please enter a valid email address.");
@@ -95,16 +240,16 @@ function Header() {
     setIsSubmitting(true);
 
     try {
-      // Send data directly as is (backend expects 'fullname')
+      
       const response = await fetch(`${APP_URL}/api/appointments/submit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData), // Sending 'fullname' directly
+        body: JSON.stringify(formData), 
       });
 
-      // Handle invalid JSON response
+     
       let data;
       try {
         data = await response.json();
@@ -112,18 +257,18 @@ function Header() {
         throw new Error("Invalid server response");
       }
 
-      // Handle backend errors
+     
       if (!response.ok || !data.success) {
         throw new Error(data.message || "Failed to book appointment");
       }
 
-      // Success
+      
       setSuccessMessage(
         data.message ||
           "Appointment booked successfully! We'll contact you soon.",
       );
 
-      // Reset form
+      
       setFormData({
         service: "",
         fullname: "",
@@ -134,7 +279,7 @@ function Header() {
         notes: "",
       });
 
-      // Auto close the form after success
+     
       setTimeout(() => {
         setShowModal(false);
         setSuccessMessage("");
@@ -152,17 +297,29 @@ function Header() {
   return (
     <>
       {/* HEADER */}
-      <header className="sticky top-0 right-0 bg-white shadow-md z-50">
-        <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <header
+        data-autohide="true"
+        className={
+          "fixed top-0 left-0 right-0 z-50 transition-transform transition-opacity duration-200 will-change-transform will-change-opacity " +
+          "bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-md"
+        }
+        style={{
+          transform: "translateY(var(--nav-translate-y, 0px))",
+          opacity: "var(--nav-opacity, 1)",
+        }}
+      >
+        <nav className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-4">
           <div className="flex justify-between items-center h-16">
             {/* LOGO */}
+
             <div className="flex items-center">
               <img src={Logo} className="h-10 w-auto" alt="Logo" />
+
               <Link to="/" className="ml-2">
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-[#3b7dbd]">
                   Baishdhara
                 </div>
-                <span className="text-gray-600 text-sm">Dental clinic</span>
+                <span className="text-[#86d7e9] text-sm">Dental clinic</span>
               </Link>
             </div>
 
@@ -174,8 +331,8 @@ function Header() {
                   to={item.path}
                   className={
                     isActive(item.path)
-                      ? "text-blue-600 font-semibold"
-                      : "text-gray-700 hover:text-blue-600"
+                      ? "text-[#3b7dbd] font-semibold"
+                      : "text-gray-700 hover:text-[#3b7dbd]"
                   }
                 >
                   {item.name}
@@ -186,7 +343,7 @@ function Header() {
             {/* BUTTON */}
             <button
               onClick={() => setShowModal(true)}
-              className="hidden md:block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+              className="hidden md:block bg-[#3b7dbd] text-white px-4 py-2 rounded-md hover:bg-[#2a6ca5] transition"
             >
               Book Appointment
             </button>
@@ -216,7 +373,7 @@ function Header() {
                       key={item.name}
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className="block px-4 py-2 text-gray-700 hover:text-blue-600"
+                      className="block px-4 py-2 text-[#3b7dbd] hover:text-[#2a6ca5]"
                     >
                       {item.name}
                     </Link>
@@ -226,7 +383,7 @@ function Header() {
                       setIsOpen(false);
                       setShowModal(true);
                     }}
-                    className="w-full bg-blue-600 text-white py-2 rounded mx-4 transition"
+                    className="w-full bg-[#3b7dbd] text-white py-2 rounded mx-4 transition"
                   >
                     Book Appointment
                   </button>
@@ -292,7 +449,7 @@ function Header() {
                     value={formData.service}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
                   >
                     <option value="">Select a service</option>
                     <option value="Teeth Whitening">Teeth Whitening</option>
@@ -315,7 +472,7 @@ function Header() {
                   </select>
                 </div>
 
-                {/* Full Name - Using 'fullname' to match backend */}
+                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Full Name *
@@ -327,7 +484,7 @@ function Header() {
                     value={formData.fullname}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
                   />
                 </div>
 
@@ -343,7 +500,7 @@ function Header() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
                   />
                 </div>
 
@@ -359,7 +516,7 @@ function Header() {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
                   />
                 </div>
 
@@ -374,7 +531,7 @@ function Header() {
                     value={formData.date}
                     onChange={handleChange}
                     required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
                   />
                 </div>
 
@@ -412,7 +569,7 @@ function Header() {
                     value={formData.notes}
                     onChange={handleChange}
                     rows="3"
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
                   />
                 </div>
 
@@ -421,7 +578,7 @@ function Header() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-blue-700 text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-[#3b7dbd] text-white py-3 rounded-lg font-semibold hover:bg-[#2a6ca5]  transition disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <span className="flex items-center justify-center gap-2">

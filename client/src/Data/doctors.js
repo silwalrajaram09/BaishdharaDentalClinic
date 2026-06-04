@@ -2,6 +2,7 @@ import dinesh from "../assets/images/drDinesh.jpeg";
 import bishwo from "../assets/images/drSedhain.jpeg";
 import merina from "../assets/images/drMerina.jpeg";
 import bg1 from "../assets/images/bg_1.jpg";
+import rakshya from "../assets/images/drRakshya.jpg";
 export const doctors = [
   {
     id: "bishwo",
@@ -11,6 +12,7 @@ export const doctors = [
     title: "Principal Dentist & Consultant Oral and Maxillofacial Surgeon",
     nmc: "6551",
     specialization: "Oral and Maxillofacial Surgery",
+    opjectPos: "center top",
 
     sections: [
       {
@@ -49,6 +51,7 @@ export const doctors = [
     heroImage: bg1,
     title: "Consultant Prosthodontist & Implantologist",
     nmc: "6554",
+    objectPos: "center top",
     specialization: "Prosthodontics & Implantology",
 
     sections: [
@@ -92,7 +95,7 @@ export const doctors = [
     title: "Orthodontist & Dentofacial Orthopedics Specialist",
     nmc: "7685",
     specialization: "Orthodontics & Dentofacial Orthopedics",
-
+    objectPos: "center top",
     sections: [
       {
         title: "Clinical Experience",
@@ -121,6 +124,47 @@ export const doctors = [
       {
         content:
           "Dr. Merina Joshi is an accomplished orthodontist, registered with the Nepal Medical Council (NMC Reg. No. 7685). She earned her Bachelor of Dental Surgery from People’s Dental College and Hospital in 2007, followed by a master’s degree in Orthodontics and Dentofacial Orthopedics from Jiamusi University, China, awarded under a government scholarship.With over 12 years of experience in dentistry, Dr. Joshi specializes in preventive orthodontics and clear aligner therapy, focusing on early intervention and minimally invasive treatments. She is passionate about helping patients achieve healthy, confident smiles and is dedicated to providing the highest standard of orthodontic care.Dr. Merina Joshi is proud to be part of the team at Baishdhara Dental Clinic, where she continues to transform smiles and improve lives through personalized, compassionate care.",
+      },
+    ],
+  },
+  {
+    id: "rakshya",
+    name: "Dr. Rakshya Neupane",
+    image: rakshya,
+    heroImage: bg1,
+    title: "General Dental Practitioner",
+    nmc: "40251",
+    objectPos: "center top",
+    specialization: "General Dentistry",
+
+    sections: [
+      {
+        title: "Clinical Experience & Expertise",
+        items: [
+          "Skilled in all aspects of general dentistry",
+          "Specializes in preventive care and patient education",
+          "Expertise in routine check-ups, fillings, and extractions",
+          "Known for gentle approach with children and anxious patients",
+        ],
+      },
+      {
+        title: "Education",
+        items: [
+          "BDS – Kathmandu University (Kantipur Dental College)",
+          "Registered with Nepal Medical Council",
+        ],
+      },
+      {
+        title: "Approach to Care",
+        items: [
+          "Gentle and compassionate patient care",
+          "Focus on long-term oral health",
+          "Creates comfortable environment for children",
+        ],
+      },
+      {
+        content:
+          "Dr. Rakshya Neupane is a dedicated General Dental Practitioner committed to providing comfortable, compassionate, and high-quality dental care. She earned her Bachelor of Dental Surgery (BDS) from Kathmandu University School of Medical Sciences through Kantipur Dental College and is registered with the Nepal Medical Council. Dr. Neupane enjoys all aspects of general dentistry, with a strong focus on preventive care, patient education, and long-term oral health. She is especially appreciated for her gentle manner, soft-spoken personality, and ability to make children feel comfortable during dental visits. Outside the clinic, she enjoys trekking and writing poetry. Her warm approach, dedication to dentistry, and commitment to patient well-being make her a valued member of the Baishdhara Dental Clinic team.",
       },
     ],
   },

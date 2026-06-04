@@ -5,7 +5,12 @@ export default function Layout({ children }) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="grow pt-16">{children}</main>
+      <main
+        className="grow"
+        style={{ paddingTop: "var(--header-height, 4rem)" }}
+      >
+        {children}
+      </main>
       <Footer />
     </div>
   );

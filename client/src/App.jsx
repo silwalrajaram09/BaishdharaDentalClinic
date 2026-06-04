@@ -8,6 +8,7 @@ import Contact from "./pages/ContactPage";
 import MyTooth from "./pages/Mytooth";
 import Appointment from "./pages/Appointment";
 import MeroDaat from "./pages/MeroDaat";
+import Gallery from "./pages/Gallery";
 import Pricing from "./pages/Pricing";
 import DoctorProfile from "./pages/Doctors/DoctorProfile";
 import ServicePage from "./pages/Services/ServicePage";
@@ -29,7 +30,8 @@ function App() {
           <Route path="/मेरो-दाँत" element={<MeroDaat />} />
           <Route path="/appointment" element={<Appointment />} />
           <Route path="/doctor/:id" element={<DoctorProfile />} />
-          <Route path="/services/:id" element={<ServicePage />} />
+          <Route path="/services/:slug" element={<ServicePage />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
       </Layout>
     </Router>

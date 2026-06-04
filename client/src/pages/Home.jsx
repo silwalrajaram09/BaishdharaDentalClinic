@@ -4,57 +4,74 @@ import HeroSlider from "../components/HeroSlider";
 import Contact from "../components/Contact";
 import bg1 from "../assets/images/bg_1.jpg";
 import bg2 from "../assets/images/bg_2.jpg";
-import ex1 from "../assets/images/cosmetic-dentistry.jpeg";
-import ex2 from "../assets/images/orthodontic.jpeg";
-import ex3 from "../assets/images/Minor-Oral-Surgery.jpeg";
-import ex4 from "../assets/images/rct.jpeg";
-import ex5 from "../assets/images/scaling.jpeg";
-import ex6 from "../assets/images/Xray.jpeg";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { TelephoneIcon } from "@hugeicons/core-free-icons";
+import { FaWhatsapp } from "react-icons/fa";
+
 import { motion } from "framer-motion";
 // import { div, h2, img } from "framer-motion/client";
 import { AnimatePresence } from "framer-motion";
 import maskey from "../assets/images/maskey.png";
 import saroj from "../assets/images/saroj.png";
 import salik from "../assets/images/adhikary.png";
+import cosmetic from "../assets/images/cosmetic dentistry.PNG";
+import braces from "../assets/images/braces and aligners.png";
+import crownBridges from "../assets/images/crown bridges and dentures.png";
+import dentalImplants from "../assets/images/dental implants.png";
+import emergencyCare from "../assets/images/emergency dental care.png";
+import genralDentistry from "../assets/images/general dentistry.png";
+import gumTreatment from "../assets/images/gum treatment.png";
+import rootCanal from "../assets/images/root canal treatment.png";
+import pediatricDentistry from "../assets/images/pediatric dentistry.png";
+import toothExtraction from "../assets/images/tooth extraction and oral surgery.png";
 
 const Expertise = [
-  { title: "Cosmetic Dentistry", img: ex1, link: "/services" },
-  { title: "Orthodontics", img: ex2, link: "/services" },
-  { title: "Pediatric Dentistry", img: ex3, link: "/services" },
-  { title: "Endodontics", img: ex4, link: "/services" },
-  { title: "Periodontics", img: ex5, link: "/services" },
-  { title: "Oral Surgery", img: ex6, link: "/services" },
+  { title: "General Dentistry", img: genralDentistry, link: "/services" },
+  { title: "Root Canal Treatment", img: rootCanal, link: "/services" },
+  { title: "Pediatric Dentistry", img: pediatricDentistry, link: "/services" },
+  { title: "Gum Treatment", img: gumTreatment, link: "/services" },
+  {
+    title: "Tooth extraction &Oral Surgery",
+    img: toothExtraction,
+    link: "/services",
+  },
+  { title: "Braces & Aligners", img: braces, link: "/services" },
+  { title: "Crowns, Bridges & Dentures", img: crownBridges, link: "/services" },
+  { title: "Dental Implants", img: dentalImplants, link: "/services" },
+  { title: "Cosmetic Dentistry", img: cosmetic, link: "/services" },
+  { title: "Emergency Care", img: emergencyCare, link: "/services" },
 ];
 
 const Choices = [
   {
-    title: "Experienced Dental Professionals",
+    title: "Experienced Dental Team",
     description:
-      "We have experienced dentists who provide the best dental care for you and your family.",
+      "Skilled professionals focused on safe, precise, and personalized treatment.",
   },
   {
-    title: "Modern Technology & Equipment",
+    title: "Advanced Technology",
     description:
-      "We use the latest technology to ensure safe, effective, and comfortable treatments.",
+      "Modern equipment and digital dentistry for accurate and comfortable care.",
   },
   {
-    title: "Reasonable Prices",
+    title: "Clean & Safe Environment",
     description:
-      "We offer affordable pricing with discounts and promotions for loyal customers.",
+      "Strict sterilization and hygiene protocols for your safety and peace of mind.",
   },
   {
-    title: "Friendly & Helpful Team",
+    title: "Comfortable and Patient Experience",
     description:
-      "Our staff is always ready to assist and make your visit comfortable.",
+      "Gentle care and a supportive team to make every visite stress-fee.",
   },
   {
-    title: "Hygienic & Tidy Environment",
+    title: "Transparent & Affordable Care",
     description:
-      "We maintain strict hygiene standards and infection control protocols.",
+      "Quality dental treatments with fair pricing and flexible payment options.",
   },
   {
-    title: "Flexible Payment Options",
-    description: "We accept multiple payment methods for your convenience.",
+    title: "Comprehensive Dental Services ",
+    description:
+      "From routine checkups to advanced smile restoration - all in one place.",
   },
 ];
 
@@ -247,21 +264,44 @@ const Home = () => {
         className="max-w-6xl mx-auto px-4 -mt-16 md:-mt-6"
       >
         <div className="w-full px-6 -mt-24 relative z-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 rounded-xl overflow-hidden shadow-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 border border-border rounded-xl overflow-hidden shadow-xl">
             {/* LEFT HALF */}
             <div className="grid grid-cols-1 sm:grid-cols-2">
               {/* EMERGENCY */}
-              <div className="bg-teal-500 text-white p-8">
+              <div className="bg-accent text-white p-8">
                 <h3 className="text-xl font-semibold mb-3">Emergency Cases</h3>
-                <p>9803421766</p>
-                <p>014962513</p>
+                <p
+                  style={{ display: "flex", alignItems: "center", gap: "6px" }}
+                >
+                  <FaWhatsapp size={16} />
+                  <a
+                    href="https://wa.me/9779803421766"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +9779803421766
+                  </a>
+                </p>
+                <p
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    marginTop: "8px",
+                  }}
+                >
+                  <HugeiconsIcon icon={TelephoneIcon} />
+                  <a href="tel:+977014962513" rel="noopener noreferrer">
+                    014962513
+                  </a>
+                </p>
               </div>
 
               {/* OPENING HOURS */}
-              <div className="bg-cyan-500 text-white p-8">
+              <div className="bg-secondary text-white p-8">
                 <h3 className="text-xl font-semibold mb-3">Opening Hours</h3>
 
-                <div className="flex justify-between">
+                <div className="flex  justify-between">
                   <span>Sunday - Friday</span>
                   <span>10:00 - 6:00</span>
                 </div>
@@ -274,7 +314,7 @@ const Home = () => {
             </div>
 
             {/* RIGHT HALF */}
-            <div className="bg-blue-500 text-white p-8 ">
+            <div className="bg-primary text-white p-8 ">
               <h3 className="text-xl font-semibold mb-6">
                 Make an Appointment
               </h3>
@@ -385,16 +425,7 @@ const Home = () => {
                   <option value="1:00">1:00 PM</option>
                   <option value="2:00">2:00 PM</option>
                 </select>
-                {/* <input
-                  type="time"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  required
-                  className="p-3 rounded border text-black"
-                /> */}
 
-                {/* PHONE */}
                 <input
                   type="tel"
                   name="phone"
@@ -409,10 +440,10 @@ const Home = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`sm:col-span-3 py-3 rounded transition ${
+                  className={`sm:col-span-3 py-3 rounded border-border transition ${
                     isSubmitting
-                      ? "bg-blue-400 cursor-not-allowed"
-                      : "bg-blue-700 hover:bg-blue-800"
+                      ? "bg-primary cursor-not-allowed"
+                      : "bg-primary-dark hover:bg-[#0b3052] text-white"
                   }`}
                 >
                   {isSubmitting ? "Booking..." : "Make Appointment"}
@@ -456,7 +487,7 @@ const Home = () => {
               />
               <div className="p-4 flex items-center justify-between">
                 <h3 className="text-[#0b2a4a] font-semibold">{item.title}</h3>
-                <span className="text-blue-500 text-xs font-medium">
+                <span className="text-primary text-xs font-medium">
                   Learn more →
                 </span>
               </div>
@@ -476,7 +507,7 @@ const Home = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-[#0b2a4a]">Why Choose Us?</h2>
           <p className="text-gray-500 mt-2">
-            Excellence in every detail, comfort in every visit
+            Modern Dentistry with Comfort & Care
           </p>
         </div>
 
@@ -508,7 +539,7 @@ const Home = () => {
         className="bg-gray-100 py-16 md:py-20"
       >
         <div className="max-w-4xl mx-auto text-center px-4">
-          <h2 className="text-2xl md:text-4xl font-bold text-blue-500 mb-10 md:mb-12">
+          <h2 className="text-2xl md:text-4xl font-bold text-black-500 mb-10 md:mb-12">
             Happy Patients
           </h2>
 
@@ -536,7 +567,7 @@ const Home = () => {
               }
               className="absolute right-0 top-1/2 -translate-y-1/2 
                    text-2xl md:text-3xl text-gray-400 
-                   hover:text-blue-500 transition 
+                   hover:text-primary transition 
                    p-2 md:p-3"
             >
               ›
@@ -554,7 +585,7 @@ const Home = () => {
               >
                 <div className="flex flex-col items-center">
                   {/* IMAGE */}
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-blue-500 overflow-hidden mb-4">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-primary overflow-hidden mb-4">
                     <img
                       src={HappyPatients[activeIndex].img}
                       alt={HappyPatients[activeIndex].name}
@@ -563,11 +594,11 @@ const Home = () => {
                   </div>
 
                   {/* NAME */}
-                  <h3 className="text-lg md:text-xl font-semibold text-blue-600">
+                  <h3 className="text-lg md:text-xl font-semibold text-primary mb-1">
                     {HappyPatients[activeIndex].name}
                   </h3>
 
-                 {/* WORK */}
+                  {/* WORK */}
                   <p className="text-xs md:text-sm text-gray-500 mb-4 md:mb-6">
                     {HappyPatients[activeIndex].work}
                   </p>
@@ -587,7 +618,7 @@ const Home = () => {
                   key={i}
                   onClick={() => setActiveIndex(i)}
                   className={`h-2 rounded-full transition-all ${
-                    i === activeIndex ? "w-6 bg-blue-500" : "w-2 bg-gray-400"
+                    i === activeIndex ? "w-6 bg-secondary" : "w-2 bg-gray-400"
                   }`}
                 />
               ))}

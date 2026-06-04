@@ -1,7 +1,22 @@
 @import "tailwindcss";
-html {
-  overflow-y: scroll;
+
+@theme {
+  --color-primary: #3b7dbd;
+  --color-primary-dark: #2a6ca5;
+  --color-secondary: #86d7e9;
+  --color-accent: #e8453c;
+  --color-border: #a8dceb;
 }
+html,
+body {
+  width: 100%;
+}
+
+#root {
+  overflow-x: clip;
+  width: 100%;
+}
+
 .leaflet-container {
   z-index: 0 !important;
 }

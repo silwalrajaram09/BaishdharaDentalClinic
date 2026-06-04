@@ -15,7 +15,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    try {
+      return decodeURIComponent(location.pathname) === path;
+    } catch (e) {
+      console.error("Error decoding URL:", e);
+      return location.pathname === path;
+    }
+  };
 
   return (
     <>

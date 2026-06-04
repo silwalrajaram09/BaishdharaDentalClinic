@@ -1,176 +1,121 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-// import { Link } from "react-router-dom";
 
-import gallery1 from "../assets/images/gallery-1.jpg";
-import gallery2 from "../assets/images/gallery-2.jpg";
-import gallery3 from "../assets/images/gallery-3.jpg";
-import gallery4 from "../assets/images/gallery-4.jpg";
-import beforeAfterBg from "../assets/images/before_after.jpg";
-import ba1 from "../assets/images/ba1.jpeg";
-import ba2 from "../assets/images/ba2.jpeg";
-import ba3 from "../assets/images/ba4.jpeg"; // Note: adjusted map based on your variable sequence if needed
-import ba4 from "../assets/images/ba4.jpeg";
-import ba5 from "../assets/images/ba5.jpeg";
-import ba6 from "../assets/images/ba6.jpeg";
+// Images
+import case1 from "../assets/images/case1.PNG";
+import case2 from "../assets/images/case2.PNG";
+import case3 from "../assets/images/case3.PNG";
+import case4 from "../assets/images/case4.PNG";
+import case5 from "../assets/images/case5.PNG";
+import case6 from "../assets/images/case6.PNG";
+import case8 from "../assets/images/case8.PNG";
+import case9 from "../assets/images/case9.PNG";
 
+// Data
 const GalleryImages = [
-  { src: gallery1, alt: "Dental Gallery 1" },
-  { src: gallery2, alt: "Dental Gallery 2" },
-  { src: gallery3, alt: "Dental Gallery 3" },
-  { src: gallery4, alt: "Dental Gallery 4" },
+  { src: case1, alt: "Dental Case 1", title: "Case I" },
+  { src: case2, alt: "Dental Case 2", title: "Case II" },
+  { src: case3, alt: "Dental Case 3", title: "Case III" },
+  { src: case4, alt: "Dental Case 4", title: "Case IV" },
+  { src: case5, alt: "Dental Case 5", title: "Case V" },
+  { src: case6, alt: "Dental Case 6", title: "Case VI" },
+  { src: case8, alt: "Dental Case 7", title: "Case VII" },
+  { src: case9, alt: "Dental Case 8", title: "Case VIII" },
 ];
 
-const BeforeAfterPairs = [
-  {
-    after: ba1,
-  },
-  {
-    after: ba2,
-  },
-  {
-    after: ba3,
-  },
-  {
-    after: ba4,
-  },
-  {
-    after: ba5,
-  },
-  {
-    after: ba6,
-  },
-];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const staggerContainer = {
-  hidden: {},
+// Animation Variants
+const container = {
+  hidden: { opacity: 0 },
   visible: {
+    opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.12,
+      delayChildren: 0.2,
     },
   },
 };
 
+const item = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+const header = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 const Gallery = () => {
-  const [activePair, setActivePair] = useState(0);
-
-  const toggleBeforeAfter = (index) => {
-    setActivePair(index);
-  };
-
   return (
-    <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      variants={fadeUp}
-      className="py-20"
-    >
+    <section className="py-20">
       <div className="max-w-6xl mx-auto px-4">
         {/* HEADER */}
-        <motion.div variants={fadeUp} className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#0b2a4a] mb-4">
+        <motion.div
+          variants={header}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="text-center mb-16"
+        >
+          <h2
+            className="text md:text-3xl font-bold text-[#0b2a4a]"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
             Our Gallery
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            See the quality of our dental work and amazing transformations
+
+          <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
+
+          <p className="mt-4 text-gray-500 max-w-md mx-auto text-base">
+            See the quality of our dental work and amazing transformations.
           </p>
         </motion.div>
 
-        {/* GALLERY GRID */}
+        {/* GRID */}
         <motion.div
-          variants={staggerContainer}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20"
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
-          {GalleryImages.map((image, index) => (
+          {GalleryImages.map((image) => (
             <motion.div
-              key={index}
-              variants={fadeUp}
+              key={image.src}
+              variants={item}
               whileHover={{ scale: 1.05 }}
               className="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
             >
               <img
                 src={image.src}
                 alt={image.alt}
+                loading="lazy"
                 className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
               />
+
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all" />
+
               <div className="absolute bottom-4 left-4 right-4 text-white">
                 <h3 className="font-semibold text-lg drop-shadow-lg">
-                  Gallery Image
+                  {image.title}
                 </h3>
               </div>
             </motion.div>
           ))}
         </motion.div>
-
-        {/* BEFORE / AFTER SLIDER */}
-        <motion.div variants={fadeUp} className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-[#0b2a4a] mb-3">
-            Before & After Transformations
-          </h3>
-          <p className="text-gray-500">
-            Real results from our dental treatments
-          </p>
-        </motion.div>
-
-        <div className="max-w-4xl mx-auto">
-          {/* Main Card */}
-          <motion.div
-            key={activePair}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100"
-          >
-            {/* Before / After Labels */}
-            <div className="absolute top-4 left-4 z-10 bg-black/70 text-white text-xs px-3 py-1 rounded-full">
-              After
-            </div>
-
-            {/* Image */}
-            <div className="relative">
-              <img
-                src={BeforeAfterPairs[activePair].after}
-                alt={`Case ${activePair + 1}`}
-                className="w-full h-[400px] object-contain"
-              />
-
-              {/* Gradient overlay for premium feel */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-            </div>
-
-            {/* Bottom info bar */}
-            <div className="p-4 bg-gradient-to-r from-blue-50 to-teal-50 flex justify-between items-center">
-              <p className="text-sm text-gray-600">Case #{activePair + 1}</p>
-              <p className="text-sm font-medium text-[#0b2a4a]">
-                Smile Transformation
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Navigation Dots (improved) */}
-          <div className="flex justify-center gap-2 mt-6">
-            {BeforeAfterPairs.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => toggleBeforeAfter(index)}
-                className={`transition-all duration-300 rounded-full ${
-                  index === activePair
-                    ? "w-10 h-3 bg-[#0b2a4a]"
-                    : "w-3 h-3 bg-gray-300 hover:bg-gray-400"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

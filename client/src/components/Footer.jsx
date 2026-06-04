@@ -48,11 +48,11 @@ const Footer = () => {
             <img src={Logo} alt="logo" className="h-14" />
 
             <div className="flex flex-col leading-tight">
-              <span className="font-bold text-xl text-blue-600">
+              <span className="font-bold text-xl text-primary">
                 BAISHDHARA
               </span>
 
-              <span className="text-sm text-gray-500">Dental Clinic</span>
+              <span className="text-sm text-secondary">Dental Clinic</span>
             </div>
           </Link>
 
@@ -68,29 +68,29 @@ const Footer = () => {
           <h6 className="font-semibold mb-3 text-gray-800">Quick Links</h6>
 
           <div className="flex flex-col space-y-2 text-sm text-gray-600">
-            <Link className="hover:text-blue-600 transition" to="/">
+            <Link className="hover:text-primary transition" to="/">
               Home
             </Link>
 
-            <Link className="hover:text-blue-600 transition" to="/about">
+            <Link className="hover:text-primary transition" to="/about">
               About
             </Link>
 
-            <Link className="hover:text-blue-600 transition" to="/doctors">
+            <Link className="hover:text-primary transition" to="/doctors">
               Doctors
             </Link>
 
-            <Link className="hover:text-blue-600 transition" to="/services">
+            <Link className="hover:text-primary transition" to="/services">
               Services
             </Link>
 
-            <Link className="hover:text-blue-600 transition" to="/pricing">
+            <Link className="hover:text-primary transition" to="/pricing">
               Pricing
             </Link>
-            <Link className="hover:text-blue-600 transition" to="/my-teeth">
+            <Link className="hover:text-primary transition" to="/my-teeth">
              My Teeth
             </Link>
-            <Link className="hover:text-blue-600 transition" to="/मेरो-दाँत">
+            <Link className="hover:text-primary transition" to="/मेरो-दाँत">
               मेरो दाँत
             </Link>
           </div>
@@ -102,17 +102,17 @@ const Footer = () => {
 
           <div className="space-y-3 text-sm text-gray-600">
             <p className="flex items-center gap-2">
-              <FaMapMarkerAlt className="text-blue-600" />
+              <FaMapMarkerAlt className="text-primary" />
                Tarun Marga , Bypass, Balaju kathmandu Nepal
             </p>
 
             <p className="flex items-center gap-2">
-              <FaPhone className="text-blue-600" />
+              <FaPhone className="text-primary" />
               +977-9803421766
             </p>
 
             <p className="flex items-center gap-2">
-              <FaEnvelope className="text-blue-600" />
+              <FaEnvelope className="text-primary" />
               baishdharadental@gmail.com
             </p>
           </div>
@@ -155,19 +155,19 @@ const Footer = () => {
           <input
             type="text"
             placeholder="Name"
-            className="w-full mb-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full mb-2 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           <input
             type="email"
             placeholder="Email"
-            className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full mb-3 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"
           />
 
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            className="w-full bg-primary text-white py-2 rounded hover:bg-primary-dark transition"
           >
             Subscribe
           </motion.button>
