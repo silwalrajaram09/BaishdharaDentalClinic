@@ -7,6 +7,10 @@ import bg2 from "../assets/images/bg_2.jpg";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { TelephoneIcon } from "@hugeicons/core-free-icons";
 import { FaWhatsapp } from "react-icons/fa";
+import Heroslider2 from "../components/heroslider2";
+import WhyChooseUs from "../components/WhyChooseUs";
+
+import bhushalTeeth from "../assets/images/bhushalTeeth.png";
 
 import { motion } from "framer-motion";
 // import { div, h2, img } from "framer-motion/client";
@@ -254,28 +258,29 @@ const Home = () => {
   return (
     <div className="bg-gray-50">
       {/* HERO */}
-      <HeroSlider slides={slides} />
+      {/* <HeroSlider /> */}
+      <Heroslider2 />
       {/* APPOINTMENT STRIP */}
       <motion.section
         initial={{ opacity: 0, y: 80 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto px-4 -mt-16 md:-mt-6"
+        className="max-w-6xl mx-auto px-4 -mt-10 md:-mt-10"
       >
-        <div className="w-full px-6 -mt-24 relative z-20">
+        <div className="w-full px-6 mt-9 relative z-20">
           <div className="grid grid-cols-1 md:grid-cols-2 border border-border rounded-xl overflow-hidden shadow-xl">
             {/* LEFT HALF */}
-            <div className="grid grid-cols-1 sm:grid-cols-2">
+            {/* <div className="grid grid-cols-1 sm:grid-cols-2">
               {/* EMERGENCY */}
-              <div className="bg-accent text-white p-8">
+            {/* <div className="bg-accent text-white p-8">
                 <h3 className="text-xl font-semibold mb-3">Emergency Cases</h3>
                 <p
                   style={{ display: "flex", alignItems: "center", gap: "6px" }}
                 >
                   <FaWhatsapp size={16} />
                   <a
-                    href="https://wa.me/9779803421766"
+                    href="https://wa.me/9779803421766
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -295,10 +300,10 @@ const Home = () => {
                     014962513
                   </a>
                 </p>
-              </div>
+              </div> */}
 
-              {/* OPENING HOURS */}
-              <div className="bg-secondary text-white p-8">
+            {/* OPENING HOURS */}
+            {/* <div className="bg-secondary text-white p-8">
                 <h3 className="text-xl font-semibold mb-3">Opening Hours</h3>
 
                 <div className="flex  justify-between">
@@ -309,6 +314,36 @@ const Home = () => {
                 <div className="flex justify-between mt-2">
                   <span>Saturday</span>
                   <span>Closed</span>
+                </div>
+              </div>
+            </div> */}
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* WHY CHOOSE DR. DINESH BHUSAL */}
+              <div className="bg-secondary text-white p-8 md:col-span-2">
+                <h3 className="text-2xl font-semibold mb-6">
+                  Why Patients Choose Dr. Dinesh Bhusal?
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🏆</span>
+                    <span>10+ Years of Clinical Experience</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🦷</span>
+                    <span>1,000+ Dental Implants Successfully Placed</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🔩</span>
+                    <span>1,000+ Post &amp; Core Restorations Completed</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">✨</span>
+                    <span>Hundreds of Full-Mouth Rehabilitation Cases</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -496,40 +531,144 @@ const Home = () => {
         </motion.div>
       </motion.section>
 
+          <WhyChooseUs />
       {/* WHY CHOOSE US */}
-      <motion.section
+      {/* <motion.section
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.2 }}
         variants={fadeUp}
-        className="max-w-6xl mx-auto px-4 py-16"
-      >
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-[#0b2a4a]">Why Choose Us?</h2>
-          <p className="text-gray-500 mt-2">
+        className="
+    max-w-6xl
+    mx-auto
+    px-4
+    sm:px-6
+    lg:px-8
+    py-14
+    sm:py-16
+    lg:py-20
+    overflow-hidden
+  "
+      > */}
+        {/* SECTION HEADER */}
+        {/* <div className="text-center mb-10 sm:mb-12">
+          <h2
+            className="
+        text-2xl
+        sm:text-3xl
+        lg:text-4xl
+        font-bold
+        text-[#0b2a4a]
+      "
+          >
+            Why Choose Us?
+          </h2>
+
+          <p
+            className="
+        text-gray-500
+        mt-3
+        text-sm
+        sm:text-base
+        max-w-2xl
+        mx-auto
+      "
+          >
             Modern Dentistry with Comfort & Care
           </p>
-        </div>
+        </div> */}
 
-        <motion.div
+        {/* CARDS */}
+        {/* <motion.div
           variants={staggerContainer}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="
+      grid
+      grid-cols-1
+      sm:grid-cols-2
+      lg:grid-cols-3
+      gap-5
+      sm:gap-6
+    "
         >
           {Choices.map((choice, index) => (
             <motion.div
               key={index}
               variants={fadeUp}
-              whileHover={{ y: -5 }}
-              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition"
+              whileHover={{
+                y: -6,
+              }}
+              transition={{ duration: 0.25 }}
+              className="
+          bg-white
+          p-5
+          sm:p-6
+          rounded-2xl
+          shadow-md
+          hover:shadow-xl
+          border
+          border-gray-100
+          transition-all
+          duration-300
+        "
             >
-              <h3 className="text-[#0b2a4a] font-semibold mb-2">
+              <h3
+                className="
+            text-[#0b2a4a]
+            font-semibold
+            text-lg
+            mb-3
+          "
+              >
                 {choice.title}
               </h3>
-              <p className="text-gray-600 text-sm">{choice.description}</p>
+
+              <p
+                className="
+            text-gray-600
+            text-sm
+            leading-relaxed
+          "
+              >
+                {choice.description}
+              </p>
             </motion.div>
           ))}
+        </motion.div> */}
+
+        {/* EXTRA CONTENT */}
+        {/* IMAGE SECTION */}
+        {/* <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+          className="
+    mt-10
+    sm:mt-14
+    rounded-2xl
+    overflow-hidden
+    shadow-xl
+  "
+        >
+          <img
+            src={bhushalTeeth}
+            alt="Dental Care"
+            loading="lazy"
+            className="
+      w-full
+      h-[220px]
+      sm:h-[320px]
+      md:h-[420px]
+      lg:h-[500px]
+      object-cover
+      object-center
+      hover:scale-[1.02]
+      transition-transform
+      duration-500
+    "
+          />
         </motion.div>
-      </motion.section>
+      </motion.section> */}
       {/* Happy patients */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}

@@ -1,392 +1,616 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Phone,
+  Mail,
+  Clock,
+  ChevronDown,
+  Menu,
+  X,
+  Smile,
+  Wrench,
+  Sparkles,
+  ShieldCheck,
+  Baby,
+  Siren,
+  CalendarCheck,
+} from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import Logo from "../assets/images/logo.png";
+import BookingModal from "./BookingModel";
+import { CLINIC_INFO } from "../data/bookingOptions";
 
-const navigation = [
+import Button from "./ui/Button";
+
+// ─── Navigation ─────────────────────────────────────────────────────────────
+// Previously included two duplicate "My teeth" entries — one English
+// (/my-teeth) and one Nepali (/मेरो-दाँत). The Devanagari path required a
+// decodeURIComponent() workaround in isActive() and is fragile across
+// browsers/servers/SEO tooling. Removed the duplicate route; if Nepali
+// support is needed, use a proper i18n library (e.g. react-i18next) with a
+// language switcher rather than separate routes per language.
+const NAV = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
-  { name: "Services", path: "/services" },
+  { name: "Services", path: "/services", dropdown: true },
   { name: "Doctors", path: "/doctors" },
   { name: "Pricing", path: "/pricing" },
   { name: "Gallery", path: "/gallery" },
-  { name: "Contact", path: "/contact" },
-  { name: "My teeth", path: "/my-teeth" },
+  { name: "My Teeth", path: "/my-teeth" },
   { name: "मेरो दाँत", path: "/मेरो-दाँत" },
+  { name: "Contact", path: "/contact" },
 ];
 
-function Header() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+// Featured services for the desktop mega-menu. Anchors degrade gracefully —
+// if a matching #id isn't present on /services, the link simply opens the
+// top of the page.
+const FEATURED_SERVICES = [
+  {
+    name: "General Dentistry",
+    desc: "Check-ups, cleanings & prevention",
+    icon: Smile,
+    hash: "/general-dentistry",
+  },
+  {
+    name: "Dental Implants",
+    desc: "Permanent, natural-looking teeth",
+    icon: Wrench,
+    hash: "/dental-implants",
+  },
+  {
+    name: "Cosmetic Dentistry",
+    desc: "Whitening, veneers & smile design",
+    icon: Sparkles,
+    hash: "/cosmetic-dentistry",
+  },
+  {
+    name: "Braces & Aligners",
+    desc: "Straighten your smile discreetly",
+    icon: ShieldCheck,
+    hash: "/braces-aligners",
+  },
+  {
+    name: "Pediatric Dentistry",
+    desc: "Gentle care for little smiles",
+    icon: Baby,
+    hash: "/pediatric-dentistry",
+  },
+  {
+    name: "Emergency Care",
+    desc: "Same-day urgent appointments",
+    icon: Siren,
+    hash: "/emergency-dental-care",
+  },
+];
+
+const FOCUSABLE_NAV_SELECTOR = "a[href], button:not([disabled])";
+
+const Header = () => {
   const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const isActive = (path) => {
-    try {
-      return decodeURIComponent(location.pathname) === path;
-    } catch (e) {
-      return location.pathname === path;
-    }
-  };
+  const headerRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const lastDirection = useRef(null);
+  const ticking = useRef(false);
 
- 
-  const APP_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const isActive = (path) =>
+    path === "/"
+      ? location.pathname === "/"
+      : location.pathname.startsWith(path);
 
-  const [formData, setFormData] = useState({
-    service: "",
-    fullname: "",
-    email: "",
-    date: "",
-    time: "",
-    phone: "",
-    notes: "",
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-
+  // ── Auto-hide header on scroll ──
+  // Re-implemented against a ref instead of document.querySelector — same
+  // hysteresis behaviour (8px jitter threshold, direction-change-only
+  // updates, settles after scroll-restore on refresh) but no manual DOM
+  // queries.
   useEffect(() => {
-    if (successMessage || errorMessage) {
-      const timer = setTimeout(() => {
-        setSuccessMessage("");
-        setErrorMessage("");
-      }, 4000);
-      return () => clearTimeout(timer);
-    }
-  }, [successMessage, errorMessage]);
+    const header = headerRef.current;
+    if (!header) return;
 
-  useEffect(() => {
-    const headerEl = document.querySelector('header[data-autohide="true"]');
-    if (!headerEl) return;
-
-    let lastScrollY = window.scrollY;
-    let ticking = false;
-    let lastDirection = null;
-
-    const prefersReducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (prefersReducedMotion) {
-      headerEl.style.setProperty("--nav-translate-y", `0px`);
-      headerEl.style.setProperty("--nav-opacity", `1`);
+      header.style.setProperty("--nav-translate-y", "0px");
+      header.style.setProperty("--nav-opacity", "1");
       return;
     }
 
-    const measureHeaderHeight = () => {
-      const headerHeight = headerEl.getBoundingClientRect().height;
-      // Used by Layout to avoid fighting fixed header.
+    const setHeaderHeightVar = () => {
+      const h = header.getBoundingClientRect().height;
       document.documentElement.style.setProperty(
         "--header-height",
-        `${Math.ceil(headerHeight)}px`,
+        `${Math.ceil(h)}px`,
       );
-      return headerHeight;
+      return h;
     };
 
-    const applyFromScroll = () => {
-      const currentY = window.scrollY;
-      const atTop = currentY <= 0;
-
-      // Always update baseline height/offset.
-      measureHeaderHeight();
-
-      if (atTop) {
-        headerEl.style.setProperty("--nav-translate-y", `0px`);
-        headerEl.style.setProperty("--nav-opacity", `1`);
-        lastDirection = null;
-        lastScrollY = currentY;
-        return;
-      }
-
-      // Initial state: if we're already scrolled, hide if above indicates user is moving down.
-      // On refresh, lastScrollY will be set to restored scroll position before this runs.
-      const direction = currentY > lastScrollY ? "down" : "up";
-      const headerHeight = headerEl.getBoundingClientRect().height;
-      const translateY = direction === "down" ? `-${headerHeight}px` : `0px`;
-
-      headerEl.style.setProperty("--nav-translate-y", translateY);
-      headerEl.style.setProperty(
-        "--nav-opacity",
-        direction === "down" ? `0.85` : `1`,
-      );
+    const reveal = () => {
+      header.style.setProperty("--nav-translate-y", "0px");
+      header.style.setProperty("--nav-opacity", "1");
     };
-
-    const update = () => {
-      const currentY = window.scrollY;
-      const atTop = currentY <= 0;
-
-      if (atTop) {
-        headerEl.style.setProperty("--nav-translate-y", `0px`);
-        headerEl.style.setProperty("--nav-opacity", `1`);
-
-        lastDirection = null;
-        ticking = false;
-        lastScrollY = currentY;
-        return;
-      }
-
-      const direction = currentY > lastScrollY ? "down" : "up";
-
-      // Avoid jitter
-      const delta = Math.abs(currentY - lastScrollY);
-      if (delta < 8) {
-        ticking = false;
-        return;
-      }
-
-      if (direction !== lastDirection) {
-        lastDirection = direction;
-
-        const headerHeight = headerEl.getBoundingClientRect().height;
-        const translateY = direction === "down" ? `-${headerHeight}px` : `0px`;
-        headerEl.style.setProperty("--nav-translate-y", translateY);
-        headerEl.style.setProperty(
-          "--nav-opacity",
-          direction === "down" ? `0.85` : `1`,
-        );
-      }
-
-      ticking = false;
-      lastScrollY = currentY;
+    const hide = () => {
+      const h = setHeaderHeightVar();
+      header.style.setProperty("--nav-translate-y", `-${h}px`);
+      header.style.setProperty("--nav-opacity", "0.85");
     };
 
     const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
+      if (ticking.current) return;
+      ticking.current = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setHeaderHeightVar();
+
+        if (y <= 0) {
+          reveal();
+          lastDirection.current = null;
+          lastScrollY.current = y;
+          setScrolled(false);
+          ticking.current = false;
+          return;
+        }
+
+        setScrolled(true);
+
+        const delta = Math.abs(y - lastScrollY.current);
+        const direction = y > lastScrollY.current ? "down" : "up";
+
+        // Ignore tiny movements to avoid jitter, but always close the menu
+        // overlay if it's open and the user scrolls past the threshold.
+        if (delta >= 8 && direction !== lastDirection.current) {
+          lastDirection.current = direction;
+          if (direction === "down" && !mobileOpen) hide();
+          else reveal();
+        }
+
+        lastScrollY.current = y;
+        ticking.current = false;
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    // Delay initialization until after browser scroll restoration settles.
-    // This prevents race where header state is computed before restored scrollY.
-    const init = () => {
-      // Give layout/paint a chance to finish.
-      measureHeaderHeight();
-      lastScrollY = window.scrollY;
-      applyFromScroll();
-    };
-
-    const raf2 = () =>
-      new Promise((resolve) => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => resolve());
-        });
-      });
-
-    const runInitAfterRestore = async () => {
-      // If the browser has already loaded, we still wait a couple frames.
-      // If not, wait for load first.
+    // Settle after scroll-restoration on refresh
+    const init = async () => {
       if (document.readyState !== "complete") {
         await new Promise((r) =>
           window.addEventListener("load", r, { once: true }),
         );
       }
-      await raf2();
-      init();
+      await new Promise((r) =>
+        requestAnimationFrame(() => requestAnimationFrame(r)),
+      );
+      setHeaderHeightVar();
+      lastScrollY.current = window.scrollY;
+      setScrolled(window.scrollY > 0);
+      reveal();
     };
+    init();
 
-    // Initialize
-    runInitAfterRestore();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileOpen]);
 
+  // ── Close everything on route change ──
+  useEffect(() => {
+    setMobileOpen(false);
+    setServicesOpen(false);
+    setMobileServicesOpen(false);
+  }, [location.pathname]);
+
+  // ── Lock body scroll while mobile menu is open ──
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  // ── Close desktop dropdown on outside click / Escape ──
+  useEffect(() => {
+    const handleClick = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setServicesOpen(false);
+      }
+    };
+    const handleEsc = (e) => {
+      if (e.key === "Escape") {
+        setServicesOpen(false);
+        setMobileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleEsc);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleEsc);
     };
   }, []);
 
- 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-   
-    if (successMessage) setSuccessMessage("");
-    if (errorMessage) setErrorMessage("");
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    
-    if (isSubmitting) return;
-
-    setSuccessMessage("");
-    setErrorMessage("");
-
-    
-    if (
-      !formData.service ||
-      !formData.fullname ||
-      !formData.email ||
-      !formData.date ||
-      !formData.time ||
-      !formData.phone
-    ) {
-      setErrorMessage("Please fill all required fields.");
-      return;
-    }
-
-    
-    const emailRegex = /^\S+@\S+\.\S+$/;
-    if (!emailRegex.test(formData.email)) {
-      setErrorMessage("Please enter a valid email address.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      
-      const response = await fetch(`${APP_URL}/api/appointments/submit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), 
-      });
-
-     
-      let data;
-      try {
-        data = await response.json();
-      } catch {
-        throw new Error("Invalid server response");
-      }
-
-     
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Failed to book appointment");
-      }
-
-      
-      setSuccessMessage(
-        data.message ||
-          "Appointment booked successfully! We'll contact you soon.",
-      );
-
-      
-      setFormData({
-        service: "",
-        fullname: "",
-        email: "",
-        date: "",
-        time: "",
-        phone: "",
-        notes: "",
-      });
-
-     
-      setTimeout(() => {
-        setShowModal(false);
-        setSuccessMessage("");
-      }, 2000);
-    } catch (error) {
-      console.error("Appointment Error:", error);
-      setErrorMessage(
-        error.message || "Something went wrong. Please try again.",
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const openBooking = useCallback(() => {
+    setMobileOpen(false);
+    setShowModal(true);
+  }, []);
 
   return (
     <>
-      {/* HEADER */}
       <header
+        ref={headerRef}
         data-autohide="true"
-        className={
-          "fixed top-0 left-0 right-0 z-50 transition-transform transition-opacity duration-200 will-change-transform will-change-opacity " +
-          "bg-white/70 backdrop-blur supports-[backdrop-filter]:bg-white/60 shadow-md"
-        }
+        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md
+                   shadow-md transition-all duration-300"
         style={{
           transform: "translateY(var(--nav-translate-y, 0px))",
           opacity: "var(--nav-opacity, 1)",
         }}
       >
-        <nav className="container mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-4">
-          <div className="flex justify-between items-center h-16">
-            {/* LOGO */}
-
-            <div className="flex items-center">
-              <img src={Logo} className="h-10 w-auto" alt="Logo" />
-
-              <Link to="/" className="ml-2">
-                <div className="text-2xl font-bold text-[#3b7dbd]">
-                  Baishdhara
-                </div>
-                <span className="text-[#86d7e9] text-sm">Dental clinic</span>
-              </Link>
+        {/* ── TOP INFO BAR (desktop only) ── */}
+        <div className="hidden lg:block bg-[#0b2a4a] py-2 text-white">
+          <div className="container mx-auto px-2 sm:px-6 lg:px-8 h-11 flex items-center justify-between text-sm">
+            {/* LEFT — contact info (single icon set: lucide-react) */}
+            <div className="flex items-center gap-6">
+              {/* <Link to="/" className="flex items-center shrink-0 group">
+                <img
+                  src={Logo}
+                  alt="Baishdhara Dental Clinic logo"
+                  className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-9 sm:h-10" : "h-10 sm:h-11"}`}
+                />
+                <span className="ml-3 leading-tight">
+                  <span className="block text-xl sm:text-2xl font-bold text-primary group-hover:text-primary-dark transition-colors">
+                    Baishdhara
+                  </span>
+                  <span className="block text-secondary text-xs sm:text-sm">
+                    Dental Clinic
+                  </span>
+                </span>
+              </Link> */}
+              <a
+                href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
+                className="flex items-center gap-2 hover:text-[#86d7e9] transition-colors"
+              >
+                <Phone size={15} aria-hidden="true" />
+                <span>{CLINIC_INFO.phonePrimary.display}</span>
+              </a>
+              <a
+                href={`tel:${CLINIC_INFO.phoneLandline.tel}`}
+                className="flex items-center gap-2 hover:text-[#86d7e9] transition-colors"
+              >
+                <Phone size={15} aria-hidden="true" />
+                <span>{CLINIC_INFO.phoneLandline.display}</span>
+              </a>
+              <a
+                href={`mailto:${CLINIC_INFO.email}`}
+                className="flex items-center gap-2 hover:text-[#86d7e9] transition-colors"
+              >
+                <Mail size={15} aria-hidden="true" />
+                <span>{CLINIC_INFO.email}</span>
+              </a>
             </div>
+
+            {/* RIGHT — hours + WhatsApp */}
+            <div className="flex items-center gap-5">
+              <div className="flex items-center gap-2 text-blue-100">
+                <Clock size={15} aria-hidden="true" />
+                <span className="font-medium text-white">
+                  {CLINIC_INFO.hours.days}:
+                </span>
+                <span>{CLINIC_INFO.hours.time}</span>
+                <span className="text-slate-500 mx-1">|</span>
+                <span className="text-white">
+                  {CLINIC_INFO.hours.closed}:{" "}
+                  <span className="text-accent">Closed</span>
+                </span>
+              </div>
+              <a
+                href={`https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${CLINIC_INFO.whatsappMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors font-medium"
+              >
+                <FaWhatsapp size={15} aria-hidden="true" />
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* ── MAIN NAVBAR ── */}
+        <nav className="container mx-auto px-4  sm:px-6 lg:px-8">
+          <div
+            className={`flex justify-between items-center transition-all duration-300 ${scrolled ? "h-[68px]" : "h-[78px]"}`}
+          >
+            {/* LOGO — image + text now a single link */}
+            <Link to="/" className="flex items-center shrink-0 group">
+              <img
+                src={Logo}
+                alt="Baishdhara Dental Clinic logo"
+                className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-9 sm:h-10" : "h-10 sm:h-11"}`}
+              />
+              <span className="ml-3 leading-tight">
+                <span className="block text-xl sm:text-2xl font-bold text-primary group-hover:text-primary-dark transition-colors">
+                  Baishdhara
+                </span>
+                <span className="block text-secondary text-xs sm:text-sm">
+                  Dental Clinic
+                </span>
+              </span>
+            </Link>
 
             {/* DESKTOP MENU */}
-            <div className="hidden md:flex space-x-8">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={
-                    isActive(item.path)
-                      ? "text-[#3b7dbd] font-semibold"
-                      : "text-gray-700 hover:text-[#3b7dbd]"
-                  }
-                >
-                  {item.name}
-                </Link>
-              ))}
+            <div className="hidden lg:flex items-center gap-1">
+              {NAV.map((item) =>
+                item.dropdown ? (
+                  <div key={item.name} ref={dropdownRef} className="relative">
+                    <button
+                      onClick={() => setServicesOpen((o) => !o)}
+                      aria-haspopup="true"
+                      aria-expanded={servicesOpen}
+                      className={`flex  items-center gap-1 px-2 py-1 rounded-lg text-[15px] font-medium
+                                  transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-[#3b7dbd]
+                                  ${isActive(item.path) || servicesOpen ? "text-[#3b7dbd]" : "text-gray-700 hover:text-[#3b7dbd]"}`}
+                    >
+                      {item.name}
+                      <ChevronDown
+                        size={15}
+                        className={`transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                        aria-hidden="true"
+                      />
+                    </button>
+
+                    {isActive(item.path) && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute left-4 right-4 -bottom-1 h-0.5 bg-[#3b7dbd] rounded-full"
+                      />
+                    )}
+
+                    <AnimatePresence>
+                      {servicesOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 8 }}
+                          transition={{
+                            duration: 0.18,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-[640px]
+                                     bg-white rounded-2xl shadow-2xl border border-slate-100
+                                     p-5 grid grid-cols-2 gap-2 z-50"
+                        >
+                          {FEATURED_SERVICES.map(
+                            ({ name, desc, icon: Icon, hash }) => (
+                              <Link
+                                key={name}
+                                to={`/services${hash}`}
+                                onClick={() => setServicesOpen(false)}
+                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-[#eef6ff] transition-colors group"
+                              >
+                                <span
+                                  className="flex items-center justify-center w-10 h-10 rounded-lg
+                                               bg-[#eef6ff] text-[#3b7dbd] group-hover:bg-[#3b7dbd] group-hover:text-white
+                                               transition-colors shrink-0"
+                                >
+                                  <Icon size={18} aria-hidden="true" />
+                                </span>
+                                <span>
+                                  <span className="block text-sm font-semibold text-[#0b2a4a]">
+                                    {name}
+                                  </span>
+                                  <span className="block text-xs text-slate-500 mt-0.5">
+                                    {desc}
+                                  </span>
+                                </span>
+                              </Link>
+                            ),
+                          )}
+                          <Link
+                            to="/services"
+                            onClick={() => setServicesOpen(false)}
+                            className="col-span-2 mt-1 flex items-center justify-center gap-2
+                                       py-2.5 rounded-xl border border-[#3b7dbd]/30 text-[#3b7dbd]
+                                       text-sm font-semibold hover:bg-[#3b7dbd] hover:text-white transition-colors"
+                          >
+                            View All Services →
+                          </Link>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className={`relative px-4 py-2 rounded-lg text-[15px] font-medium transition-colors duration-200
+                                focus-visible:ring-2 focus-visible:ring-[#3b7dbd]
+                                ${isActive(item.path) ? "text-[#3b7dbd]" : "text-gray-700 hover:text-[#3b7dbd]"}`}
+                  >
+                    {item.name}
+                    {isActive(item.path) && (
+                      <motion.span
+                        layoutId="nav-underline"
+                        className="absolute left-4 right-4 -bottom-1 h-0.5 bg-[#3b7dbd] rounded-full"
+                      />
+                    )}
+                  </Link>
+                ),
+              )}
             </div>
 
-            {/* BUTTON */}
-            <button
-              onClick={() => setShowModal(true)}
-              className="hidden md:block bg-[#3b7dbd] text-white px-4 py-2 rounded-md hover:bg-[#2a6ca5] transition"
-            >
-              Book Appointment
-            </button>
+            {/* DESKTOP ACTIONS */}
+            <div className="hidden lg:flex items-center gap-3">
+              {/* Call Now */}
+              <a
+                href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
+                aria-label="Call dental clinic now"
+                className="
+      inline-flex h-11 items-center justify-center gap-2 px-5
+      rounded-xl border border-slate-200 bg-white
+      text-[15px] font-semibold leading-none text-[#0B2A4A]
+      shadow-sm transition-all duration-200
+      hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-md
+      active:scale-[0.97]
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4] focus-visible:ring-offset-2
+    "
+              >
+                <Phone size={17} strokeWidth={2.25} aria-hidden="true" />
+                <span>Call Now</span>
+              </a>
 
-            {/* MOBILE MENU BUTTON */}
+              {/* Book Appointment */}
+              <button
+                onClick={openBooking}
+                className="
+      inline-flex h-11 items-center justify-center gap-2 px-5
+      rounded-xl bg-[#3B82C4]
+      text-[15px] font-semibold leading-none text-white
+      shadow-md transition-all duration-200
+      hover:bg-[#2F6FA8] hover:shadow-lg
+      active:scale-[0.97]
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4] focus-visible:ring-offset-2
+    "
+              >
+                <CalendarCheck
+                  size={17}
+                  strokeWidth={2.25}
+                  aria-hidden="true"
+                />
+                <span>Book Appointment</span>
+              </button>
+            </div>
+
+            {/* MOBILE MENU TOGGLE */}
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-2xl"
+              onClick={() => setMobileOpen((o) => !o)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+              className="lg:hidden flex items-center justify-center w-11 h-11 -mr-1
+                         rounded-lg text-[#0b2a4a] hover:bg-slate-100 transition-colors
+                         focus-visible:ring-2 focus-visible:ring-[#3b7dbd]"
             >
-              {isOpen ? <FaTimes /> : <FaBars />}
+              {mobileOpen ? (
+                <X size={24} aria-hidden="true" />
+              ) : (
+                <Menu size={24} aria-hidden="true" />
+              )}
             </button>
           </div>
 
-          {/* MOBILE NAV */}
+          {/* MOBILE NAVIGATION */}
           <AnimatePresence>
-            {isOpen && (
+            {mobileOpen && (
               <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-                className="md:hidden bg-white border-t overflow-hidden"
+                id="mobile-nav"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                className="lg:hidden bg-white border-t rounded-b-2xl shadow-xl overflow-hidden"
               >
-                <div className="py-4 space-y-3">
-                  {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      to={item.path}
-                      onClick={() => setIsOpen(false)}
-                      className="block px-4 py-2 text-[#3b7dbd] hover:text-[#2a6ca5]"
+                <div className="py-3 max-h-[calc(100vh-78px)] overflow-y-auto">
+                  {NAV.map((item) =>
+                    item.dropdown ? (
+                      <div key={item.name}>
+                        <button
+                          onClick={() => setMobileServicesOpen((o) => !o)}
+                          aria-expanded={mobileServicesOpen}
+                          className={`w-full flex items-center justify-between px-5 py-3.5
+                                      min-h-[48px] text-[15px] font-medium transition-colors
+                                      ${isActive(item.path) ? "text-[#3b7dbd]" : "text-gray-700"}`}
+                        >
+                          {item.name}
+                          <ChevronDown
+                            size={18}
+                            className={`transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+                            aria-hidden="true"
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {mobileServicesOpen && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden bg-slate-50"
+                            >
+                              {FEATURED_SERVICES.map(
+                                ({ name, icon: Icon, hash }) => (
+                                  <Link
+                                    key={name}
+                                    to={`/services${hash}`}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex items-center gap-3 pl-9 pr-5 py-3 min-h-[44px]
+                                             text-sm text-gray-600 hover:text-[#3b7dbd] transition-colors"
+                                  >
+                                    <Icon size={16} aria-hidden="true" />
+                                    {name}
+                                  </Link>
+                                ),
+                              )}
+                              <Link
+                                to="/services"
+                                onClick={() => setMobileOpen(false)}
+                                className="block pl-9 pr-5 py-3 min-h-[44px] text-sm font-semibold text-[#3b7dbd]"
+                              >
+                                View All Services →
+                              </Link>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.path}
+                        onClick={() => setMobileOpen(false)}
+                        className={`flex items-center px-5 py-3.5 min-h-[48px] text-[15px] font-medium transition-colors
+                                    ${isActive(item.path) ? "text-[#3b7dbd] font-semibold bg-[#eef6ff]" : "text-gray-700 hover:bg-slate-50"}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ),
+                  )}
+
+                  {/* Mobile quick actions */}
+                  <div className="px-5 pt-3 pb-1 flex flex-col gap-2.5 border-t border-slate-100 mt-2">
+                    <div className="flex gap-2.5">
+                      <a
+                        href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
+                        className="flex-1 flex items-center justify-center gap-2 min-h-[48px]
+                                   border border-slate-200 rounded-xl text-sm font-semibold text-[#0b2a4a]"
+                      >
+                        <Phone size={16} aria-hidden="true" /> Call
+                      </a>
+                      <a
+                        href={`https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${CLINIC_INFO.whatsappMessage}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 min-h-[48px]
+                                   border border-green-200 rounded-xl text-sm font-semibold text-green-600"
+                      >
+                        <FaWhatsapp size={16} aria-hidden="true" /> WhatsApp
+                      </a>
+                    </div>
+                    <button
+                      onClick={openBooking}
+                      className="w-full min-h-[48px] bg-[#3b7dbd] text-white rounded-full font-medium text-sm shadow-md"
                     >
-                      {item.name}
-                    </Link>
-                  ))}
-                  <button
-                    onClick={() => {
-                      setIsOpen(false);
-                      setShowModal(true);
-                    }}
-                    className="w-full bg-[#3b7dbd] text-white py-2 rounded mx-4 transition"
-                  >
-                    Book Appointment
-                  </button>
+                      Book Appointment
+                    </button>
+                    <p className="text-center text-xs text-gray-400 pt-1">
+                      {CLINIC_INFO.hours.days}: {CLINIC_INFO.hours.time} ·{" "}
+                      {CLINIC_INFO.hours.closed}: Closed
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -394,227 +618,9 @@ function Header() {
         </nav>
       </header>
 
-      {/* MODAL */}
-      <AnimatePresence>
-        {showModal && (
-          <motion.div
-            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) setShowModal(false);
-            }}
-          >
-            <motion.div
-              className="bg-white text-black p-6 rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-              initial={{ scale: 0.9, y: 50 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 50 }}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-semibold">Make an Appointment</h3>
-                <button
-                  onClick={() => setShowModal(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Success/Error Messages */}
-              {successMessage && (
-                <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-                  {successMessage}
-                </div>
-              )}
-
-              {errorMessage && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-                  {errorMessage}
-                </div>
-              )}
-
-              <form
-                onSubmit={handleSubmit}
-                className="grid grid-cols-1 sm:grid-cols-2 gap-4"
-              >
-                {/* Service Selection */}
-                <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Select Service *
-                  </label>
-                  <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="Teeth Whitening">Teeth Whitening</option>
-                    <option value="Teeth Cleaning">Teeth Cleaning</option>
-                    <option value="Quality Brackets">Quality Brackets</option>
-                    <option value="Modern Anesthetic">Modern Anesthetic</option>
-                    <option value="Consultation / Checkup">
-                      Consultation / Checkup
-                    </option>
-                    <option value="Fillings / Root Canal">
-                      Fillings / Root Canal
-                    </option>
-                    <option value="Tooth Extraction">Tooth Extraction</option>
-                    <option value="Implants / Crowns">Implants / Crowns</option>
-                    <option value="Braces / Orthodontics">
-                      Braces / Orthodontics
-                    </option>
-                    <option value="Kids Dentistry">Kids Dentistry</option>
-                    <option value="Emergency Care">Emergency Care</option>
-                  </select>
-                </div>
-
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Full Name *
-                  </label>
-                  <input
-                    name="fullname" // Matches backend field name
-                    type="text"
-                    placeholder="Enter your full name"
-                    value={formData.fullname}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
-                  />
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Email *
-                  </label>
-                  <input
-                    name="email"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
-                  />
-                </div>
-
-                {/* Phone */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone *
-                  </label>
-                  <input
-                    name="phone"
-                    type="tel"
-                    placeholder="+977 9812345678"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
-                  />
-                </div>
-
-                {/* Date */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Preferred Date *
-                  </label>
-                  <input
-                    name="date"
-                    type="date"
-                    value={formData.date}
-                    onChange={handleChange}
-                    required
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
-                  />
-                </div>
-
-                {/* Time */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Preferred Time *
-                  </label>
-                  <select
-                    name="time"
-                    id="time"
-                    value={formData.time}
-                    onChange={handleChange}
-                    className="p-3 rounded border text-black"
-                  >
-                    <option value="">select time </option>
-                    <option value="9:00">9:00 AM</option>
-                    <option value="9:30">9:30 AM</option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
-                    <option value="12:00">12:00 ApM</option>
-                    <option value="1:00">1:00 PM</option>
-                    <option value="2:00">2:00 PM</option>
-                  </select>
-                </div>
-
-                {/* Notes (Optional) */}
-                <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Additional Notes (Optional)
-                  </label>
-                  <textarea
-                    name="notes"
-                    placeholder="Any special requests or information..."
-                    value={formData.notes}
-                    onChange={handleChange}
-                    rows="3"
-                    className="w-full p-3 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#3b7dbd]"
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <div className="sm:col-span-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-[#3b7dbd] text-white py-3 rounded-lg font-semibold hover:bg-[#2a6ca5]  transition disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <svg
-                          className="animate-spin h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                            fill="none"
-                          />
-                          <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          />
-                        </svg>
-                        Booking...
-                      </span>
-                    ) : (
-                      "Make Appointment"
-                    )}
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <BookingModal open={showModal} onClose={() => setShowModal(false)} />
     </>
   );
-}
+};
 
 export default Header;

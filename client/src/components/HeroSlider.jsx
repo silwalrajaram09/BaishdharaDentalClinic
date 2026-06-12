@@ -1,21 +1,25 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { motion } from "framer-motion";
+import "./HeroSlider.css";
 
-// Helps avoid horizontal scroll from long hero titles on tiny screens
-import "./heroSliderFixes";
-
-import hero1 from "../assets/images/hero1.PNG";
-import hero2 from "../assets/images/hero2.PNG";
-import hero3 from "../assets/images/hero3.PNG";
-import welcomeImage from "../assets/images/welcomeImage.jpeg";
-import doctor from "../assets/images/doctor.PNG";
+// Removed unused motion import
+// import hero1 from "../assets/images/hero1.PNG";
+// import hero2 from "../assets/images/hero2.PNG";
+// import hero3 from "../assets/images/hero3.PNG";
+// import doctor from "../assets/images/doctor.PNG";
+// import welcome from "../assets/images/welcomeImage.jpg";
+import hero1 from "../assets/images/hero1.jpg";
+import hero2 from "../assets/images/hero2.jpg";
+import hero3 from "../assets/images/hero3.jpg";
+import doctor from "../assets/images/doctor.jpg";
+import welcome from "../assets/images/welcomeImage-2.jpg";
+import changeImage from "../assets/images/changeImage.PNG";
 
 const slides = [
   {
-    bgImage: welcomeImage,
-    title: "Exceptional Dental Care for Every Smile",
+    bgImage: welcome,
+    title: "Welcome to Baishdhara Dental Clinic",
     subtitle:
-      "Advanced technology, personalized treatment, and compassionate care designed around your comfort.",
+      "Experience compassionate, expert dental care in a modern, welcoming environment.",
     badge: "Trusted by 10,000+ Patients",
     accent: "#06b6d4",
   },
@@ -56,179 +60,6 @@ const slides = [
 const SLIDE_INTERVAL = 5000;
 
 // Inline CSS injected once for keyframe animations
-const injectStyles = () => {
-  if (document.getElementById("hero-slider-styles")) return;
-  const style = document.createElement("style");
-  style.id = "hero-slider-styles";
-  style.textContent = `
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
-
-    @keyframes hero-progress {
-      from { width: 0%; }
-      to { width: 100%; }
-    }
-    @keyframes hero-fade-up {
-      from { opacity: 0; transform: translateY(28px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes hero-fade-in {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes hero-img-zoom {
-      from { transform: scale(1.06); }
-      to { transform: scale(1); }
-    }
-    @keyframes hero-badge-pop {
-      0% { opacity: 0; transform: translateY(12px) scale(0.95); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes hero-float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-    @keyframes hero-shimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-
-    .hero-slide-text {
-      animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    .hero-slide-text-delay-1 {
-      animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-    }
-    .hero-slide-text-delay-2 {
-      animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
-    }
-    .hero-slide-text-delay-3 {
-      animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-    }
-    .hero-slide-img {
-      animation: hero-img-zoom 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-    .hero-slide-badge {
-      animation: hero-badge-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
-    }
-    .hero-float-element {
-      animation: hero-float 4s ease-in-out infinite;
-    }
-    .hero-nav-btn {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-    .hero-nav-btn:hover {
-      transform: scale(1.08);
-    }
-    .hero-nav-btn:active {
-      transform: scale(0.94);
-    }
-    .hero-glass-card {
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-    .hero-title-font {
-      font-family: 'Playfair Display', Georgia, serif;
-    }
-    .hero-body-font {
-      font-family: 'DM Sans', system-ui, sans-serif;
-    }
-    .hero-dot-active {
-      background: linear-gradient(90deg, #06b6d4, #3b82f6);
-    }
-    .hero-cta-primary {
-      background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(6,182,212,0.35);
-    }
-    .hero-cta-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(6,182,212,0.45);
-    }
-    .hero-cta-secondary {
-      border: 2px solid rgba(255,255,255,0.6);
-      transition: all 0.3s ease;
-    }
-    .hero-cta-secondary:hover {
-      background: rgba(255,255,255,0.15);
-      border-color: rgba(255,255,255,0.9);
-      transform: translateY(-2px);
-    }
-    .hero-img-wrapper::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: 1.5rem;
-      background: linear-gradient(135deg, rgba(6,182,212,0.4) 0%, rgba(59,130,246,0.3) 50%, transparent 100%);
-      z-index: 0;
-    }
-    .hero-decor-ring {
-      border: 2px solid rgba(6,182,212,0.25);
-      border-radius: 50%;
-      position: absolute;
-      animation: hero-float 5s ease-in-out infinite;
-    }
-
-    /* ── MOBILE: immersive background-hero layout (< 640px) ── */
-    @media (max-width: 639px) {
-      /* Section becomes a fixed-height viewport block */
-      .hero-section-root {
-        min-height: 75vh !important;
-        height: 75vh !important;
-        max-height: 820px !important;
-      }
-
-      /* Mobile background image: full-cover behind everything */
-      .hero-mobile-bg {
-        display: block !important;
-      }
-
-      /* Hide the desktop split layout entirely on mobile */
-      .hero-split-container {
-        display: none !important;
-      }
-
-      /* Mobile content layer sits on top of bg image */
-      .hero-mobile-content {
-        display: flex !important;
-      }
-
-      /* Nav arrows: hug the edges */
-      .hero-nav-prev-btn {
-        left: 6px !important;
-        width: 38px !important;
-        height: 38px !important;
-        font-size: 20px !important;
-        background: rgba(0,0,0,0.35) !important;
-        border-color: rgba(255,255,255,0.2) !important;
-        color: #fff !important;
-      }
-      .hero-nav-next-btn {
-        right: 6px !important;
-        width: 38px !important;
-        height: 38px !important;
-        font-size: 20px !important;
-        background: rgba(0,0,0,0.35) !important;
-        border-color: rgba(255,255,255,0.2) !important;
-        color: #fff !important;
-      }
-
-      /* Slide indicators: white dots on dark mobile bg */
-      .hero-indicators-wrap {
-        background: rgba(0,0,0,0.30) !important;
-        border-color: rgba(255,255,255,0.15) !important;
-        bottom: 14px !important;
-      }
-    }
-
-    @media (min-width: 768px) and (max-width: 1023px) {
-      .hero-left-panel {
-        padding: 2rem 2rem 2rem 2.5rem !important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
-};
 
 const CheckIcon = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -249,6 +80,84 @@ const TRUST_ITEMS = [
   "Flexible Payment Plans",
 ];
 
+/* ─── Typing Animation Component ─── */
+const TypingText = ({
+  text,
+  delay = 0,
+  speed = 30,
+  className,
+  style,
+  as: Component = "p",
+}) => {
+  const [charIndex, setCharIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+
+  useEffect(() => {
+    setCharIndex(0);
+    setShowCursor(false);
+    setIsDone(false);
+    if (!text) return;
+
+    let timeout;
+    let interval;
+
+    timeout = setTimeout(() => {
+      setShowCursor(true);
+      interval = setInterval(() => {
+        setCharIndex((prev) => {
+          if (prev < text.length) {
+            return prev + 1;
+          } else {
+            clearInterval(interval);
+            setIsDone(true);
+            return prev;
+          }
+        });
+      }, speed);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [text, delay, speed]);
+
+  return (
+    <Component className={className} style={{ ...style, position: "relative" }}>
+      {/* Invisible full text establishes exact layout dimensions (prevents shift!) */}
+      <span style={{ visibility: "hidden" }}>{text}</span>
+
+      {/* Absolute overlay types out the text in the exact same footprint */}
+      <span
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          textAlign: "inherit",
+        }}
+      >
+        {text.slice(0, charIndex)}
+        <span
+          style={{
+            display: "inline-block",
+            width: "2px",
+            height: "1.1em",
+            backgroundColor: "currentColor",
+            marginLeft: "2px",
+            verticalAlign: "text-bottom",
+            opacity: showCursor ? (isDone ? 0 : 1) : 0,
+            transition: "opacity 0.3s ease",
+          }}
+        />
+      </span>
+    </Component>
+  );
+};
+
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -256,10 +165,6 @@ const HeroSlider = () => {
   const [touchEnd, setTouchEnd] = useState(0);
   const [animKey, setAnimKey] = useState(0);
   const timerRef = useRef(null);
-
-  useEffect(() => {
-    injectStyles();
-  }, []);
 
   const goToSlide = useCallback((index) => {
     setCurrentSlide(index);
@@ -309,7 +214,7 @@ const HeroSlider = () => {
       style={{
         background:
           "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 40%, #eff6ff 100%)",
-        minHeight: "min(92vh, 700px)",
+        // minHeight: "min(92vh, 700px)",
       }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -407,25 +312,28 @@ const HeroSlider = () => {
           </div>
 
           {/* Title */}
-          <h1
+          <TypingText
             key={`title-${animKey}`}
-            className="hero-title-font hero-slide-text"
+            text={slide.title}
+            delay={400}
+            speed={40}
+            as="h1"
+            className="hero-title-font hero-slide-text md:none"
             style={{
               fontSize: "clamp(1.65rem, 3.2vw, 3rem)",
               fontWeight: 800,
               lineHeight: 1.2,
               color: "#0c1a2e",
               marginBottom: "1rem",
-              letterSpacing: "-0.02em",
             }}
-          >
-            {slide.title}
-          </h1>
-
-          {/* Subtitle */}
-          <p
+          />
+          <TypingText
             key={`sub-${animKey}`}
-            className="hero-slide-text-delay-1"
+            text={slide.subtitle}
+            delay={400 + slide.title.length * 40 + 200}
+            speed={25}
+            as="p"
+            className="hero-body-font hero-slide-text-delay-1"
             style={{
               fontSize: "clamp(0.9rem, 1.4vw, 1.1rem)",
               color: "#475569",
@@ -434,52 +342,7 @@ const HeroSlider = () => {
               fontWeight: 400,
               maxWidth: "480px",
             }}
-          >
-            {slide.subtitle}
-          </p>
-
-          {/* CTA Buttons */}
-          <div
-            key={`cta-${animKey}`}
-            className="hero-slide-text-delay-2"
-            style={{
-              display: "flex",
-              gap: "12px",
-              flexWrap: "wrap",
-              marginBottom: "2rem",
-            }}
-          >
-            <button
-              className="hero-cta-primary hero-body-font"
-              style={{
-                color: "#fff",
-                border: "none",
-                borderRadius: "50px",
-                padding: "12px 28px",
-                fontSize: "clamp(13px, 1.2vw, 15px)",
-                fontWeight: 600,
-                cursor: "pointer",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Book Appointment
-            </button>
-            <button
-              className="hero-cta-secondary hero-body-font"
-              style={{
-                color: "#1e40af",
-                background: "rgba(59,130,246,0.06)",
-                borderRadius: "50px",
-                padding: "12px 24px",
-                fontSize: "clamp(13px, 1.2vw, 15px)",
-                fontWeight: 600,
-                cursor: "pointer",
-                letterSpacing: "0.01em",
-              }}
-            >
-              Our Services →
-            </button>
-          </div>
+          />
 
           {/* Trust Items — Glassmorphism Card */}
           <div
@@ -562,7 +425,7 @@ const HeroSlider = () => {
               position: "relative",
               width: "100%",
               maxWidth: "580px",
-              height: "min(75vh, 540px)",
+              aspectRatio: "16 / 9",
               borderRadius: "24px",
               overflow: "hidden",
               boxShadow:
@@ -598,7 +461,7 @@ const HeroSlider = () => {
                 inset: 0,
                 width: "100%",
                 height: "100%",
-                objectFit: "contain",
+                objectFit: "cover",
                 objectPosition: "center",
                 zIndex: 1,
               }}
@@ -618,7 +481,7 @@ const HeroSlider = () => {
               }}
             />
 
-            {/* Floating stat card */}
+            {/* Floating stat card - fixed with content */}
             <div
               key={`stat-${animKey}`}
               className="hero-glass-card hero-badge-pop hero-slide-badge"
@@ -636,44 +499,7 @@ const HeroSlider = () => {
                 alignItems: "center",
                 gap: "10px",
               }}
-            >
-              <div
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg, #06b6d4, #3b82f6)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "18px",
-                }}
-              >
-                🦷
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontSize: "15px",
-                    fontWeight: 700,
-                    color: "#0c1a2e",
-                    lineHeight: 1,
-                  }}
-                >
-                  10,000+
-                </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    color: "#64748b",
-                    fontWeight: 500,
-                    marginTop: "2px",
-                  }}
-                >
-                  Happy Patients
-                </div>
-              </div>
-            </div>
+            ></div>
           </div>
         </div>
       </div>
@@ -682,69 +508,44 @@ const HeroSlider = () => {
       <div
         className="hero-mobile-bg"
         style={{
-          display: "none", // overridden by CSS on mobile
+          display: "none",
           position: "absolute",
           inset: 0,
-          backgroundImage: `url(${slide.bgImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          // height: "min(60%, 60vw)",
+          backgroundColor: "transparent",
+          //photo should be zoom ou
           zIndex: 1,
         }}
       >
-        <div
+        <img
+          src={slide.bgImage}
+          alt={slide.title || "Background"}
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "linear-gradient(to top, rgba(12,26,46,0.95) 0%, rgba(12,26,46,0.4) 60%, transparent 100%)",
+            width: "100%",
+            objectFit: "contain",
+            objectPosition: "center",
           }}
         />
       </div>
+      
 
       <div
         className="hero-mobile-content"
         style={{
-          display: "none", // overridden by CSS on mobile
+          display: "none",
           flexDirection: "column",
           justifyContent: "flex-end",
           position: "relative",
-          zIndex: 2,
-          height: "100%",
-          padding: "2rem 1.5rem 5rem 1.5rem",
+          inset: 0,
+          zIndex: 3,
+          padding: "2rem 1.5rem 2rem",
+          background:
+            "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 50%, transparent 100%)",
         }}
       >
-        <div
-          key={`mob-badge-${animKey}`}
-          className="hero-slide-badge"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "6px",
-            background: "rgba(255,255,255,0.15)",
-            backdropFilter: "blur(8px)",
-            border: "1px solid rgba(255,255,255,0.3)",
-            borderRadius: "100px",
-            padding: "5px 12px",
-            marginBottom: "1rem",
-            width: "fit-content",
-          }}
-        >
-          <span style={{ fontSize: "14px", color: "#22d3ee" }}>✦</span>
-          <span
-            style={{
-              fontSize: "12px",
-              fontWeight: 600,
-              color: "#fff",
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            {slide.badge}
-          </span>
-        </div>
-
-        <h1
-          key={`mob-title-${animKey}`}
+        <h3
           className="hero-title-font hero-slide-text"
           style={{
             fontSize: "2.25rem",
@@ -752,15 +553,33 @@ const HeroSlider = () => {
             lineHeight: 1.15,
             color: "#fff",
             marginBottom: "0.75rem",
-            letterSpacing: "-0.02em",
             textShadow: "0 2px 10px rgba(0,0,0,0.5)",
           }}
         >
           {slide.title}
-        </h1>
-
-        <p
+        </h3>
+        {/* <TypingText
+          key={`mob-title-${animKey}`}
+          text={slide.title}
+          delay={400}
+          speed={40}
+          as="h3"
+          className="hero-title-font hero-slide-text"
+          style={{
+            fontSize: "2.25rem",
+            fontWeight: 800,
+            lineHeight: 1.15,
+            color: "#fff",
+            marginBottom: "0.75rem",
+            textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+          }}
+        /> */}
+        <TypingText
           key={`mob-sub-${animKey}`}
+          text={slide.subtitle}
+          delay={400 + slide.title.length * 40 + 200}
+          speed={25}
+          as="p"
           className="hero-slide-text-delay-1 hero-body-font"
           style={{
             fontSize: "1.05rem",
@@ -770,108 +589,32 @@ const HeroSlider = () => {
             fontWeight: 400,
             textShadow: "0 1px 4px rgba(0,0,0,0.5)",
           }}
-        >
-          {slide.subtitle}
-        </p>
-
-        <button
-          key={`mob-cta-${animKey}`}
-          className="hero-cta-primary hero-slide-text-delay-2 hero-body-font"
-          style={{
-            color: "#fff",
-            border: "none",
-            borderRadius: "50px",
-            padding: "14px 0",
-            width: "100%",
-            fontSize: "16px",
-            fontWeight: 600,
-            cursor: "pointer",
-            textAlign: "center",
-          }}
-        >
-          Book Appointment
-        </button>
+        />
       </div>
 
       {/* ── NAVIGATION ARROWS ── */}
-      <button
+      {/* <button
         onClick={prevSlide}
-        className="hero-nav-btn"
+        className="hero-nav-btn hero-nav-prev-btn"
         aria-label="Previous slide"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "16px",
-          transform: "translateY(-50%)",
-          width: "46px",
-          height: "46px",
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.80)",
-          border: "1px solid rgba(6,182,212,0.25)",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 10,
-          color: "#0891b2",
-          fontSize: "18px",
-          fontWeight: 700,
-          transition: "all 0.25s ease",
-          outline: "none",
-        }}
-        onFocus={(e) =>
-          (e.currentTarget.style.boxShadow = "0 0 0 3px rgba(6,182,212,0.4)")
-        }
-        onBlur={(e) =>
-          (e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.10)")
-        }
       >
         ‹
       </button>
 
       <button
         onClick={nextSlide}
-        className="hero-nav-btn"
+        className="hero-nav-btn hero-nav-next-btn"
         aria-label="Next slide"
-        style={{
-          position: "absolute",
-          top: "50%",
-          right: "16px",
-          transform: "translateY(-50%)",
-          width: "46px",
-          height: "46px",
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.80)",
-          border: "1px solid rgba(6,182,212,0.25)",
-          boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          zIndex: 10,
-          color: "#0891b2",
-          fontSize: "18px",
-          fontWeight: 700,
-          transition: "all 0.25s ease",
-          outline: "none",
-        }}
-        onFocus={(e) =>
-          (e.currentTarget.style.boxShadow = "0 0 0 3px rgba(6,182,212,0.4)")
-        }
-        onBlur={(e) =>
-          (e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.10)")
-        }
       >
         ›
-      </button>
+      </button> */}
 
       {/* ── SLIDE INDICATORS ── */}
       <div
         style={{
           position: "absolute",
           bottom: "20px",
-          left: "50%",
+          left: "5%",
           transform: "translateX(-50%)",
           display: "flex",
           gap: "8px",

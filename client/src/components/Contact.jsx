@@ -1,11 +1,27 @@
 import { useEffect, useState } from "react";
 import { color, motion } from "framer-motion";
-import { PhoneCall, MapPin, MailIcon } from "lucide-react";
+import { PhoneCall, MapPin, MailIcon, PinIcon } from "lucide-react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { TelephoneIcon } from "@hugeicons/core-free-icons";
 import { FaWhatsapp } from "react-icons/fa";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+// import {
+//   GoogleMap,
+//   useJsApiLoader,
+//   LoadScript,
+//   InfoWindow,
+//   Marker,
+// } from "@react-google-maps/api";
+
+// const containerStyle = {
+//   width: "400px",
+//   height: "400px",
+// };
+// const pinPoint = {
+//   lng: 85.3052,
+//   lat: 27.7289,
+// };
+import { MapContainer, TileLayer, Popup, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -21,7 +37,21 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
+const customIcon = new L.Icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
 const Contact = () => {
+  //const [showInfo, setShowInfo] = useState(true);
   const APP_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
   const [formData, setFormData] = useState({
@@ -209,7 +239,7 @@ const Contact = () => {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1
-            className="text md:text-3xl font-bold text-[#0b2a4a]"
+            className="text text-2xl md:text-3xl font-bold text-[#0b2a4a]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Our Contact
@@ -404,29 +434,99 @@ const Contact = () => {
           </div>
 
           {/* MAP */}
+
           <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg relative z-0">
             <h2 className="text-2xl font-semibold mb-6 text-gray-800">
               Find Us on Map
             </h2>
 
             <div className="rounded-xl overflow-hidden">
+              {/* <LoadScript googleMapsApiKey="AIzaSyA9neqBEFnoOHfdN-Czs3-zBn0BP8J15j8">
+                <GoogleMap
+                  mapContainerStyle={containerStyle}
+                  center={pinPoint}
+                  zoom={15}
+                >
+               
+              <Marker
+                    position={pinPoint}
+                    onClick={() => setShowInfo(true)}
+                  />
+
+              {showInfo && (
+                    <InfoWindow
+                      position={pinPoint}
+                      onCloseClick={() => setShowInfo(false)}
+                    >
+                      <div className="w-[220px] sm:w-[260px] md:w-[280px] p-1">
+                        <h2 className="text-base sm:text-lg font-semibold text-primary mb-1">
+                          Baishdhara Dental Clinic
+                        </h2>
+
+                        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                          Tarun Marga, Bypass,
+                          <br />
+                          Balaju, Kathmandu, Nepal
+                        </p>
+
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          <a
+                            href="https://wa.me/9779803421766"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-green-500 hover:bg-green-600 text-white text-[11px] sm:text-xs px-3 py-1.5 rounded-md transition"
+                          >
+                            WhatsApp
+                          </a>
+
+                          <a
+                            href="tel:014962513"
+                            className="bg-primary hover:bg-primary-dark text-white text-[11px] sm:text-xs px-3 py-1.5 rounded-md transition"
+                          >
+                            Call
+                          </a>
+                        </div>
+                      </div>
+                    </InfoWindow>
+                  )}
+                </GoogleMap>
+               </LoadScript> */}
+
               <MapContainer
                 center={position}
-                zoom={15}
+                zoom={17}
                 scrollWheelZoom={false}
-                className="w-full h-[300px] z-0"
-              >
+                className="
+                      w-full
+                      h-[250px]
+                      sm:h-[300px]
+                      md:h-[350px]
+                      lg:h-[400px]
+                      rounded-xl
+                      overflow-hidden
+                      z-0
+                    " >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="&copy; OpenStreetMap contributors"
                 />
 
-                <Marker position={position}>
-                  <Popup>
-                    <div>
-                      <strong>Baishdhara Dental Clinic</strong>
-                      <br />
-                      Tarun Marga , Bypass, Balaju kathmandu Nepal
+                <Marker position={position} icon={customIcon}>
+                  <Popup
+                    autoClose={true}
+                    closeOnClick={true}
+                    closeButton={true}
+                  >
+                    <div className="min-w-45 sm:min-w-55">
+                      <strong className="text-sm sm:text-base">
+                        Baishdhara Dental Clinic
+                      </strong>
+
+                      <p className="text-xs sm:text-sm mt-1 leading-relaxed">
+                        Tarun Marga, Bypass,
+                        <br />
+                        Balaju, Kathmandu, Nepal
+                      </p>
                     </div>
                   </Popup>
                 </Marker>

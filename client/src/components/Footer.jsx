@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
+import { HugeiconsIcon } from "@hugeicons/react";
+import { TelephoneIcon } from "@hugeicons/core-free-icons";
 import Logo from "../assets/images/logo.png";
 
 import {
@@ -87,6 +88,9 @@ const Footer = () => {
             <Link className="hover:text-primary transition" to="/pricing">
               Pricing
             </Link>
+            <Link className="hover:text-primary transition" to="/contact">
+              Contact
+            </Link>
             <Link className="hover:text-primary transition" to="/my-teeth">
              My Teeth
             </Link>
@@ -110,6 +114,10 @@ const Footer = () => {
               <FaPhone className="text-primary" />
               +977-9803421766
             </p>
+             <p className="flex items-center gap-2">
+                <HugeiconsIcon icon={TelephoneIcon} className="text-primary" />
+                <span>014962513</span>
+              </p>
 
             <p className="flex items-center gap-2">
               <FaEnvelope className="text-primary" />

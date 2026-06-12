@@ -112,7 +112,6 @@ const DoctorProfile = () => {
     );
   }
 
-  // Separate content-only sections from item sections
   const itemSections = doctor.sections?.filter((s) => s.items?.length) ?? [];
   const contentSection = doctor.sections?.find((s) => s.content) ?? null;
   const mainContent = contentSection?.content ?? null;
@@ -120,9 +119,6 @@ const DoctorProfile = () => {
 
   return (
     <div className="bg-[#f4f7fb] min-h-screen">
-      {/* Optional Hero — keep if you use HeroSection elsewhere */}
-      {/* <Hero bgImage={doctor.heroImage} title={doctor.name} subtitle={doctor.title} /> */}
-
       <div className="max-w-6xl mx-auto px-4 pt-10 pb-20">
         {/* Back link */}
         <Link
@@ -258,9 +254,9 @@ const DoctorProfile = () => {
           >
             {hasSections ? (
               <>
-                {itemSections.map((section, i) => (
+                {/* {itemSections.map((section, i) => (
                   <SectionCard key={i} section={section} index={i} />
-                ))}
+                ))} */}
                 {mainContent && (
                   <motion.div
                     variants={fadeUp}
