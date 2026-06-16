@@ -6,6 +6,7 @@ import merina from "../assets/images/drMerina.jpeg";
 import rakshya from "../assets/images/drRakshya.jpg";
 import staff1 from "../assets/images/staff1.jpeg";
 import staff2 from "../assets/images/staff2.jpeg";
+import staff3 from "../assets/images/staff3.png";
 
 const team = [
   {
@@ -37,7 +38,7 @@ const team = [
     objectPos: "center top",
   },
   {
-    img: staff1,
+    img: staff3,
     objectPos: "center top",
   },
 ];

@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 
-import bhushalTeeth from "../assets/images/bhushalTeeth.png";
+import aboutTeeth from "../assets/images/aboutTeeth.jpg";
+import { Link } from "react-router-dom";
+import changeImage from "../assets/images/teethImage.jpg"
 
 const Choices = [
   {
@@ -122,7 +124,6 @@ const Choices = [
   },
 ];
 
-// ─── Animation variants ───────────────────────────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
   visible: {
@@ -136,19 +137,17 @@ const stagger = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
 };
-// ─────────────────────────────────────────────────────────────────────────────
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative overflow-hidden bg-[#f8fafc] py-1 sm:py-10 lg:py-10">
-      {/* ── Decorative background blobs ── */}
+    <section className="relative overflow-hidden bg-[#f8fafc] py-1  sm:py-10 lg:py-5">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-blue-100/50 blur-3xl"
+        className="pointer-events-none absolute -top-32 -left-32 h-120 w-[480px] rounded-full bg-blue-100/50 blur-3xl"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-24 -right-24 h-[400px] w-[400px] rounded-full bg-sky-100/60 blur-3xl"
+        className="pointer-events-none absolute -bottom-24 -right-24 h-100 w-100 rounded-full bg-sky-100/60 blur-3xl"
       />
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -161,7 +160,6 @@ export default function WhyChooseUs() {
           className="mb-14 text-center sm:mb-16"
         >
           {/* Badge */}
-          
 
           <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0b2a4a] sm:text-4xl lg:text-[2.6rem]">
             Why Choose Us?
@@ -199,31 +197,23 @@ export default function WhyChooseUs() {
           >
             {/* IMAGE */}
             <img
-              src={bhushalTeeth}
+              src={changeImage}
               alt="Bhushal Dental Clinic"
               loading="lazy"
               className="
         w-full
-
-        /* RESPONSIVE HEIGHT */
-        h-[240px]
-        xs:h-[280px]
-        sm:h-[380px]
-        md:h-[460px]
-        lg:h-[560px]
-
-        /* IMPORTANT */
-        object-contain
+        h-50
+  sm:h-95
+  md:h-115
+  lg:h-100
+  xl:h-110
+        
+        object-cover
         bg-[#dceffd]
-
-        /* IMAGE POSITION */
-        object-center
-
-        /* SMOOTH EFFECT */
+        object-[center_5%]
         transition-transform
         duration-700
         ease-out
-
         group-hover:scale-[1.02]
       "
             />
@@ -233,7 +223,7 @@ export default function WhyChooseUs() {
               className="
         absolute
         inset-0
-        bg-gradient-to-t
+        bg-linear-to-t
         from-[#0b2a4a]/70
         via-[#0b2a4a]/15
         to-transparent
@@ -254,7 +244,191 @@ export default function WhyChooseUs() {
         group-hover:translate-x-[120%]
       "
             />
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                delay: 0.25,
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+    absolute
+top-5
+lg:top-0
+left-2
+sm:top-8
+sm:left-6
+md:top-5
+md:left-5
+z-20
 
+w-[42%]
+sm:w-75
+md:w-[320px]
+lg:w-[40%]
+lg:h-100
+  "
+            >
+              {/* GLASS CARD */}
+              <div
+                className="
+      relative
+      overflow-hidden
+      rounded-lg
+      sm:rounded-[28px]
+      
+      bg-transparent
+      p-1.5
+      sm:p-6
+      md:p-7
+      
+    "
+              >
+                {/* SOFT GLOW */}
+                <div
+                  className="
+        absolute
+        inset-0
+        bg-gradient-to-br
+        from-white/10
+        via-transparent
+        to-transparent
+        pointer-events-none
+      "
+                />
+
+                {/* TOP LABEL */}
+                <div className=" w-fit hidden sm:flex  items-center gap-1 sm:gap-2 rounded-full bg-white/10 border border-white/15 px-1 sm:px-3 py-0.5 sm:py-1.5">
+                  <div className=" w-1 h-1 sm:w-2 sm:h-2 rounded-full bg-[#7dd3fc]" />
+                  <span className="  text-[8px] sm:text-xs font-semibold tracking-wide text-blue-100 uppercase whitespace-nowrap">
+                    Prosthodontics & Implant Expert
+                  </span>
+                </div>
+
+                {/* TITLE */}
+                <h1
+                  className="
+        mt-1
+        sm:mt-4
+        text-[13px]
+        sm:text-3xl
+        md:text-4xl
+        font-bold
+        leading-tight
+        text-white
+        tracking-tight
+      "
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                  }}
+                >
+                  Dr. Dinesh Sharma Bhusal
+                </h1>
+
+                {/* DESCRIPTION */}
+                <p
+                  className="
+    hidden sm:block
+    mt-1 sm:mt-4
+    text-[11px] sm:text-base
+    leading-relaxed
+    text-blue-50/90
+    max-w-md
+  "
+                >
+                  Nepal's leading prosthodontics and implant dentistry expert,
+                  delivering advanced smile restoration with precision,
+                  aesthetics, and compassionate care.
+                </p>
+
+                {/* Mobile Description */}
+                <p
+                  className="
+    block sm:hidden
+    mt-1
+    text-[9px]
+    leading-relaxed
+    text-blue-50/90
+  "
+                >
+                  Prosthodontics & Implant Expert
+                </p>
+                {/* STATS */}
+                <div className="flex mt-1 sm:mt-5 flex-wrap gap-1 sm:gap-3">
+                  <div
+                    className="
+         
+        "
+                  >
+                    <p className="text-white text-[8px] sm:text-sm font-bold">
+                      1000+
+                    </p>
+                    <p className="text-blue-100 text-[9px] sm:text-[11px]">
+                      Dental Implants
+                    </p>
+                  </div>
+
+                  <div
+                    className="
+
+        "
+                  >
+                    <p className="text-white text-[8px] sm:text-sm font-bold">
+                      1000+
+                    </p>
+                    <p className="text-blue-100 text-[9px] sm:text-[11px]">
+                      Post &amp; Core
+                    </p>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  to="/doctor/dinesh"
+                  className="
+        mt-1
+        sm:mt-6
+        inline-flex
+        items-center
+        gap-0.5
+        sm:gap-2
+        rounded-sm
+        sm:rounded-xl
+        bg-white
+        px-1
+        py-0.5
+        sm:px-5
+        sm:py-3
+        text-[10px]
+        sm:text-sm
+        font-semibold
+        text-[#0b2a4a]
+        shadow-lg
+        transition-all
+        duration-300
+        hover:translate-y-[-2px]
+        hover:bg-blue-50
+        hover:shadow-2xl
+        active:scale-[0.98]
+      "
+                >
+                  Learn More
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-1.5 h-1.5 sm:w-4 sm:h-4"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
             {/* FLOATING STATS CARD */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: -10 }}
@@ -267,32 +441,29 @@ export default function WhyChooseUs() {
               }}
               className="
         absolute
-        top-3
-        right-3
-        sm:top-5
+        bottom-5 
+        right-0
+        sm:bottom-5
         sm:right-5
-
+        w-fit
         grid
         grid-cols-3
         gap-3
         sm:gap-5
-
         rounded-2xl
         border
         border-white/20
         bg-white/15
         backdrop-blur-xl
-
-        px-4
-        py-3
-        sm:px-5
-        sm:py-4
-
+        px-1
+        py-1
+        sm:px-2
+        sm:py-2
         shadow-2xl
       "
             >
               {[
-                { value: "15+", label: "Years" },
+                { value: "5+", label: "Years" },
                 { value: "12k+", label: "Patients" },
                 { value: "98%", label: "Happy" },
               ].map((stat) => (
@@ -303,7 +474,7 @@ export default function WhyChooseUs() {
               sm:text-lg
               md:text-xl
               font-bold
-              text-white
+              text-green-600
             "
                   >
                     {stat.value}
@@ -316,7 +487,7 @@ export default function WhyChooseUs() {
               sm:text-[11px]
               uppercase
               tracking-wider
-              text-blue-100
+              text-white
             "
                   >
                     {stat.label}

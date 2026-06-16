@@ -16,11 +16,21 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.95,
+    filter: "blur(4px)",
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+    },
   },
 };
 
@@ -84,9 +94,9 @@ const DoctorCard = ({ doc }) => (
         </div>
 
         {/* Specialty pill */}
-        <span className="absolute bottom-2.5 left-2.5 text-[11px] font-medium text-[#2e7fc1] bg-white border border-gray-200 rounded-full px-2.5 py-1 leading-none">
+        {/* <span className="absolute bottom-2.5 left-2.5 text-[11px] font-medium text-[#2e7fc1] bg-white border border-gray-200 rounded-full px-2.5 py-1 leading-none">
           {doc.title}
-        </span>
+        </span> */}
       </div>
 
       {/* Info */}
@@ -98,7 +108,7 @@ const DoctorCard = ({ doc }) => (
           {doc.name}
         </h2>
         <p className="text-xs text-gray-400 mb-3">{doc.title}</p>
-        
+
         {doc.nmc && (
           <div className="flex items-center gap-2 text-xs text-gray-500">
             <BadgeCheck
@@ -121,10 +131,10 @@ const DoctorCard = ({ doc }) => (
         )} */}
         <div className="mt-auto pt-3 border-t border-gray-100 flex items-center gap-2 text-xs text-gray-500">
           <Clock
-              size={14}
-              className="text-[#2e7fc1] flex-shrink-0"
-              strokeWidth={1.8}
-            />
+            size={14}
+            className="text-[#2e7fc1] flex-shrink-0"
+            strokeWidth={1.8}
+          />
           {doc.experience && (
             <span className="text-[11px] text-gray-400">{doc.experience}</span>
           )}
@@ -168,7 +178,7 @@ const Doctors = () => (
           Our Specialists
         </span>
         <h1
-          className="text md:text-3xl font-bold text-[#0b2a4a]"
+          className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
           style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
         >
           Meet Our Doctors

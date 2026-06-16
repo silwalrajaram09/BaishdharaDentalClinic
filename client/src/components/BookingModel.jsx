@@ -18,36 +18,25 @@ const EMPTY_FORM = {
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-/**
- * BookingModal
- *
- * Self-contained appointment modal. Extracted from Header.jsx, which
- * previously owned ~250 lines of form state/validation/submission logic —
- * a navigation component has no business knowing how appointments are booked.
- *
- * Props:
- *  - open: boolean
- *  - onClose: () => void
- */
 const BookingModal = ({ open, onClose }) => {
   const [form, setForm] = useState(EMPTY_FORM);
   const [status, setStatus] = useState({ type: "", msg: "" });
+  const [fieldErrors, setFieldErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   const dialogRef = useRef(null);
   const closeBtnRef = useRef(null);
   const lastFocusedRef = useRef(null);
 
-  // ── Open/close side-effects: body scroll lock + focus management ──
   useEffect(() => {
     if (open) {
       lastFocusedRef.current = document.activeElement;
       document.body.style.overflow = "hidden";
-      // Focus the close button once the modal has mounted
+
       requestAnimationFrame(() => closeBtnRef.current?.focus());
     } else {
       document.body.style.overflow = "";
-      // Return focus to whatever opened the modal
+
       lastFocusedRef.current?.focus?.();
     }
     return () => {
@@ -55,7 +44,6 @@ const BookingModal = ({ open, onClose }) => {
     };
   }, [open]);
 
-  // ── Escape to close + Tab focus trap ──
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (e) => {
@@ -82,35 +70,158 @@ const BookingModal = ({ open, onClose }) => {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, onClose]);
 
-  // ── Auto-clear status messages ──
   useEffect(() => {
     if (!status.msg) return;
     const t = setTimeout(() => setStatus({ type: "", msg: "" }), 4000);
     return () => clearTimeout(t);
   }, [status.msg]);
 
+  useEffect(() => {
+    if (!open) {
+      setForm(EMPTY_FORM);
+      setFieldErrors({});
+      setStatus({ type: "", msg: "" });
+      setSubmitting(false);
+    }
+  }, [open]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
     if (status.msg) setStatus({ type: "", msg: "" });
+  };
+
+  const validateLocally = () => {
+    const errors = {};
+    const required = ["service", "fullname", "email", "date", "time", "phone"];
+
+    required.forEach((k) => {
+      if (!form[k]) errors[k] = "This field is required.";
+    });
+
+    // Email validation
+    if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+
+    // Date validation - prevent past dates
+    if (form.date) {
+      const selectedDate = new Date(form.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        errors.date = "Date cannot be in the past.";
+      }
+
+      // Check if date is Saturday (clinic closed)
+      const dayOfWeek = selectedDate.getDay(); // 0 = Sunday, 6 = Saturday
+      if (dayOfWeek === 6) {
+        errors.date =
+          "The clinic is closed on Saturdays. Please select another day.";
+      }
+    }
+
+    // Time validation - prevent past times for today
+    if (form.date && form.time) {
+      const selectedDate = new Date(form.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      // Only check time if the date is today
+      if (selectedDate.getTime() === today.getTime()) {
+        const now = new Date();
+
+        // Parse time in format "9:00 AM"
+        const match = form.time.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
+        if (match) {
+          let hours = parseInt(match[1]);
+          const minutes = parseInt(match[2]);
+          const meridian = match[3].toUpperCase();
+
+          if (meridian === "PM" && hours !== 12) hours += 12;
+          if (meridian === "AM" && hours === 12) hours = 0;
+
+          if (!isNaN(hours) && !isNaN(minutes)) {
+            const selectedMinutes = hours * 60 + minutes;
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+            // Add 30-minute buffer
+            const bufferMinutes = 30;
+            if (selectedMinutes <= currentMinutes + bufferMinutes) {
+              errors.time =
+                "This time slot has passed. Please select a future time.";
+            }
+          }
+        }
+      }
+    }
+
+    return errors;
+  };
+
+  // FIXED: Add this function to filter time slots based on current time
+  const getAvailableTimeSlots = () => {
+    const today = new Date();
+    const selectedDate = form.date ? new Date(form.date) : null;
+
+    if (!selectedDate) return TIME_SLOTS;
+
+    // Create a new date object for today at midnight for comparison
+    const todayMidnight = new Date();
+    todayMidnight.setHours(0, 0, 0, 0);
+
+    // Create a new date object for selected date at midnight for comparison
+    const selectedMidnight = new Date(selectedDate);
+    selectedMidnight.setHours(0, 0, 0, 0);
+
+    const isToday = selectedMidnight.getTime() === todayMidnight.getTime();
+
+    if (!isToday) return TIME_SLOTS;
+
+    // Use the current time for filtering
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    return TIME_SLOTS.filter((timeSlot) => {
+      const match = timeSlot.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
+      if (!match) return true;
+
+      let hours = parseInt(match[1]);
+      const minutes = parseInt(match[2]);
+      const meridian = match[3].toUpperCase();
+
+      if (meridian === "PM" && hours !== 12) hours += 12;
+      if (meridian === "AM" && hours === 12) hours = 0;
+
+      const slotMinutes = hours * 60 + minutes;
+
+      // Allow time slots that are at least 30 minutes in the future
+      return slotMinutes > currentMinutes + 30;
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (submitting) return;
 
-    const required = ["service", "fullname", "email", "date", "time", "phone"];
-    if (required.some((k) => !form[k])) {
-      setStatus({ type: "error", msg: "Please fill in all required fields." });
-      return;
-    }
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-      setStatus({ type: "error", msg: "Please enter a valid email address." });
+    const localErrors = validateLocally();
+    if (Object.keys(localErrors).length > 0) {
+      setFieldErrors(localErrors);
+      setStatus({ type: "error", msg: "Please fix the highlighted fields." });
       return;
     }
 
     setSubmitting(true);
     setStatus({ type: "", msg: "" });
+    setFieldErrors({});
 
     try {
       const res = await fetch(`${APP_URL}/api/appointments/submit`, {
@@ -118,14 +229,19 @@ const BookingModal = ({ open, onClose }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+
       let data;
       try {
         data = await res.json();
       } catch {
         throw new Error("Invalid server response");
       }
-      if (!res.ok || !data.success)
+
+      if (!res.ok || !data.success) {
+        // Surface the per-field validation errors the backend returns
+        if (data.errors) setFieldErrors(data.errors);
         throw new Error(data.message || "Failed to book appointment");
+      }
 
       setStatus({
         type: "success",
@@ -143,11 +259,15 @@ const BookingModal = ({ open, onClose }) => {
     }
   };
 
-  const inputCls =
-    "w-full p-3 rounded-lg border border-gray-300 text-sm text-black " +
+  const baseInputCls =
+    "w-full p-3 rounded-lg border text-sm text-black " +
     "focus:outline-none focus:ring-2 focus:ring-[#2e7fc1] focus:border-transparent transition";
   const labelCls = "block text-sm font-medium text-gray-700 mb-1";
+  const errorTextCls = "text-red-600 text-xs mt-1";
   const today = new Date().toISOString().split("T")[0];
+
+  const inputCls = (name) =>
+    `${baseInputCls} ${fieldErrors[name] ? "border-red-400" : "border-gray-300"}`;
 
   return (
     <AnimatePresence>
@@ -226,8 +346,8 @@ const BookingModal = ({ open, onClose }) => {
                   name="service"
                   value={form.service}
                   onChange={handleChange}
-                  required
-                  className={inputCls + " cursor-pointer"}
+                  aria-invalid={!!fieldErrors.service}
+                  className={inputCls("service") + " cursor-pointer"}
                 >
                   <option value="" disabled>
                     Select a service…
@@ -238,6 +358,9 @@ const BookingModal = ({ open, onClose }) => {
                     </option>
                   ))}
                 </select>
+                {fieldErrors.service && (
+                  <p className={errorTextCls}>{fieldErrors.service}</p>
+                )}
               </div>
 
               {/* Full name */}
@@ -252,10 +375,13 @@ const BookingModal = ({ open, onClose }) => {
                   placeholder="Enter your full name"
                   value={form.fullname}
                   onChange={handleChange}
-                  required
                   autoComplete="name"
-                  className={inputCls}
+                  aria-invalid={!!fieldErrors.fullname}
+                  className={inputCls("fullname")}
                 />
+                {fieldErrors.fullname && (
+                  <p className={errorTextCls}>{fieldErrors.fullname}</p>
+                )}
               </div>
 
               {/* Email */}
@@ -270,10 +396,13 @@ const BookingModal = ({ open, onClose }) => {
                   placeholder="your@email.com"
                   value={form.email}
                   onChange={handleChange}
-                  required
                   autoComplete="email"
-                  className={inputCls}
+                  aria-invalid={!!fieldErrors.email}
+                  className={inputCls("email")}
                 />
+                {fieldErrors.email && (
+                  <p className={errorTextCls}>{fieldErrors.email}</p>
+                )}
               </div>
 
               {/* Phone */}
@@ -288,10 +417,13 @@ const BookingModal = ({ open, onClose }) => {
                   placeholder="+977 98XXXXXXXX"
                   value={form.phone}
                   onChange={handleChange}
-                  required
                   autoComplete="tel"
-                  className={inputCls}
+                  aria-invalid={!!fieldErrors.phone}
+                  className={inputCls("phone")}
                 />
+                {fieldErrors.phone && (
+                  <p className={errorTextCls}>{fieldErrors.phone}</p>
+                )}
               </div>
 
               {/* Date */}
@@ -306,33 +438,52 @@ const BookingModal = ({ open, onClose }) => {
                   min={today}
                   value={form.date}
                   onChange={handleChange}
-                  required
-                  className={inputCls}
+                  aria-invalid={!!fieldErrors.date}
+                  className={inputCls("date")}
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Open Sunday–Friday, 9:00 AM – 6:00 PM (Closed Saturdays)
+                </p>
+                {fieldErrors.date && (
+                  <p className={errorTextCls}>{fieldErrors.date}</p>
+                )}
               </div>
 
+              {/* Time */}
               {/* Time */}
               <div>
                 <label htmlFor="modal-time" className={labelCls}>
                   Preferred Time *
                 </label>
-                <select
-                  id="modal-time"
-                  name="time"
-                  value={form.time}
-                  onChange={handleChange}
-                  required
-                  className={inputCls + " cursor-pointer"}
-                >
-                  <option value="" disabled>
-                    Select a time…
-                  </option>
-                  {TIME_SLOTS.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
+                {getAvailableTimeSlots().length > 0 ? (
+                  <select
+                    id="modal-time"
+                    name="time"
+                    value={form.time}
+                    onChange={handleChange}
+                    aria-invalid={!!fieldErrors.time}
+                    className={inputCls("time") + " cursor-pointer"}
+                  >
+                    <option value="" disabled>
+                      Select a time…
                     </option>
-                  ))}
-                </select>
+                    {getAvailableTimeSlots().map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div className="w-full p-3 rounded-lg border border-amber-300 bg-amber-50 text-amber-700 text-sm">
+                    <p className="flex items-center gap-2">
+                      No time slots available for today. Please select another
+                      date.
+                    </p>
+                  </div>
+                )}
+                {fieldErrors.time && (
+                  <p className={errorTextCls}>{fieldErrors.time}</p>
+                )}
               </div>
 
               {/* Notes */}
@@ -347,8 +498,12 @@ const BookingModal = ({ open, onClose }) => {
                   placeholder="Any special requests or information…"
                   value={form.notes}
                   onChange={handleChange}
-                  className={inputCls + " resize-none"}
+                  aria-invalid={!!fieldErrors.notes}
+                  className={inputCls("notes") + " resize-none"}
                 />
+                {fieldErrors.notes && (
+                  <p className={errorTextCls}>{fieldErrors.notes}</p>
+                )}
               </div>
 
               {/* Submit */}

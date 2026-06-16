@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import case1 from "../assets/images/case1.PNG";
-import case2 from "../assets/images/case2.PNG";
-import case3 from "../assets/images/case3.PNG";
-import case4 from "../assets/images/case4.PNG";
-import case5 from "../assets/images/case5.PNG";
-import case6 from "../assets/images/case6.PNG";
-import case8 from "../assets/images/case8.PNG";
-import case9 from "../assets/images/case9.PNG";
+import case1 from "../assets/images/case1.webp";
+import case2 from "../assets/images/case2.webp";
+import case3 from "../assets/images/case3.webp";
+import case4 from "../assets/images/case4.webp";
+import case5 from "../assets/images/case5.webp";
+import case6 from "../assets/images/case6.webp";
+import case8 from "../assets/images/case8.webp";
+import case9 from "../assets/images/case9.webp";
 import case10 from "../assets/images/ba2.jpeg";
 import case11 from "../assets/images/ba3.jpeg";
 import case12 from "../assets/images/ba4.jpeg";
@@ -25,7 +25,7 @@ const GalleryImages = [
   { src: case5, alt: "Dental Case 5", title: "Case V" },
   { src: case6, alt: "Dental Case 6", title: "Case VI" },
   { src: case8, alt: "Dental Case 7", title: "Case VII" },
-  { src: case9, alt: "Dental Case 8", title: "Case VII" },
+  { src: case9, alt: "Dental Case 8", title: "Case VIII" },
   { src: case10, alt: "Dental Case 8", title: "Case X" },
   { src: case11, alt: "Dental Case 8", title: "Case XI" },
   { src: case12, alt: "Dental Case 8", title: "Case XII" },
@@ -46,6 +46,14 @@ const item = {
     opacity: 1,
     y: 0,
     transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+const header = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
@@ -75,17 +83,36 @@ const Gallery = () => {
   return (
     <>
       {/* YOUR GALLERY SECTION */}
-      <section className="py-24 bg-gradient-to-b from-white to-slate-50">
+      <section className="py-24  bg-linear-to-b from-white to-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* HEADER */}
-          {/* your existing header */}
+          <motion.div
+            variants={header}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="text-center mb-16"
+          >
+            <h2
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0b2a4a]"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Our Gallery
+            </h2>
+
+            <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
+
+            <p className="mt-4 text-gray-500 max-w-md mx-auto text-base">
+              See the quality of our dental work and amazing transformations.
+            </p>
+          </motion.div>
 
           {/* GRID */}
           <motion.div
             variants={container}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
+            // viewport={{ once: true, amount: 0.15 }}
             className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7"
           >
             {GalleryImages.map((image, index) => (
@@ -113,14 +140,8 @@ const Gallery = () => {
                     src={image.src}
                     alt={image.alt}
                     loading="lazy"
-                    className="
-                      w-full
-                      h-72
-                      object-cover
-                      transition-transform
-                      duration-700
-                      group-hover:scale-110
-                    "
+                    decoding="async"
+                    className="w-full h-72 object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                 </div>
 

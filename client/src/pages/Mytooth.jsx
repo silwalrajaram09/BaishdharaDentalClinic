@@ -151,7 +151,7 @@ const MyTooth = () => {
             Dental knowledge hub
           </span> */}
           <h1
-            className="text md:text-3xl font-bold text-[#0b2a4a] leading-tight"
+            className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             Your complete guide

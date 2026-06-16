@@ -11,7 +11,7 @@ export default function Layout({ children }) {
 
       <Footer />
 
-      {/* FLOATING WHATSAPP BUTTON */}
+    {/**whatsapp button  */}
       <a
         href="https://wa.me/9779803421766"
         target="_blank"

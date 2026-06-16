@@ -353,8 +353,8 @@ const Header = () => {
                       aria-haspopup="true"
                       aria-expanded={servicesOpen}
                       className={`flex  items-center gap-1 px-2 py-1 rounded-lg text-[15px] font-medium
-                                  transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-[#3b7dbd]
-                                  ${isActive(item.path) || servicesOpen ? "text-[#3b7dbd]" : "text-gray-700 hover:text-[#3b7dbd]"}`}
+                                  transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary
+                                  ${isActive(item.path) || servicesOpen ? "text-primary" : "text-gray-700 hover:text-primary"}`}
                     >
                       {item.name}
                       <ChevronDown
@@ -460,7 +460,12 @@ const Header = () => {
       focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4] focus-visible:ring-offset-2
     "
               >
-                <Phone size={17} strokeWidth={2.25} aria-hidden="true" />
+                <Phone
+                  size={20}
+                  strokeWidth={2.25}
+                  aria-hidden="true"
+                  className="animate-phone-ring"
+                />
                 <span>Call Now</span>
               </a>
 

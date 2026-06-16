@@ -60,7 +60,7 @@ const MeroDaat = () => {
             className="text-center mb-12"
           >
             <h1
-              className="text md:text-3xl font-bold text-[#0b2a4a] leading-tight"
+              className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               मेरो दाँत, मेरो कथा

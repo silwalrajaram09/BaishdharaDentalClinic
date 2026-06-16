@@ -6,7 +6,12 @@
   --color-secondary: #86d7e9;
   --color-accent: #e8453c;
   --color-border: #a8dceb;
+
+  --animate-phone-ring: phone-ring 2.8s ease-in-out infinite;
+
+  
 }
+
 html,
 body {
   width: 100%;
@@ -39,3 +44,15 @@ body {
 .animate-progress {
   animation: progress linear forwards;
 }
+
+
+@keyframes phone-ring {
+    0%, 100% { transform: rotate(0deg); }
+    5%        { transform: rotate(-15deg); }
+    10%       { transform: rotate(15deg); }
+    15%       { transform: rotate(-12deg); }
+    20%       { transform: rotate(12deg); }
+    25%       { transform: rotate(-8deg); }
+    30%       { transform: rotate(8deg); }
+    35%       { transform: rotate(0deg); }
+  }

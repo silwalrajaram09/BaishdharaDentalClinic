@@ -53,7 +53,7 @@ const About = () => {
       >
         <motion.div variants={fadeUp} className="text-center mb-14">
           <h1
-            className="text md:text-3xl font-bold text-[#0b2a4a]"
+            className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             About Us
