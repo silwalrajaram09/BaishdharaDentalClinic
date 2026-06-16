@@ -12,6 +12,7 @@ export const doctors = [
     title: "Principal Dentist & Consultant Oral and Maxillofacial Surgeon",
     nmc: "6551",
     specialization: "Oral and Maxillofacial Surgery",
+    experience: "+12yrs",
     opjectPos: "center top",
 
     sections: [
@@ -38,8 +39,14 @@ export const doctors = [
         ],
       },
       {
-        content:
-          "Dr. Bishwo Prachanda Sedhain is the Principal Dentist and co-founder of Baishdhara Dental Clinic. He is a highly qualified oral and maxillofacial surgeon, registered with the Nepal Medical Council. Dr. Sedhain earned his Bachelor of Dental Surgery (BDS) from B.P. Koirala Institute of Health Sciences (BPKIHS), Dharan, and completed his Master’s degree in Oral and Maxillofacial Surgery (MDS) from Huazhong University of Science and Technology (HUST), China, through a prestigious Ministry of Education scholarship from Nepal.With extensive experience, Dr. Sedhain serves as a consultant oral and maxillofacial surgeon at Chetrapati Free Clinic and Hospital. He specializes in the surgical removal of wisdom teeth and a wide range of minor oral surgical procedures, including preprosthetic surgery, cyst enucleation, biopsy of oral lesions, frenectomy, alveoloplasty, and treatment of minor maxillofacial trauma. He is also skilled in providing oral and maxillofacial surgery under general anesthesia, ensuring comprehensive care for complex cases.Beyond his surgical expertise, Dr. Sedhain enjoys all aspects of general dental practice, making him a versatile and dedicated clinician. He is deeply committed to social service and regularly participates in volunteer dental camps, providing essential care to underserved and needy patients.Dr. Bishwo Prachanda Sedhain combines clinical excellence, compassionate care, and a passion for community service, upholding the highest standards at Baishdhara Dental Clinic",
+        content: `Dr. Bishwo Prachanda Sedhain is the Principal Dentist and co-founder of Baishdhara Dental Clinic. He is a highly qualified oral and maxillofacial surgeon, registered with the Nepal Medical Council.
+
+          Dr. Sedhain earned his Bachelor of Dental Surgery (BDS) from B.P. Koirala Institute of Health Sciences (BPKIHS), Dharan, and completed his Master’s degree in Oral and Maxillofacial Surgery (MDS) from Huazhong University of Science and Technology (HUST), China, through a prestigious Ministry of Education scholarship from Nepal.With extensive experience, Dr. Sedhain serves as a consultant oral and maxillofacial surgeon at Chetrapati Free Clinic and Hospital. 
+          
+          He specializes in the surgical removal of wisdom teeth and a wide range of minor oral surgical procedures, including preprosthetic surgery, cyst enucleation, biopsy of oral lesions, frenectomy, alveoloplasty, and treatment of minor maxillofacial trauma. 
+          He is also skilled in providing oral and maxillofacial surgery under general anesthesia, ensuring comprehensive care for complex cases.Beyond his surgical expertise, Dr. Sedhain enjoys all aspects of general dental practice, making him a versatile and dedicated clinician. 
+          
+          He is deeply committed to social service and regularly participates in volunteer dental camps, providing essential care to underserved and needy patients.Dr. Bishwo Prachanda Sedhain combines clinical excellence, compassionate care, and a passion for community service, upholding the highest standards at Baishdhara Dental Clinic`,
       },
     ],
   },
@@ -53,36 +60,50 @@ export const doctors = [
     nmc: "6554",
     objectPos: "center top",
     specialization: "Prosthodontics & Implantology",
+    experience: "+10yrs",
 
     sections: [
       {
-        title: "Academic & Clinical Role",
+        title: "Academic & Clinical Highlights",
         items: [
-          "Assistant Professor at Kantipur Dental College",
-          "Co-founder of Baishdhara Dental Clinic",
-          "10+ years of clinical expertise",
-          "Specializes in aesthetic dentistry & implants",
+          "Assistant Professor, Kantipur Dental College",
+          "Co-founder, Baishdhara Dental Clinic",
+          "10+ years of clinical experience",
+          "More than 1,000 dental implants placed",
+          "More than 1,000 post and core restorations completed",
+          "Hundreds of full-mouth rehabilitation cases",
+          "Mentor to undergraduate and postgraduate dental students",
+          "Advocate of minimally invasive dentistry",
+          "Dedicated to preserving natural teeth whenever possible",
         ],
       },
       {
-        title: "Education & Fellowships",
+        title: "Education & International Fellowships",
         items: [
-          "ITI Scholar – Switzerland",
-          "Fellowship in Oral Implantology – Serbia",
-          "MDS Prosthodontics – NAMS (2012)",
-          "BDS – BPKIHS (2006)",
+          "ITI Scholar, Switzerland",
+          "First Nepali Recipient of the Prestigious ITI Scholarship",
+          "Fellowship in Oral Implantology, Serbia",
+          "MDS Prosthodontics, National Academy of Medical Sciences (NAMS), 2012",
+          "First Nepal-Trained Postgraduate Specialist in Prosthodontics",
+          "BDS, B.P. Koirala Institute of Health Sciences (BPKIHS), 2006",
         ],
       },
       {
         title: "Community Outreach",
         items: [
-          "Promotes oral health awareness",
-          "Cycled across Nepal for dental education",
+          "Promotes oral health awareness across Nepal",
+          "Conducted nationwide cycling campaigns for dental education",
+          "Advocate of the 'Brush Twice a Day' public awareness initiative",
         ],
       },
       {
-        content:
-          "Dr. Dinesh Sharma Bhusal is a distinguished prosthodontist and implantologist with over a decade of clinical expertise. He completed his Bachelor of Dental Surgery at B.P. Koirala Institute of Health Sciences (BPKIHS), Dharan, and earned his Master’s in Prosthodontics from the National Academy of Medical Sciences (NAMS), Bir Hospital. Notably, Dr. Bhusal is the very first Prosthodontics graduate of Nepal and the country’s first recipient of the prestigious ITI (International Team for Implantology) scholarship from Switzerland. He further advanced his training by completing a Fellowship in Oral Implantology at the University of Belgrade, Serbia.Currently serving as an Assistant Professor at Kantipur Dental College, Dr. Bhusal is recognized both as an outstanding educator and a skilled clinician. His special interests include aesthetic dentistry and dental implants, where he is committed to delivering natural-looking and long-lasting results for his patients.As a co-founder of Baishdhara Dental Clinic, Dr. Bhusal brings a passion for community health and patient education. He is known for his innovative approach to promoting oral hygiene, notably cycling across Nepal from east to west with friends to raise awareness about oral care among students and communities.Dr. Dinesh Sharma Bhusal combines academic excellence, clinical skill, and a heart for public service—making him a valued leader in the field of dentistry and an integral part of the Baishdhara Dental Clinic team.",
+        content: `Dr. Dinesh Sharma Bhusal is a highly respected Prosthodontist and Implantologist with over a decade of experience in advanced restorative, aesthetic, and implant dentistry. He serves as an Assistant Professor at Kantipur Dental College and is the Co-founder of Baishdhara Dental Clinic.
+
+Dr. Bhusal has successfully placed more than 1,000 dental implants, completed over 1,000 post and core restorations, and rehabilitated hundreds of complex full-mouth cases. He is widely recognized for his commitment to precision, patient-centered care, and long-term oral health outcomes.
+
+A recipient of the prestigious ITI Scholarship in Switzerland, Dr. Bhusal was the first Nepali dentist to receive this distinction and the first Nepal-trained postgraduate specialist in Prosthodontics. He also completed a Fellowship in Oral Implantology in Serbia.
+
+Beyond clinical practice, he actively mentors undergraduate and postgraduate dental students, promotes minimally invasive dentistry, and has led nationwide oral health awareness campaigns, including the "Brush Twice a Day" initiative across Nepal.`,
       },
     ],
   },
@@ -96,6 +117,7 @@ export const doctors = [
     nmc: "7685",
     specialization: "Orthodontics & Dentofacial Orthopedics",
     objectPos: "center top",
+    experience: "+12yrs",
     sections: [
       {
         title: "Clinical Experience",
@@ -122,8 +144,12 @@ export const doctors = [
         ],
       },
       {
-        content:
-          "Dr. Merina Joshi is an accomplished orthodontist, registered with the Nepal Medical Council (NMC Reg. No. 7685). She earned her Bachelor of Dental Surgery from People’s Dental College and Hospital in 2007, followed by a master’s degree in Orthodontics and Dentofacial Orthopedics from Jiamusi University, China, awarded under a government scholarship.With over 12 years of experience in dentistry, Dr. Joshi specializes in preventive orthodontics and clear aligner therapy, focusing on early intervention and minimally invasive treatments. She is passionate about helping patients achieve healthy, confident smiles and is dedicated to providing the highest standard of orthodontic care.Dr. Merina Joshi is proud to be part of the team at Baishdhara Dental Clinic, where she continues to transform smiles and improve lives through personalized, compassionate care.",
+        content: `Dr. Merina Joshi is an accomplished orthodontist, registered with the Nepal Medical Council (NMC Reg. No. 7685). 
+          She earned her Bachelor of Dental Surgery from People’s Dental College and Hospital in 2007, followed by a master’s degree in Orthodontics and Dentofacial Orthopedics from Jiamusi University, China, awarded under a government scholarship.
+          
+          With over 12 years of experience in dentistry, Dr. Joshi specializes in preventive orthodontics and clear aligner therapy, focusing on early intervention and minimally invasive treatments. 
+          
+          She is passionate about helping patients achieve healthy, confident smiles and is dedicated to providing the highest standard of orthodontic care.Dr. Merina Joshi is proud to be part of the team at Baishdhara Dental Clinic, where she continues to transform smiles and improve lives through personalized, compassionate care.`,
       },
     ],
   },
@@ -136,6 +162,7 @@ export const doctors = [
     nmc: "40251",
     objectPos: "center top",
     specialization: "General Dentistry",
+    experience: "+10yrs",
 
     sections: [
       {
@@ -163,8 +190,13 @@ export const doctors = [
         ],
       },
       {
-        content:
-          "Dr. Rakshya Neupane is a dedicated General Dental Practitioner committed to providing comfortable, compassionate, and high-quality dental care. She earned her Bachelor of Dental Surgery (BDS) from Kathmandu University School of Medical Sciences through Kantipur Dental College and is registered with the Nepal Medical Council. Dr. Neupane enjoys all aspects of general dentistry, with a strong focus on preventive care, patient education, and long-term oral health. She is especially appreciated for her gentle manner, soft-spoken personality, and ability to make children feel comfortable during dental visits. Outside the clinic, she enjoys trekking and writing poetry. Her warm approach, dedication to dentistry, and commitment to patient well-being make her a valued member of the Baishdhara Dental Clinic team.",
+        content: `Dr. Rakshya Neupane is a dedicated General Dental Practitioner committed to providing comfortable, compassionate, and high-quality dental care. 
+          
+          She earned her Bachelor of Dental Surgery (BDS) from Kathmandu University School of Medical Sciences through Kantipur Dental College and is registered with the Nepal Medical Council. 
+          
+          Dr. Neupane enjoys all aspects of general dentistry, with a strong focus on preventive care, patient education, and long-term oral health. She is especially appreciated for her gentle manner, soft-spoken personality, and ability to make children feel comfortable during dental visits. 
+          
+          Outside the clinic, she enjoys trekking and writing poetry. Her warm approach, dedication to dentistry, and commitment to patient well-being make her a valued member of the Baishdhara Dental Clinic team.`,
       },
     ],
   },

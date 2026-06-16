@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import HeroSlider from "../components/HeroSlider";
+
 import Contact from "../components/Contact";
 import bg1 from "../assets/images/bg_1.jpg";
 import bg2 from "../assets/images/bg_2.jpg";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { TelephoneIcon } from "@hugeicons/core-free-icons";
-import { FaWhatsapp } from "react-icons/fa";
+import Heroslider2 from "../components/heroslider2";
+import WhyChooseUs from "../components/WhyChooseUs";
 
 import { motion } from "framer-motion";
 // import { div, h2, img } from "framer-motion/client";
@@ -24,22 +23,59 @@ import gumTreatment from "../assets/images/gum treatment.png";
 import rootCanal from "../assets/images/root canal treatment.png";
 import pediatricDentistry from "../assets/images/pediatric dentistry.png";
 import toothExtraction from "../assets/images/tooth extraction and oral surgery.png";
+import { SERVICES_FORM, TIME_SLOTS } from "../data/bookingOptions";
 
 const Expertise = [
-  { title: "General Dentistry", img: genralDentistry, link: "/services" },
-  { title: "Root Canal Treatment", img: rootCanal, link: "/services" },
-  { title: "Pediatric Dentistry", img: pediatricDentistry, link: "/services" },
-  { title: "Gum Treatment", img: gumTreatment, link: "/services" },
+  {
+    title: "General Dentistry",
+    img: genralDentistry,
+    link: "/services/general-dentistry",
+  },
+  {
+    title: "Root Canal Treatment",
+    img: rootCanal,
+    link: "/services/root-canal-treatment",
+  },
+  {
+    title: "Pediatric Dentistry",
+    img: pediatricDentistry,
+    link: "/services/pediatric-dentistry",
+  },
+  {
+    title: "Gum Treatment",
+    img: gumTreatment,
+    link: "/services/gum-treatment",
+  },
   {
     title: "Tooth extraction &Oral Surgery",
     img: toothExtraction,
-    link: "/services",
+    link: "/services/tooth-extraction-oral-surgery",
   },
-  { title: "Braces & Aligners", img: braces, link: "/services" },
-  { title: "Crowns, Bridges & Dentures", img: crownBridges, link: "/services" },
-  { title: "Dental Implants", img: dentalImplants, link: "/services" },
-  { title: "Cosmetic Dentistry", img: cosmetic, link: "/services" },
-  { title: "Emergency Care", img: emergencyCare, link: "/services" },
+  {
+    title: "Braces & Aligners",
+    img: braces,
+    link: "/services/braces-aligners",
+  },
+  {
+    title: "Crowns, Bridges & Dentures",
+    img: crownBridges,
+    link: "/services/crowns-bridges-dentures",
+  },
+  {
+    title: "Dental Implants",
+    img: dentalImplants,
+    link: "/services/dental-implants",
+  },
+  {
+    title: "Cosmetic Dentistry",
+    img: cosmetic,
+    link: "/services/cosmetic-dentistry",
+  },
+  {
+    title: "Emergency Care",
+    img: emergencyCare,
+    link: "/services/emergency-dental-care",
+  },
 ];
 
 const Choices = [
@@ -115,8 +151,18 @@ const HappyPatients = [
 
 // Animations
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0 },
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
 };
 
 const staggerContainer = {
@@ -152,20 +198,125 @@ const Home = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [successMessage, setSuccessMessage] = useState("");
-
   const [errorMessage, setErrorMessage] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({});
+
   useEffect(() => {
     if (successMessage || errorMessage) {
       const timer = setTimeout(() => {
         setSuccessMessage("");
         setErrorMessage("");
-      }, 4000); // 4 seconds
+      }, 4000);
 
       return () => clearTimeout(timer);
     }
   }, [successMessage, errorMessage]);
+
+  /* VALIDATE LOCALLY */
+  const validateLocally = () => {
+    const errors = {};
+    const required = ["service", "fullname", "email", "date", "time", "phone"];
+
+    required.forEach((k) => {
+      if (!formData[k]) errors[k] = "This field is required.";
+    });
+
+    if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email address.";
+    }
+
+    if (formData.date) {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        errors.date = "Date cannot be in the past.";
+      }
+
+      const dayOfWeek = selectedDate.getDay();
+      if (dayOfWeek === 6) {
+        errors.date =
+          "The clinic is closed on Saturdays. Please select another day.";
+      }
+    }
+
+    if (formData.date && formData.time) {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate.getTime() === today.getTime()) {
+        const now = new Date();
+        const match = formData.time.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
+        if (match) {
+          let hours = parseInt(match[1]);
+          const minutes = parseInt(match[2]);
+          const meridian = match[3].toUpperCase();
+
+          if (meridian === "PM" && hours !== 12) hours += 12;
+          if (meridian === "AM" && hours === 12) hours = 0;
+
+          if (!isNaN(hours) && !isNaN(minutes)) {
+            const selectedMinutes = hours * 60 + minutes;
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const bufferMinutes = 30;
+
+            if (selectedMinutes <= currentMinutes + bufferMinutes) {
+              errors.time =
+                "This time slot has passed. Please select a future time.";
+            }
+          }
+        }
+      }
+    }
+
+    return errors;
+  };
+
+  /* GET AVAILABLE TIME SLOTS - FILTERS OUT PAST TIMES FOR TODAY */
+  const getAvailableTimeSlots = () => {
+    const today = new Date();
+    const selectedDate = formData.date ? new Date(formData.date) : null;
+
+    // If no date selected, show all time slots
+    if (!selectedDate) return TIME_SLOTS;
+
+    // Check if selected date is today
+    const todayMidnight = new Date();
+    todayMidnight.setHours(0, 0, 0, 0);
+
+    const selectedMidnight = new Date(selectedDate);
+    selectedMidnight.setHours(0, 0, 0, 0);
+
+    const isToday = selectedMidnight.getTime() === todayMidnight.getTime();
+
+    // If not today, show all time slots
+    if (!isToday) return TIME_SLOTS;
+
+    // If today, filter out past time slots
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+
+    return TIME_SLOTS.filter((timeSlot) => {
+      const match = timeSlot.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
+      if (!match) return true;
+
+      let hours = parseInt(match[1]);
+      const minutes = parseInt(match[2]);
+      const meridian = match[3].toUpperCase();
+
+      if (meridian === "PM" && hours !== 12) hours += 12;
+      if (meridian === "AM" && hours === 12) hours = 0;
+
+      const slotMinutes = hours * 60 + minutes;
+
+      // Only show time slots that are at least 30 minutes in the future
+      return slotMinutes > currentMinutes + 30;
+    });
+  };
+
   /* HANDLE INPUT CHANGE */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -175,7 +326,15 @@ const Home = () => {
       [name]: value,
     }));
 
-    // Clear messages while typing
+    // Clear field errors when user types
+    if (fieldErrors[name]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[name];
+        return next;
+      });
+    }
+
     if (successMessage) setSuccessMessage("");
     if (errorMessage) setErrorMessage("");
   };
@@ -184,23 +343,17 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Prevent double submit
     if (isSubmitting) return;
 
-    // Reset messages
     setSuccessMessage("");
     setErrorMessage("");
+    setFieldErrors({});
 
-    // Basic validation
-    if (
-      !formData.service ||
-      !formData.fullname ||
-      !formData.email ||
-      !formData.date ||
-      !formData.time ||
-      !formData.phone
-    ) {
-      setErrorMessage("Please fill all required fields.");
+    // Validate locally first
+    const localErrors = validateLocally();
+    if (Object.keys(localErrors).length > 0) {
+      setFieldErrors(localErrors);
+      setErrorMessage("Please fill the highlighted fields.");
       return;
     }
 
@@ -215,24 +368,19 @@ const Home = () => {
         body: JSON.stringify(formData),
       });
 
-      // Handle invalid JSON response
       let data;
-
       try {
         data = await response.json();
       } catch {
         throw new Error("Invalid server response");
       }
 
-      // Handle backend errors
       if (!response.ok || !data.success) {
+        if (data.errors) setFieldErrors(data.errors);
         throw new Error(data.message || "Failed to book appointment");
       }
 
-      // Success
       setSuccessMessage(data.message || "Appointment booked successfully!");
-
-      // Reset form
       setFormData({
         service: "",
         fullname: "",
@@ -243,7 +391,6 @@ const Home = () => {
       });
     } catch (error) {
       console.error("Appointment Error:", error);
-
       setErrorMessage(
         error.message || "Something went wrong. Please try again.",
       );
@@ -251,64 +398,51 @@ const Home = () => {
       setIsSubmitting(false);
     }
   };
+
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="bg-gray-50">
       {/* HERO */}
-      <HeroSlider slides={slides} />
+      <Heroslider2 />
+
       {/* APPOINTMENT STRIP */}
       <motion.section
         initial={{ opacity: 0, y: 80 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto px-4 -mt-16 md:-mt-6"
+        id="bookModal"
+        className="max-w-6xl mx-auto px-4 -mt-10 md:-mt-10 "
       >
-        <div className="w-full px-6 -mt-24 relative z-20">
+        <div className="w-full px-6  relative z-20">
           <div className="grid grid-cols-1 md:grid-cols-2 border border-border rounded-xl overflow-hidden shadow-xl">
-            {/* LEFT HALF */}
-            <div className="grid grid-cols-1 sm:grid-cols-2">
-              {/* EMERGENCY */}
-              <div className="bg-accent text-white p-8">
-                <h3 className="text-xl font-semibold mb-3">Emergency Cases</h3>
-                <p
-                  style={{ display: "flex", alignItems: "center", gap: "6px" }}
-                >
-                  <FaWhatsapp size={16} />
-                  <a
-                    href="https://wa.me/9779803421766"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    +9779803421766
-                  </a>
-                </p>
-                <p
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    marginTop: "8px",
-                  }}
-                >
-                  <HugeiconsIcon icon={TelephoneIcon} />
-                  <a href="tel:+977014962513" rel="noopener noreferrer">
-                    014962513
-                  </a>
-                </p>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              <div className="bg-secondary text-white p-8 md:col-span-2">
+                <h3 className="text-2xl font-semibold mb-6">
+                  Why Patients Choose Dr. Dinesh Bhusal?
+                </h3>
 
-              {/* OPENING HOURS */}
-              <div className="bg-secondary text-white p-8">
-                <h3 className="text-xl font-semibold mb-3">Opening Hours</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🏆</span>
+                    <span>10+ Years of Clinical Experience</span>
+                  </div>
 
-                <div className="flex  justify-between">
-                  <span>Sunday - Friday</span>
-                  <span>10:00 - 6:00</span>
-                </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🦷</span>
+                    <span>1,000+ Dental Implants Successfully Placed</span>
+                  </div>
 
-                <div className="flex justify-between mt-2">
-                  <span>Saturday</span>
-                  <span>Closed</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">🔩</span>
+                    <span>1,000+ Post &amp; Core Restorations Completed</span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">✨</span>
+                    <span>Hundreds of Full-Mouth Rehabilitation Cases</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -342,38 +476,14 @@ const Home = () => {
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
-                  required
-                  className="p-3 rounded border text-black"
+                  className={`p-3 rounded border text-black ${fieldErrors.service ? "border-red-500" : ""}`}
                 >
                   <option value="">Select Services</option>
-
-                  <option value="Teeth Whitening">Teeth Whitening</option>
-
-                  <option value="Teeth Cleaning">Teeth Cleaning</option>
-
-                  <option value="Quality Brackets">Quality Brackets</option>
-
-                  <option value="Modern Anesthetic">Modern Anesthetic</option>
-
-                  <option value="Consultation / Checkup">
-                    Consultation / Checkup
-                  </option>
-
-                  <option value="Fillings / Root Canal">
-                    Fillings / Root Canal
-                  </option>
-
-                  <option value="Tooth Extraction">Tooth Extraction</option>
-
-                  <option value="Implants / Crowns">Implants / Crowns</option>
-
-                  <option value="Braces / Orthodontics">
-                    Braces / Orthodontics
-                  </option>
-
-                  <option value="Kids Dentistry">Kids Dentistry</option>
-
-                  <option value="Emergency Care">Emergency Care</option>
+                  {SERVICES_FORM.map((service) => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
                 </select>
 
                 {/* FULL NAME */}
@@ -383,8 +493,7 @@ const Home = () => {
                   placeholder="Full Name"
                   value={formData.fullname}
                   onChange={handleChange}
-                  required
-                  className="p-3 rounded border text-black"
+                  className={`p-3 rounded border text-black ${fieldErrors.fullname ? "border-red-500" : ""}`}
                 />
 
                 {/* EMAIL */}
@@ -394,46 +503,48 @@ const Home = () => {
                   placeholder="Email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="p-3 rounded border text-black"
+                  className={`p-3 rounded border text-black ${fieldErrors.email ? "border-red-500" : ""}`}
                 />
 
                 {/* DATE */}
                 <input
                   type="date"
                   name="date"
+                  min={today}
                   value={formData.date}
                   onChange={handleChange}
-                  required
-                  className="p-3 rounded border text-black"
+                  className={`p-3 rounded border text-black ${fieldErrors.date ? "border-red-500" : ""}`}
                 />
 
-                {/* TIME */}
-                <select
-                  name="time"
-                  id="time"
-                  value={formData.time}
-                  onChange={handleChange}
-                  className="p-3 rounded border text-black"
-                >
-                  <option value="">select time </option>
-                  <option value="9:00">9:00 AM</option>
-                  <option value="9:30">9:30 AM</option>
-                  <option value="10:00">10:00 AM</option>
-                  <option value="11:00">11:00 AM</option>
-                  <option value="12:00">12:00 ApM</option>
-                  <option value="1:00">1:00 PM</option>
-                  <option value="2:00">2:00 PM</option>
-                </select>
+                {/* TIME - NOW USING FILTERED TIME SLOTS */}
+                {getAvailableTimeSlots().length > 0 ? (
+                  <select
+                    name="time"
+                    value={formData.time}
+                    onChange={handleChange}
+                    className={`p-3 rounded border text-black ${fieldErrors.time ? "border-red-500" : ""}`}
+                  >
+                    <option value="">Select time</option>
+                    {getAvailableTimeSlots().map((time) => (
+                      <option key={time} value={time}>
+                        {time}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <div className="p-3 rounded border border-amber-300 bg-amber-50 text-amber-700 text-sm w-full">
+                    Change the Date
+                  </div>
+                )}
 
+                {/* PHONE */}
                 <input
                   type="tel"
                   name="phone"
                   placeholder="Phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  required
-                  className="p-3 rounded border text-black"
+                  className={`p-3 rounded border text-black ${fieldErrors.phone ? "border-red-500" : ""}`}
                 />
 
                 {/* BUTTON */}
@@ -453,7 +564,10 @@ const Home = () => {
           </div>
         </div>
       </motion.section>
+
       {/* EXPERTISE */}
+      <WhyChooseUs />
+
       <motion.section
         initial="hidden"
         whileInView="visible"
@@ -496,40 +610,6 @@ const Home = () => {
         </motion.div>
       </motion.section>
 
-      {/* WHY CHOOSE US */}
-      <motion.section
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={fadeUp}
-        className="max-w-6xl mx-auto px-4 py-16"
-      >
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-[#0b2a4a]">Why Choose Us?</h2>
-          <p className="text-gray-500 mt-2">
-            Modern Dentistry with Comfort & Care
-          </p>
-        </div>
-
-        <motion.div
-          variants={staggerContainer}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {Choices.map((choice, index) => (
-            <motion.div
-              key={index}
-              variants={fadeUp}
-              whileHover={{ y: -5 }}
-              className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition"
-            >
-              <h3 className="text-[#0b2a4a] font-semibold mb-2">
-                {choice.title}
-              </h3>
-              <p className="text-gray-600 text-sm">{choice.description}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.section>
       {/* Happy patients */}
       <motion.section
         initial={{ opacity: 0, y: 50 }}
@@ -626,6 +706,7 @@ const Home = () => {
           </div>
         </div>
       </motion.section>
+
       {/* CONTACT */}
       <Contact />
     </div>

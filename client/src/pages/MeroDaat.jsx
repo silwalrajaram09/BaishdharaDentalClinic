@@ -60,14 +60,14 @@ const MeroDaat = () => {
             className="text-center mb-12"
           >
             <h1
-              className="text md:text-3xl font-bold text-[#0b2a4a] leading-tight"
+              className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
               style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
             >
               मेरो दाँत, मेरो कथा
             </h1>
             <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
             <p className="mt-4 text-gray-400 text-sm max-w-sm mx-auto">
-              Simple, practical dental knowledge for a healthy smile
+              स्वस्थ मुस्कानको लागि सरल, व्यावहारिक दन्त ज्ञान
             </p>
 
             {/* Fun fact pill */}

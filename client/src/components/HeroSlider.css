@@ -1,0 +1,387 @@
+/* HeroSlider styles extracted from inline injectStyles.
+   Keep this file CSS-only (no @import) for production/CDN/CSP predictability. */
+
+/* Animations */
+@keyframes hero-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-img-zoom {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-badge-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hero-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+/* ===== Title Typing Animation ===== */
+
+.typing-title {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #06b6d4;
+  max-width: 0;
+  animation:
+    typing 2s steps(35, end) forwards,
+    blink 0.8s step-end infinite;
+}
+
+/* ===== Subtitle Fade Animation ===== */
+
+.typing-subtitle {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: subtitleFade 0.8s ease 2s forwards;
+}
+
+@keyframes typing {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: 100%;
+  }
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@keyframes subtitleFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 768px) {
+  .typing-title {
+    font-size: 0.5rem !important;
+    color: #06b6d4;
+  }
+}
+
+/* Optional: disable blinking cursor after typing completes */
+
+.typing-title {
+  animation:
+    typing 2s steps(35, end) forwards,
+    blink 0.8s step-end 3;
+}
+
+.hero-slide-text {
+  animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-slide-text-delay-1 {
+  animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.hero-slide-text-delay-2 {
+  animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.hero-slide-text-delay-3 {
+  animation: hero-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.hero-slide-img {
+  animation: hero-img-zoom 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-slide-badge {
+  animation: hero-badge-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+}
+
+.hero-float-element {
+  animation: hero-float 4s ease-in-out infinite;
+}
+
+.hero-nav-btn {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  outline: none;
+}
+
+.hero-nav-btn:hover {
+  transform: scale(1.08);
+}
+
+.hero-nav-btn:active {
+  transform: scale(0.94);
+}
+
+.hero-glass-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.hero-title-font {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.hero-body-font {
+  font-family: "DM Sans", system-ui, sans-serif;
+}
+
+.hero-decor-ring {
+  border: 2px solid rgba(6, 182, 212, 0.25);
+  border-radius: 50%;
+  position: absolute;
+  animation: hero-float 5s ease-in-out infinite;
+}
+
+/* Mobile fixes */
+@media (max-width: 639px) {
+  .hero-section-root {
+    /* min-height: 75vh !important;
+    height: 75vh !important; */
+    max-height: 820px !important;
+  }
+
+  .hero-mobile-bg {
+    display: block !important;
+  }
+  .hero-mobile-bg img {
+    animation: hero-img-zoom 6s ease-in-out infinite alternate;
+  }
+
+  .hero-split-container {
+    display: none !important;
+  }
+
+  .hero-mobile-content {
+    display: flex !important;
+  }
+
+  .hero-nav-prev-btn {
+    left: 6px !important;
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 20px !important;
+    background: rgba(0, 0, 0, 0.35) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+  }
+
+  .hero-nav-next-btn {
+    right: 6px !important;
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 20px !important;
+    background: rgba(0, 0, 0, 0.35) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #fff !important;
+  }
+
+  /* Mobile indicators wrapper was referenced in old CSS but not used.
+     Keep a sensible default if you ever add the class. */
+  .hero-indicators-wrap {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    bottom: 14px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-left-panel {
+    padding: 2rem 2rem 2rem 2.5rem !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-float-element,
+  .hero-slide-text,
+  .hero-slide-text-delay-1,
+  .hero-slide-text-delay-2,
+  .hero-slide-text-delay-3,
+  .hero-slide-img,
+  .hero-slide-badge {
+    animation: none !important;
+  }
+}
+.hero-nav-btn:hover {
+  transform: translateY(-50%) scale(1.08);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.hero-nav-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+@media (max-width: 768px) {
+  .hero-nav-btn {
+    display: none;
+  }
+
+  .hero-mobile-content {
+    padding-bottom: 7rem !important;
+  }
+}
+
+.hero-slide-text {
+  animation: fadeUp 0.8s ease;
+}
+
+.hero-slide-text-delay-1 {
+  animation: fadeUp 0.8s ease 0.2s both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   HERO NAVIGATION BUTTONS
+========================================================= */
+
+.hero-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 52px;
+  height: 52px;
+
+  border-radius: 999px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  background: rgba(255, 255, 255, 0.12);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  z-index: 20;
+
+  color: white;
+
+  font-size: 26px;
+  font-weight: 500;
+
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    opacity 0.25s ease;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+
+  outline: none;
+}
+
+/* LEFT */
+
+.hero-nav-prev-btn {
+  left: 18px;
+}
+
+/* RIGHT */
+
+.hero-nav-next-btn {
+  right: 18px;
+}
+
+/* HOVER */
+
+.hero-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+
+  border-color: rgba(255, 255, 255, 0.35);
+
+  transform: translateY(-50%) scale(1.08);
+}
+
+/* ACTIVE */
+
+.hero-nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* FOCUS */
+
+.hero-nav-btn:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(6, 182, 212, 0.35),
+    0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .hero-nav-btn {
+    width: 42px;
+    height: 42px;
+
+    font-size: 20px;
+  }
+
+  .hero-nav-prev-btn {
+    left: 10px;
+  }
+
+  .hero-nav-next-btn {
+    right: 10px;
+  }
+}

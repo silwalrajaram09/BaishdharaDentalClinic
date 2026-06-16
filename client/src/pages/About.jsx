@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import about from "../assets/images/about.jpg";
 import logo from "../assets/images/logo.png";
+import nextLogo from "../assets/images/nextLogo.PNG";
 import { Pointer as PointerIcon } from "lucide-react";
 
 import TeamSection from "../components/TeamSection";
@@ -52,7 +53,7 @@ const About = () => {
       >
         <motion.div variants={fadeUp} className="text-center mb-14">
           <h1
-            className="text md:text-3xl font-bold text-[#0b2a4a]"
+            className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
             style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
           >
             About Us
@@ -118,18 +119,35 @@ const About = () => {
       >
         <div className="max-w-6xl mx-auto px-4">
           {/* TOP */}
+
+          <div className="max-w-6xl mx-auto px-4  pb-4 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              
+              <h1
+                className="text md:text-3xl font-bold text-[#0b2a4a]"
+                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              >
+                Our Story
+              </h1>
+              <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
+              <p className="mt-4 text-gray-400 max-w-sm mx-auto text-sm">
+               Your family Dentist Since 2021
+              </p>
+            </motion.div>
+          </div>
           <motion.div
             variants={fadeUp}
             className=" md:grid-cols-2 items-center mb-14"
           >
-            <div>
-              <p className="text-xl text-center text-gray-500 mt-2 ">
-                Your Family Dentist Since 2021
-              </p>
-            </div>
+          
             <div className="text-center mt-8 md:mt-0">
               <motion.img
-                src={logo}
+                src={nextLogo}
                 alt="logo"
                 whileHover={{ scale: 1.1, rotate: 3 }}
                 className="w-40 mx-auto rounded-full  p-2 shadow-lg"
