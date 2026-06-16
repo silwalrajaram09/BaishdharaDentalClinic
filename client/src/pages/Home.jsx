@@ -221,11 +221,25 @@ const Home = () => {
     required.forEach((k) => {
       if (!formData[k]) errors[k] = "This field is required.";
     });
+//name validation 
+    if (
+      formData.fullname &&
+      !/^[\p{L}]+(?:[ '\-][\p{L}]+)+$/u.test(formData.fullname.trim())
+    ) {
+      errors.fullname = "Please enter a valid full name.";
+    }
+//email validation 
 
     if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
       errors.email = "Please enter a valid email address.";
     }
+//phone validation
+//phone validation
+    if (formData.phone && !/^(?:\+977|977)?(?:98|97|96)\d{8}$/.test(formData.phone)) {
+      errors.phone = "Please enter a valid Nepali mobile number.";
+    }
 
+//date validation 
     if (formData.date) {
       const selectedDate = new Date(formData.date);
       const today = new Date();
@@ -291,11 +305,7 @@ const Home = () => {
     selectedMidnight.setHours(0, 0, 0, 0);
 
     const isToday = selectedMidnight.getTime() === todayMidnight.getTime();
-
-    // If not today, show all time slots
     if (!isToday) return TIME_SLOTS;
-
-    // If today, filter out past time slots
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -311,13 +321,11 @@ const Home = () => {
       if (meridian === "AM" && hours === 12) hours = 0;
 
       const slotMinutes = hours * 60 + minutes;
-
-      // Only show time slots that are at least 30 minutes in the future
       return slotMinutes > currentMinutes + 30;
     });
   };
 
-  /* HANDLE INPUT CHANGE */
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -326,7 +334,6 @@ const Home = () => {
       [name]: value,
     }));
 
-    // Clear field errors when user types
     if (fieldErrors[name]) {
       setFieldErrors((prev) => {
         const next = { ...prev };
@@ -339,7 +346,7 @@ const Home = () => {
     if (errorMessage) setErrorMessage("");
   };
 
-  /* HANDLE FORM SUBMIT */
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -353,7 +360,7 @@ const Home = () => {
     const localErrors = validateLocally();
     if (Object.keys(localErrors).length > 0) {
       setFieldErrors(localErrors);
-      setErrorMessage("Please fill the highlighted fields.");
+      setErrorMessage("Please fill the required fields.");
       return;
     }
 
@@ -511,6 +518,7 @@ const Home = () => {
                   type="date"
                   name="date"
                   min={today}
+                  placeholder="Date"
                   value={formData.date}
                   onChange={handleChange}
                   className={`p-3 rounded border text-black ${fieldErrors.date ? "border-red-500" : ""}`}

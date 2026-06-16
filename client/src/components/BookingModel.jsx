@@ -106,9 +106,20 @@ const BookingModal = ({ open, onClose }) => {
       if (!form[k]) errors[k] = "This field is required.";
     });
 
+    if (
+      form.fullname &&
+      !/^[\p{L}]+(?:[ '\-][\p{L}]+)+$/u.test(form.fullname.trim())
+    ) {
+      errors.fullname = "Please enter a valid full name.";
+    }
+
     // Email validation
     if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) {
       errors.email = "Please enter a valid email address.";
+    }
+    //phone validation
+    if (form.phone && !/^(?:\+977|977)?(?:98|97|96)\d{8}$/.test(form.phone)) {
+      errors.phone = "Please enter a valid Nepali mobile number.";
     }
 
     // Date validation - prevent past dates
@@ -215,7 +226,7 @@ const BookingModal = ({ open, onClose }) => {
     const localErrors = validateLocally();
     if (Object.keys(localErrors).length > 0) {
       setFieldErrors(localErrors);
-      setStatus({ type: "error", msg: "Please fix the highlighted fields." });
+      setStatus({ type: "error", msg: "Please fill with the valid data." });
       return;
     }
 
