@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import SEO from "../components/SEO";
 
 const PRICES = [
   {
@@ -212,6 +213,11 @@ const Pricing = () => {
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-4 py-12">
+      <SEO
+        title="Pricing | Bishdhara Dental Clinic"
+        description="View our dental treatment pricing, consultation fees, and affordable dental care services."
+        keywords="dental pricing, dental treatment cost, consultation fee, dental clinic pricing, affordable dental care"
+      />
       {/* Hero */}
       <motion.div
         variants={heroVariants}
@@ -228,7 +234,8 @@ const Pricing = () => {
         </h1>
         <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
         <p className="mt-4 text-gray-500 max-w-md mx-auto text-base">
-          Transparent pricing for every treatment — no hidden fees, no surprises.
+          Transparent pricing for every treatment — no hidden fees, no
+          surprises.
         </p>
       </motion.div>
 

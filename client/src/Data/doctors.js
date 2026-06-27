@@ -1,14 +1,12 @@
 import dinesh from "../assets/images/drDinesh.jpeg";
 import bishwo from "../assets/images/drSedhain.jpeg";
 import merina from "../assets/images/drMerina.jpeg";
-import bg1 from "../assets/images/bg_1.jpg";
 import rakshya from "../assets/images/drRakshya.jpg";
 export const doctors = [
   {
     id: "bishwo",
     name: "Dr. Bishwo Prachanda Sedhain",
     image: bishwo,
-    heroImage: bg1,
     title: "Principal Dentist & Consultant Oral and Maxillofacial Surgeon",
     nmc: "6551",
     specialization: "Oral and Maxillofacial Surgery",
@@ -49,13 +47,18 @@ export const doctors = [
           He is deeply committed to social service and regularly participates in volunteer dental camps, providing essential care to underserved and needy patients.Dr. Bishwo Prachanda Sedhain combines clinical excellence, compassionate care, and a passion for community service, upholding the highest standards at Baishdhara Dental Clinic`,
       },
     ],
+    seo: {
+      title: "",
+      description: "",
+      keywords: "",
+    },
   },
 
   {
     id: "dinesh",
     name: "Dr. Dinesh Sharma Bhusal",
     image: dinesh,
-    heroImage: bg1,
+
     title: "Consultant Prosthodontist & Implantologist",
     nmc: "6554",
     objectPos: "center top",
@@ -112,7 +115,7 @@ Beyond clinical practice, he actively mentors undergraduate and postgraduate den
     id: "merina",
     name: "Dr. Merina Joshi",
     image: merina,
-    heroImage: bg1,
+
     title: "Orthodontist & Dentofacial Orthopedics Specialist",
     nmc: "7685",
     specialization: "Orthodontics & Dentofacial Orthopedics",
@@ -157,7 +160,7 @@ Beyond clinical practice, he actively mentors undergraduate and postgraduate den
     id: "rakshya",
     name: "Dr. Rakshya Neupane",
     image: rakshya,
-    heroImage: bg1,
+
     title: "General Dental Practitioner",
     nmc: "40251",
     objectPos: "center top",

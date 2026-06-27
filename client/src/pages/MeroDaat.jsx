@@ -3,6 +3,7 @@ import { useState } from "react";
 // import doctor from "../assets/images/doctor.PNG";
 import { motion, AnimatePresence } from "framer-motion";
 import { chapters } from "../Data/chapters";
+import SEO from "../components/SEO";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -51,6 +52,11 @@ const MeroDaat = () => {
 
   return (
     <>
+      <SEO
+        title="मेरो दाँत, मेरो कथा | Bishdhara Dental Clinic"
+        description="दाँत, गिजा, इम्प्लान्ट, बच्चाको दाँत र मुख स्वास्थ्य सम्बन्धी उपयोगी जानकारी तथा दन्त शिक्षा।"
+        keywords="दाँत, दन्त स्वास्थ्य, गिजा रोग, दाँतको किरा, इम्प्लान्ट, बच्चाको दाँत, dental care, oral health"
+      />
       <div className="bg-[#f4f7fb] min-h-screen">
         <div className="max-w-6xl mx-auto px-4 pt-20 pb-20">
           <motion.div

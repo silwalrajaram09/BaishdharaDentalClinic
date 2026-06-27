@@ -10,6 +10,7 @@ import {
   Clock,
   Star,
 } from "lucide-react";
+import SEO from "../components/SEO.jsx";
 const containerVariants = {
   hidden: {},
   visible: { transition: { staggerChildren: 0.12 } },
@@ -59,6 +60,7 @@ const DoctorCard = ({ doc }) => (
   >
     <Link
       to={`/doctor/${doc.id}`}
+      aria-label={`View profile of Dr. ${doc.name}`}
       className="flex flex-col flex-1 outline-none"
     >
       {/* Photo */}
@@ -165,44 +167,51 @@ const DoctorCard = ({ doc }) => (
 );
 
 const Doctors = () => (
-  <div className="bg-[#f4f7fb] min-h-screen">
-    {/* Header */}
-    <div className="max-w-6xl mx-auto px-4 pt-20 pb-4 text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <span className="inline-block text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2e7fc1] mb-3">
-          Our Specialists
-        </span>
-        <h1
-          className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+  <>
+    <SEO
+      title="Our Doctors | Bishdhara Dental Clinic"
+      description="Meet our experienced dental specialists dedicated to providing high-quality oral healthcare in Kathmandu."
+      keywords="dentists in Kathmandu, dental specialists, orthodontist, oral surgeon, Bishdhara Dental Clinic doctors"
+    />
+    <div className="bg-[#f4f7fb] min-h-screen">
+      {/* Header */}
+      <div className="max-w-6xl mx-auto px-4 pt-20 pb-4 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          Meet Our Doctors
-        </h1>
-        <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
-        <p className="mt-4 text-gray-400 max-w-sm mx-auto text-sm">
-          Experienced dental specialists committed to your oral health
-        </p>
+          <span className="inline-block text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2e7fc1] mb-3">
+            Our Specialists
+          </span>
+          <h1
+            className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          >
+            Meet Our Doctors
+          </h1>
+          <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
+          <p className="mt-4 text-gray-400 max-w-sm mx-auto text-sm">
+            Experienced dental specialists committed to your oral health
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Grid */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-60px" }}
+        className="max-w-6xl mx-auto px-4 pb-20 pt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+      >
+        {doctors.map((doc) => (
+          <DoctorCard key={doc.id} doc={doc} />
+        ))}
       </motion.div>
     </div>
-
-    {/* Grid */}
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      className="max-w-6xl mx-auto px-4 pb-20 pt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
-    >
-      {doctors.map((doc) => (
-        <DoctorCard key={doc.id} doc={doc} />
-      ))}
-    </motion.div>
-  </div>
+  </>
 );
 
 export default Doctors;

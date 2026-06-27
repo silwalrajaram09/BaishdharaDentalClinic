@@ -178,43 +178,56 @@ const BookingModal = ({ open, onClose }) => {
     return errors;
   };
 
-  // FIXED: Add this function to filter time slots based on current time
   const getAvailableTimeSlots = () => {
-    const today = new Date();
     const selectedDate = form.date ? new Date(form.date) : null;
 
-    if (!selectedDate) return TIME_SLOTS;
+    if (!selectedDate) {
+      return TIME_SLOTS;
+    }
 
-    // Create a new date object for today at midnight for comparison
+    // Normalize dates to midnight for comparison
     const todayMidnight = new Date();
     todayMidnight.setHours(0, 0, 0, 0);
 
-    // Create a new date object for selected date at midnight for comparison
     const selectedMidnight = new Date(selectedDate);
     selectedMidnight.setHours(0, 0, 0, 0);
 
-    const isToday = selectedMidnight.getTime() === todayMidnight.getTime();
+    // Past date → no slots
+    if (selectedMidnight < todayMidnight) {
+      return [];
+    }
 
-    if (!isToday) return TIME_SLOTS;
+    // Future date → all slots
+    if (selectedMidnight > todayMidnight) {
+      return TIME_SLOTS;
+    }
 
-    // Use the current time for filtering
+    // Today → filter slots based on current time
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
     return TIME_SLOTS.filter((timeSlot) => {
       const match = timeSlot.match(/(\d{1,2}):(\d{2})\s?(AM|PM)/i);
-      if (!match) return true;
 
-      let hours = parseInt(match[1]);
-      const minutes = parseInt(match[2]);
+      if (!match) {
+        return true;
+      }
+
+      let hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
       const meridian = match[3].toUpperCase();
 
-      if (meridian === "PM" && hours !== 12) hours += 12;
-      if (meridian === "AM" && hours === 12) hours = 0;
+      if (meridian === "PM" && hours !== 12) {
+        hours += 12;
+      }
+
+      if (meridian === "AM" && hours === 12) {
+        hours = 0;
+      }
 
       const slotMinutes = hours * 60 + minutes;
 
-      // Allow time slots that are at least 30 minutes in the future
+      // Only allow slots at least 30 minutes from now
       return slotMinutes > currentMinutes + 30;
     });
   };
@@ -500,7 +513,7 @@ const BookingModal = ({ open, onClose }) => {
               {/* Notes */}
               <div className="sm:col-span-2">
                 <label htmlFor="modal-notes" className={labelCls}>
-                  Additional Notes (Optional)
+                  Additional Message (Optional)
                 </label>
                 <textarea
                   id="modal-notes"

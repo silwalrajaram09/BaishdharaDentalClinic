@@ -14,8 +14,8 @@ import case11 from "../assets/images/ba3.jpeg";
 import case12 from "../assets/images/ba4.jpeg";
 import case13 from "../assets/images/ba5.jpeg";
 import case14 from "../assets/images/ba6.jpeg";
-import gallery1 from "../assets/images/person_6.jpg";
-import gallery2 from "../assets/images/about-2.jpg";
+import image4 from "../assets/images/image_4.jpg";
+
 
 const GalleryImages = [
   { src: case1, alt: "Dental Case 1", title: "Case I" },
@@ -26,13 +26,14 @@ const GalleryImages = [
   { src: case6, alt: "Dental Case 6", title: "Case VI" },
   { src: case8, alt: "Dental Case 7", title: "Case VII" },
   { src: case9, alt: "Dental Case 8", title: "Case VIII" },
-  { src: case10, alt: "Dental Case 8", title: "Case X" },
-  { src: case11, alt: "Dental Case 8", title: "Case XI" },
-  { src: case12, alt: "Dental Case 8", title: "Case XII" },
-  { src: case13, alt: "Dental Case 8", title: "Case XIII" },
-  { src: case14, alt: "Dental Case 8", title: "Case XIV" },
-  { src: gallery1, alt: "Dental Case 8", title: "Gallery Image" },
-  { src: gallery2, alt: "Dental Case 8", title: "Gallery Image" },
+  { src: case10, alt: "Dental Case 9", title: "Case IX" },
+  { src: case11, alt: "Dental Case 10", title: "Case X" },
+  { src: case12, alt: "Dental Case 11", title: "Case XI" },
+  { src: case13, alt: "Dental Case 12", title: "Case XII" },
+  { src: case14, alt: "Dental Case 13", title: "Case XII" },
+   { src: image4, alt: "Dental Case 14", title: "Case XIV" },
+  // { src: gallery1, alt: "Dental Case 8", title: "Gallery Image" },
+  // { src: gallery2, alt: "Dental Case 8", title: "Gallery Image" },
 ];
 
 // Animation Variants
@@ -83,7 +84,7 @@ const Gallery = () => {
   return (
     <>
       {/* YOUR GALLERY SECTION */}
-      <section className="py-24  bg-linear-to-b from-white to-slate-50">
+      <section className="py-17  bg-linear-to-b from-white to-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           {/* HEADER */}
           <motion.div
@@ -159,11 +160,11 @@ const Gallery = () => {
                   "
                 />
 
-                <div className="absolute bottom-0 left-0 right-0 p-5">
+                {/* <div className="absolute bottom-0 left-0 right-0 p-5">
                   <h3 className="text-white text-xl font-semibold">
                     {image.title}
                   </h3>
-                </div>
+                </div> */}
               </motion.div>
             ))}
           </motion.div>
@@ -248,11 +249,11 @@ const Gallery = () => {
             </button>
 
             {/* IMAGE TITLE */}
-            <div className="absolute bottom-6 text-center text-white">
+            {/* <div className="absolute bottom-6 text-center text-white">
               <p className="text-lg font-medium">
                 {GalleryImages[selectedIndex].title}
               </p>
-            </div>
+            </div> */}
           </motion.div>
         )}
       </AnimatePresence>

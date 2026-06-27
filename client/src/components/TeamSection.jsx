@@ -4,7 +4,7 @@ import bishwo from "../assets/images/drSedhain.jpeg";
 import dinesh from "../assets/images/drDinesh.jpeg";
 import merina from "../assets/images/drMerina.jpeg";
 import rakshya from "../assets/images/drRakshya.jpg";
-import staff1 from "../assets/images/staff1.jpeg";
+
 import staff2 from "../assets/images/staff2.jpeg";
 import staff3 from "../assets/images/staff3.png";
 

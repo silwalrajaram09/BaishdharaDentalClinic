@@ -15,6 +15,7 @@ import {
   CalendarCheck,
   Lightbulb,
 } from "lucide-react";
+import SEO from "../components/SEO";
 
 const topics = [
   {
@@ -138,66 +139,73 @@ const TopicCard = ({ item }) => {
 
 const MyTooth = () => {
   return (
-    <div className="bg-[#f4f7fb] min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 pt-20 pb-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-12"
-        >
-          {/* <span className="inline-block text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2e7fc1] mb-3">
+    <>
+      <SEO
+        title="Your Complete Guide to Oral Health | Bishdhara Dental Clinic"
+        description="Learn about tooth decay, gum disease, dental implants, braces, oral hygiene, bad breath, tooth sensitivity, and other essential dental health topics."
+        keywords="oral health, tooth decay, gum disease, dental implants, braces, oral hygiene, bad breath, tooth sensitivity, fluoride protection, dental care"
+      />
+
+      <div className="bg-[#f4f7fb] min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 pt-20 pb-20">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center mb-12"
+          >
+            {/* <span className="inline-block text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2e7fc1] mb-3">
             Dental knowledge hub
           </span> */}
-          <h1
-            className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            <h1
+              className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            >
+              Your complete guide
+              <br className="hidden md:block" /> to oral health
+            </h1>
+            <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
+            <p className="mt-4 text-gray-400 text-sm max-w-sm mx-auto">
+              Simple, practical dental knowledge for a healthy smile
+            </p>
+
+            {/* Fun fact pill */}
+          </motion.div>
+
+          {/* Topic cards grid */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8"
           >
-            Your complete guide
-            <br className="hidden md:block" /> to oral health
-          </h1>
-          <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
-          <p className="mt-4 text-gray-400 text-sm max-w-sm mx-auto">
-            Simple, practical dental knowledge for a healthy smile
-          </p>
+            {topics.map((item, i) => (
+              <TopicCard key={i} item={item} />
+            ))}
+          </motion.div>
 
-          {/* Fun fact pill */}
-         
-        </motion.div>
-
-        {/* Topic cards grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8"
-        >
-          {topics.map((item, i) => (
-            <TopicCard key={i} item={item} />
-          ))}
-        </motion.div>
-
-        {/* Footer reminder */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-5"
-        >
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2e7fc1] flex items-center justify-center flex-shrink-0">
-            <CalendarCheck size={18} strokeWidth={1.8} />
-          </div>
-          <p className="text-sm text-gray-500">
-            <span className="font-semibold text-[#0b2a4a]">Remember: </span>
-            Visit your dentist every 6 months for prevention, not just
-            treatment.
-          </p>
-        </motion.div>
+          {/* Footer reminder */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-5"
+          >
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2e7fc1] flex items-center justify-center flex-shrink-0">
+              <CalendarCheck size={18} strokeWidth={1.8} />
+            </div>
+            <p className="text-sm text-gray-500">
+              <span className="font-semibold text-[#0b2a4a]">Remember: </span>
+              Visit your dentist every 6 months for prevention, not just
+              treatment.
+            </p>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

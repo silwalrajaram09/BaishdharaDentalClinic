@@ -209,14 +209,14 @@ const HeroSlider = () => {
           animate="center"
           exit="exit"
           variants={slideVariants}
-          transition={{ duration: 1, ease: "easeInOut" }}
+          transition={{  ease: "easeInOut" }}
           className={`absolute inset-0 w-full h-full object-cover ${slide.position}`}
         />
       </AnimatePresence>
 
       {/* OVERLAY */}
       <div
-        className="absolute inset-0 z-10 bg-linear-to-r from-[#081c33]/90 via-[#0b2a4a]/60 to-[#0b2a4a]/20"
+        className="absolute inset-0 z-10 bg-linear-to-r from-[#081c30]/60 via-[#0b2a4a]/60 to-[#0b2a4a]/10"
         aria-hidden="true"
       />
 

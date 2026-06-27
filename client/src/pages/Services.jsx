@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 import { services } from "../Data/services.js";
+import SEO from "../components/SEO.jsx";
 
 const containerVariants = {
   hidden: {},
@@ -226,6 +227,13 @@ const ServiceCard = ({ service }) => {
 
 const Services = () => {
   return (
+    <>
+    <SEO
+        title="Dental Services | Bishdhara Dental Clinic"
+        description="Explore our comprehensive dental services."
+        keywords="dental services, dental implants, braces, root canal, emergency care"
+      />
+    
     <section
       className="
         min-h-screen
@@ -335,6 +343,7 @@ const Services = () => {
         </motion.div>
       </div>
     </section>
+    </>
   );
 };
 

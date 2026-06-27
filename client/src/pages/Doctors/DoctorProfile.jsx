@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { doctors } from "../../Data/doctors.js";
 import { motion } from "framer-motion";
+import SEO from "../../components/SEO.jsx";
 import {
   ArrowLeft,
   BadgeCheck,
@@ -118,192 +119,205 @@ const DoctorProfile = () => {
   const hasSections = itemSections.length > 0;
 
   return (
-    <div className="bg-[#f4f7fb] min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 pt-10 pb-20">
-        {/* Back link */}
-        <Link
-          to="/doctors"
-          className="inline-flex items-center gap-1.5 text-xs text-[#2e7fc1] hover:opacity-70 transition-opacity mb-8"
-        >
-          <ArrowLeft size={14} strokeWidth={2} />
-          Back to doctors
-        </Link>
-
-        <div className="grid md:grid-cols-[240px_1fr] gap-6 items-start">
-          {/* ── SIDEBAR ── */}
-          <motion.div
-            variants={fadeUp}
-            initial="hidden"
-            animate="show"
-            className="top-24"
+    <>
+      <SEO
+        title={`${doctor.name} | Bishdhara Dental Clinic`}
+        description={
+          doctor.specialization ??
+          doctor.title ??
+          "Experienced dental specialist at Bishdhara Dental Clinic."
+        }
+        keywords={`${doctor.name}, ${
+          doctor.specialization ?? ""
+        }, dentist, dental specialist, Bishdhara Dental Clinic`}
+      />
+      <div className="bg-[#f4f7fb] min-h-screen">
+        <div className="max-w-6xl mx-auto px-4 pt-10 pb-20">
+          {/* Back link */}
+          <Link
+            to="/doctors"
+            className="inline-flex items-center gap-1.5 text-xs text-[#2e7fc1] hover:opacity-70 transition-opacity mb-8"
           >
-            <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
-              {/* Dark banner */}
-              <div className="h-20 bg-primary" />
+            <ArrowLeft size={14} strokeWidth={2} />
+            Back to doctors
+          </Link>
 
-              {/* Avatar — rectangle, not circle, for better face framing */}
-              <div className="flex justify-center -mt-10 px-4">
-                <div
-                  className="w-20 h-24 rounded-xl border-3 border-white shadow-md overflow-hidden bg-[#ddeaf5] flex items-center justify-center flex-shrink-0"
-                  style={{
-                    borderWidth: "3px",
-                    borderColor: "#fff",
-                    borderStyle: "solid",
-                  }}
-                >
-                  {doctor.image ? (
-                    <img
-                      src={doctor.image}
-                      alt={doctor.name}
-                      className="w-full h-full object-cover"
-                      style={{
-                        objectPosition: doctor.objectPos ?? "center top",
-                      }}
-                      onError={(e) => {
-                        e.target.style.display = "none";
-                        e.target.nextSibling.style.display = "flex";
-                      }}
-                    />
-                  ) : null}
+          <div className="grid md:grid-cols-[240px_1fr] gap-6 items-start">
+            {/* ── SIDEBAR ── */}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              className="top-24"
+            >
+              <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
+                {/* Dark banner */}
+                <div className="h-20 bg-primary" />
+
+                {/* Avatar — rectangle, not circle, for better face framing */}
+                <div className="flex justify-center -mt-10 px-4">
                   <div
-                    className="w-full h-full items-center justify-center hidden"
-                    aria-hidden="true"
+                    className="w-20 h-24 rounded-xl border-3 border-white shadow-md overflow-hidden bg-[#ddeaf5] flex items-center justify-center flex-shrink-0"
+                    style={{
+                      borderWidth: "3px",
+                      borderColor: "#fff",
+                      borderStyle: "solid",
+                    }}
                   >
-                    <span
-                      className="text-2xl font-semibold text-[#2e7fc1]"
-                      style={{
-                        fontFamily: "'Playfair Display', Georgia, serif",
-                      }}
+                    {doctor.image ? (
+                      <img
+                        src={doctor.image}
+                        alt={doctor.name}
+                        className="w-full h-full object-cover"
+                        style={{
+                          objectPosition: doctor.objectPos ?? "center top",
+                        }}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                          e.target.nextSibling.style.display = "flex";
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      className="w-full h-full items-center justify-center hidden"
+                      aria-hidden="true"
                     >
-                      {doctor.name
-                        ?.split(" ")
-                        .filter((w) => w !== "Dr.")
-                        .slice(0, 2)
-                        .map((w) => w[0])
-                        .join("")}
-                    </span>
+                      <span
+                        className="text-2xl font-semibold text-[#2e7fc1]"
+                        style={{
+                          fontFamily: "'Playfair Display', Georgia, serif",
+                        }}
+                      >
+                        {doctor.name
+                          ?.split(" ")
+                          .filter((w) => w !== "Dr.")
+                          .slice(0, 2)
+                          .map((w) => w[0])
+                          .join("")}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Info */}
-              <div className="px-5 pt-3 pb-5 text-center">
-                <h1
-                  className="text-lg font-bold text-[#0b2a4a] leading-snug mb-0.5"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-                >
-                  {doctor.name}
-                </h1>
-                <p className="text-xs text-[#2e7fc1] font-medium mb-3">
-                  {doctor.specialization ?? doctor.title}
-                </p>
+                {/* Info */}
+                <div className="px-5 pt-3 pb-5 text-center">
+                  <h1
+                    className="text-lg font-bold text-[#0b2a4a] leading-snug mb-0.5"
+                    style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                  >
+                    {doctor.name}
+                  </h1>
+                  <p className="text-xs text-[#2e7fc1] font-medium mb-3">
+                    {doctor.specialization ?? doctor.title}
+                  </p>
 
-                {doctor.rating && <StarRating count={doctor.rating} />}
+                  {doctor.rating && <StarRating count={doctor.rating} />}
 
-                <div className="mt-4 border-t border-gray-100 pt-4 flex flex-col gap-2.5 text-left">
-                  {doctor.nmc && (
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <BadgeCheck
-                        size={14}
-                        className="text-[#2e7fc1] flex-shrink-0"
-                        strokeWidth={1.8}
-                      />
-                      NMC: {doctor.nmc}
-                    </div>
-                  )}
-                  {doctor.experience && (
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <Clock
-                        size={14}
-                        className="text-[#2e7fc1] flex-shrink-0"
-                        strokeWidth={1.8}
-                      />
-                      {doctor.experience}
-                    </div>
-                  )}
-                  {doctor.location && (
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                      <MapPin
-                        size={14}
-                        className="text-[#2e7fc1] flex-shrink-0"
-                        strokeWidth={1.8}
-                      />
-                      {doctor.location}
-                    </div>
-                  )}
-                </div>
+                  <div className="mt-4 border-t border-gray-100 pt-4 flex flex-col gap-2.5 text-left">
+                    {doctor.nmc && (
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <BadgeCheck
+                          size={14}
+                          className="text-[#2e7fc1] flex-shrink-0"
+                          strokeWidth={1.8}
+                        />
+                        NMC: {doctor.nmc}
+                      </div>
+                    )}
+                    {doctor.experience && (
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <Clock
+                          size={14}
+                          className="text-[#2e7fc1] flex-shrink-0"
+                          strokeWidth={1.8}
+                        />
+                        {doctor.experience}
+                      </div>
+                    )}
+                    {doctor.location && (
+                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                        <MapPin
+                          size={14}
+                          className="text-[#2e7fc1] flex-shrink-0"
+                          strokeWidth={1.8}
+                        />
+                        {doctor.location}
+                      </div>
+                    )}
+                  </div>
 
-                {/* CTA */}
-                {/* <Link
+                  {/* CTA */}
+                  {/* <Link
                   to="/appointment"
                   className="mt-5 w-full inline-flex items-center justify-center gap-2 bg-[#0b2a4a] hover:bg-[#0d3359] text-white text-xs font-semibold py-2.5 rounded-xl transition-colors duration-200"
                 >
                   <CalendarPlus size={14} strokeWidth={2} />
                   Book appointment
                 </Link> */}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* ── CONTENT ── */}
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            animate="show"
-            className="flex flex-col gap-4"
-          >
-            {hasSections ? (
-              <>
-                {/* {itemSections.map((section, i) => (
+            {/* ── CONTENT ── */}
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              animate="show"
+              className="flex flex-col gap-4"
+            >
+              {hasSections ? (
+                <>
+                  {/* {itemSections.map((section, i) => (
                   <SectionCard key={i} section={section} index={i} />
                 ))} */}
-                {mainContent && (
-                  <motion.div
-                    variants={fadeUp}
-                    className="bg-white border border-gray-100 rounded-2xl overflow-hidden"
-                  >
-                    <div className="bg-primary px-5 py-3 flex items-center gap-2.5">
-                      <User
-                        size={15}
-                        className="text-[#7ec8f4]"
-                        strokeWidth={1.8}
-                      />
-                      <h3 className="text-white text-sm font-semibold">
-                        About
-                      </h3>
-                    </div>
-                    <div className="p-5">
-                      <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                        {mainContent}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </>
-            ) : (
-              <motion.div
-                variants={fadeUp}
-                className="bg-white border border-gray-100 rounded-2xl overflow-hidden"
-              >
-                <div className="bg-primary px-5 py-3 flex items-center gap-2.5">
-                  <User
-                    size={15}
-                    className="text-[#7ec8f4]"
-                    strokeWidth={1.8}
-                  />
-                  <h3 className="text-white text-sm font-semibold">About</h3>
-                </div>
-                <div className="p-5">
-                  <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
-                    {mainContent ?? "No additional information available."}
-                  </p>
-                </div>
-              </motion.div>
-            )}
-          </motion.div>
+                  {mainContent && (
+                    <motion.div
+                      variants={fadeUp}
+                      className="bg-white border border-gray-100 rounded-2xl overflow-hidden"
+                    >
+                      <div className="bg-primary px-5 py-3 flex items-center gap-2.5">
+                        <User
+                          size={15}
+                          className="text-[#7ec8f4]"
+                          strokeWidth={1.8}
+                        />
+                        <h3 className="text-white text-sm font-semibold">
+                          About
+                        </h3>
+                      </div>
+                      <div className="p-5">
+                        <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                          {mainContent}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </>
+              ) : (
+                <motion.div
+                  variants={fadeUp}
+                  className="bg-white border border-gray-100 rounded-2xl overflow-hidden"
+                >
+                  <div className="bg-primary px-5 py-3 flex items-center gap-2.5">
+                    <User
+                      size={15}
+                      className="text-[#7ec8f4]"
+                      strokeWidth={1.8}
+                    />
+                    <h3 className="text-white text-sm font-semibold">About</h3>
+                  </div>
+                  <div className="p-5">
+                    <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                      {mainContent ?? "No additional information available."}
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+            </motion.div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

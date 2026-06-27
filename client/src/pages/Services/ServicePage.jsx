@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { services } from "../../Data/services.js";
 import { motion } from "framer-motion";
+import SEO from "../../components/SEO.jsx";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -59,90 +60,98 @@ const ServicePage = () => {
   }
 
   return (
-    <div className="bg-white min-h-screen">
-      {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <button
-          onClick={() => navigate("/services")}
-          className="flex items-center gap-1.5 text-[#2e7fc1] hover:text-[#0b2a4a] text-sm font-medium transition"
-        >
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
+    <>
+      <SEO
+        title={`${service.title} | Bishdhara Dental Clinic`}
+        description={service.intro}
+        keywords={`${service.title}, dental treatment, Bishdhara Dental Clinic`}
+      />
+
+      <div className="bg-white min-h-screen">
+        {/* Header */}
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <button
+            onClick={() => navigate("/services")}
+            className="flex items-center gap-1.5 text-[#2e7fc1] hover:text-[#0b2a4a] text-sm font-medium transition"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 19l-7-7 7-7"
-            />
-          </svg>
-          All Services
-        </button>
-      </div>
-
-      {/* Main Content - Image Right, Content Left */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Left - Content */}
-          <div className="space-y-8">
-            <motion.div initial="hidden" animate="show" variants={fadeUp}>
-              <h1
-                className="text md:text-3xl font-bold text-[#0b2a4a] mt-3"
-                style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
-              >
-                {service.title}
-              </h1>
-            </motion.div>
-
-            <motion.p
-              initial="hidden"
-              animate="show"
-              variants={fadeUp}
-              className="text-gray-600 text-base leading-relaxed"
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
             >
-              {service.intro}
-            </motion.p>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            All Services
+          </button>
+        </div>
 
-            {/* Info cards grid */}
+        {/* Main Content - Image Right, Content Left */}
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Left - Content */}
+            <div className="space-y-8">
+              <motion.div initial="hidden" animate="show" variants={fadeUp}>
+                <h1
+                  className="text md:text-3xl font-bold text-[#0b2a4a] mt-3"
+                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                >
+                  {service.title}
+                </h1>
+              </motion.div>
+
+              <motion.p
+                initial="hidden"
+                animate="show"
+                variants={fadeUp}
+                className="text-gray-600 text-base leading-relaxed"
+              >
+                {service.intro}
+              </motion.p>
+
+              {/* Info cards grid */}
+              <motion.div
+                initial="hidden"
+                animate="show"
+                variants={{
+                  hidden: {},
+                  show: { transition: { staggerChildren: 0.08 } },
+                }}
+                className="grid grid-cols-1 sm:grid-cols-2 gap-5"
+              >
+                <InfoCard label="Procedures" content={service.procedures} />
+                <InfoCard label="Benefits" content={service.benefits} />
+                <InfoCard label="Why" content={service.why} />
+                <InfoCard label="When" content={service.when} />
+                <InfoCard label="For Whom" content={service.forWhom} />
+              </motion.div>
+            </div>
+
+            {/* Right - Image */}
             <motion.div
               initial="hidden"
               animate="show"
-              variants={{
-                hidden: {},
-                show: { transition: { staggerChildren: 0.08 } },
-              }}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-5"
+              variants={fadeUp}
+              className="relative"
             >
-              <InfoCard label="Procedures" content={service.procedures} />
-              <InfoCard label="Benefits" content={service.benefits} />
-              <InfoCard label="Why" content={service.why} />
-              <InfoCard label="When" content={service.when} />
-              <InfoCard label="For Whom" content={service.forWhom} />
+              <div className="rounded-2xl overflow-hidden shadow-lg">
+                <img
+                  src={service.heroImage}
+                  alt={service.title}
+                  className="w-full h-auto object-cover"
+                  style={{ objectPosition: service.objectPos || "center" }}
+                />
+              </div>
             </motion.div>
           </div>
-
-          {/* Right - Image */}
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={fadeUp}
-            className="relative"
-          >
-            <div className="rounded-2xl overflow-hidden shadow-lg">
-              <img
-                src={service.heroImage}
-                alt={service.title}
-                className="w-full h-auto object-cover"
-                style={{ objectPosition: service.objectPos || "center" }}
-              />
-            </div>
-          </motion.div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
