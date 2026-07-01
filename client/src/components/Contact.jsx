@@ -239,8 +239,7 @@ const Contact = () => {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1
-            className="text text-2xl md:text-3xl font-bold text-[#0b2a4a]"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
           >
             Our Contact
           </h1>
@@ -263,7 +262,7 @@ const Contact = () => {
           transition={{ duration: 0.5 }}
           className="bg-white p-5 sm:p-6 md:p-8 rounded-xl shadow-lg"
         >
-          <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
+          <h2 className="text-xl md:text-2xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
             Send Us a Message
           </h2>
 
@@ -403,7 +402,7 @@ const Contact = () => {
         >
           {/* CONTACT INFO */}
           <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            <h2 className="text-xl md:text-2xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
               Contact Details
             </h2>
 
@@ -436,7 +435,7 @@ const Contact = () => {
           {/* MAP */}
 
           <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg relative z-0">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+            <h2 className="text-xl md:text-2xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
               Find Us on Map
             </h2>
 

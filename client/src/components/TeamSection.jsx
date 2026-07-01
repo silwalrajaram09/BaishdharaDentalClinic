@@ -82,8 +82,7 @@ const TeamSection = () => {
             Our Specialists
           </span>
           <h2
-            className="text-4xl md:text-5xl font-bold text-[#0b2a4a] leading-tight"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
           >
             Meet Our Teams
           </h2>
@@ -127,10 +126,7 @@ const TeamSection = () => {
                 {member.name && (
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <p
-                      className="text-white font-semibold text-sm leading-snug"
-                      style={{
-                        fontFamily: "'Playfair Display', Georgia, serif",
-                      }}
+                      className="text-white font-semibold font-playfair text-sm md:text-base leading-snug"
                     >
                       {member.name}
                     </p>

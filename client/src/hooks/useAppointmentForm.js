@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TIME_SLOTS } from "../Data/bookingOptions";
+import { TIME_SLOTS } from "../Data/BookingOptions";
 
 export const useAppointmentForm = () => {
   const APP_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";

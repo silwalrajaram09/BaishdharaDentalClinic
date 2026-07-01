@@ -227,8 +227,7 @@ const Pricing = () => {
         className="text-center mb-14"
       >
         <h1
-          className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
         >
           Dental Services & Pricing
         </h1>

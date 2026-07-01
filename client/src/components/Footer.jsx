@@ -42,7 +42,7 @@ const Footer = () => {
       variants={containerVariants}
       className="bg-gray-100 border-t"
     >
-      <div className="max-w-7xl mx-auto px-6 py-10 grid md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-6 py-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* COLUMN 1 */}
         <motion.div variants={itemVariants}>
           <Link to="/" className="flex items-center space-x-3 mb-3">
@@ -53,7 +53,7 @@ const Footer = () => {
                 BAISHDHARA
               </span>
 
-              <span className="text-sm text-secondary">Dental Clinic</span>
+              <span className="text-sm text-accent">Dental Clinic</span>
             </div>
           </Link>
 

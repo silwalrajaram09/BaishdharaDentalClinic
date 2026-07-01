@@ -96,7 +96,7 @@ const Gallery = () => {
           >
             <h2
               className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0b2a4a]"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              
             >
               Our Gallery
             </h2>

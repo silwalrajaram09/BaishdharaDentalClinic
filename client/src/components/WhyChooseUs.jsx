@@ -161,7 +161,7 @@ export default function WhyChooseUs() {
         >
           {/* Badge */}
 
-          <h2 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-[#0b2a4a] sm:text-4xl lg:text-[2.6rem]">
+          <h2 className="mt-3 text-2xl md:text-3xl font-bold font-playfair leading-tight tracking-tight text-[#0b2a4a]">
             Why Choose Us?
           </h2>
 
@@ -308,24 +308,22 @@ lg:h-100
                 </div>
 
                 {/* TITLE */}
-                <h1
+                <h3
                   className="
         mt-1
         sm:mt-4
-        text-[13px]
-        sm:text-3xl
-        md:text-4xl
+        text-xl
+        sm:text-2xl
+        md:text-3xl
         font-bold
+        font-playfair
         leading-tight
         text-white
         tracking-tight
       "
-                  style={{
-                    fontFamily: "'Playfair Display', Georgia, serif",
-                  }}
                 >
                   Dr. Dinesh Sharma Bhusal
-                </h1>
+                </h3>
 
                 {/* DESCRIPTION */}
                 <p

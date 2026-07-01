@@ -163,22 +163,11 @@ const ServiceCard = ({ service }) => {
       {/* Content */}
       <div className="relative z-10 p-6">
         {/* Title */}
-        <h3
-          className="
-            mb-3
-            min-h-[60px]
-            text-xl
-            font-bold
-            leading-snug
-            text-[#0b2a4a]
-            line-clamp-2
-          "
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-          }}
+        <h2
+          className="mb-3 min-h-[60px] text-lg md:text-xl font-semibold font-playfair leading-snug text-[#0b2a4a] line-clamp-2"
         >
           {service.title}
-        </h3>
+        </h2>
 
         {/* Intro */}
         <p
@@ -278,15 +267,7 @@ const Services = () => {
           </span>
 
           <h1
-            className="
-              text-3xl
-              font-bold
-              text-[#0b2a4a]
-              md:text-5xl
-            "
-            style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
-            }}
+            className="text-3xl md:text-4xl font-bold font-playfair text-[#0b2a4a] leading-tight"
           >
             Our Dental Services
           </h1>

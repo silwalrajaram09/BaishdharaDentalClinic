@@ -6,11 +6,33 @@
   --color-secondary: #86d7e9;
   --color-accent: #e8453c;
   --color-border: #a8dceb;
+  /* --font-heading: "Poppins", sans-serif;
+--font-body: "Poppins", sans-serif; */
 
-  --animate-phone-ring: phone-ring 2.8s ease-in-out infinite;
+  --animate-phone-ring: phone-ring 2.8s ease-in-out infinite; 
+   --animate-dot-wave: dot-wave 1.4s infinite;
 
-  
 }
+
+ 
+
+  @keyframes dot-wave {
+    0%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.7);
+    }
+
+    35% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    70% {
+      opacity: 0.4;
+      transform: scale(0.85);
+    }
+  }
 
 html,
 body {
@@ -56,3 +78,19 @@ body {
     30%       { transform: rotate(8deg); }
     35%       { transform: rotate(0deg); }
   }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+}
+
+body,
+p,
+button,
+input,
+textarea {
+  font-family: var(--font-body);
+}

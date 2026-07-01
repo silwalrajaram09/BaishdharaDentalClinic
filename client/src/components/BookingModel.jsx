@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { SERVICES_FORM, TIME_SLOTS, CLINIC_INFO } from "../data/bookingOptions";
+import { SERVICES_FORM, TIME_SLOTS, CLINIC_INFO } from "../Data/BookingOptions";
 
 const APP_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 

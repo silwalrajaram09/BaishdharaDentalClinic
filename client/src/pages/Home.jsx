@@ -19,7 +19,7 @@ import gumTreatment from "../assets/images/gum treatment.png";
 import rootCanal from "../assets/images/root canal treatment.png";
 import pediatricDentistry from "../assets/images/pediatric dentistry.png";
 import toothExtraction from "../assets/images/tooth extraction and oral surgery.png";
-import { SERVICES_FORM } from "../Data/bookingOptions";
+import { SERVICES_FORM } from "../Data/BookingOptions";
 import SEO from "../components/SEO";
 import { useAppointmentForm } from "../hooks/useAppointmentForm";
 
@@ -160,6 +160,7 @@ const Home = () => {
       />
 
       <div className="bg-gray-50">
+        <h1 className="sr-only">Baishdhara Dental Clinic - Professional Dental Care in Kathmandu</h1>
         {/* HERO */}
         <Heroslider2 />
 
@@ -176,9 +177,9 @@ const Home = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 border border-border rounded-xl overflow-hidden shadow-xl">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="bg-secondary  p-8 md:col-span-2">
-                  <h3 className="text-2xl text-slate-900 font-semibold mb-6">
+                  <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
                     Why Patients Choose Dr. Dinesh Bhusal?
-                  </h3>
+                  </h2>
 
                   <div className="grid text-slate-800 grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex items-center gap-3">
@@ -214,9 +215,9 @@ const Home = () => {
 
               {/* RIGHT HALF */}
               <div className="bg-primary text-slate-900 p-8 ">
-                <h3 className="text-xl font-semibold mb-6">
+                <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
                   Make an Appointment
-                </h3>
+                </h2>
 
                 {/* SUCCESS */}
                 {successMessage && (
@@ -332,7 +333,7 @@ const Home = () => {
                     className={`sm:col-span-3 py-3 rounded border-border transition ${
                       isSubmitting
                         ? "bg-primary cursor-not-allowed"
-                        : "bg-primary-dark hover:bg-[#0b3052] text-white"
+                        : "bg-primary-dark hover:bg-[#05567E] text-[#010710]"
                     }`}
                   >
                     {isSubmitting ? "Booking..." : "Make Appointment"}
@@ -354,7 +355,7 @@ const Home = () => {
           className="max-w-6xl mx-auto px-4 py-16"
         >
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-bold text-[#0b2a4a]">Our Expertise</h2>
+            <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">Our Expertise</h2>
             <p className="text-gray-500 mt-2">
               Specialized dental care for every need
             </p>
@@ -398,7 +399,7 @@ const Home = () => {
           className="bg-gray-100 py-16 md:py-20"
         >
           <div className="max-w-4xl mx-auto text-center px-4">
-            <h2 className="text-2xl md:text-4xl font-bold text-black-500 mb-10 md:mb-12">
+            <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-10 md:mb-12">
               Happy Patients
             </h2>
 
@@ -456,7 +457,7 @@ const Home = () => {
                     </div>
 
                     {/* NAME */}
-                    <h3 className="text-lg md:text-xl font-semibold text-primary mb-1">
+                    <h3 className="text-lg md:text-xl font-semibold text-black mb-1">
                       {HappyPatients[activeIndex].name}
                     </h3>
 
@@ -480,10 +481,16 @@ const Home = () => {
                     key={i}
                     aria-label={`Go to patient review slide ${i + 1}`}
                     onClick={() => setActiveIndex(i)}
-                    className={`h-2 rounded-full transition-all ${
-                      i === activeIndex ? "w-6 bg-secondary" : "w-2 bg-gray-400"
-                    }`}
-                  />
+                    className="p-2 flex items-center justify-center group"
+                  >
+                    <div
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        i === activeIndex
+                          ? "w-6 bg-secondary"
+                          : "w-2 bg-gray-400 group-hover:bg-gray-500"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             </div>

@@ -19,7 +19,7 @@ import {
 import { FaWhatsapp } from "react-icons/fa";
 import Logo from "../assets/images/logo.png";
 import BookingModal from "./BookingModel";
-import { CLINIC_INFO } from "../data/bookingOptions";
+import { CLINIC_INFO } from "../Data/BookingOptions";
 
 import Button from "./ui/Button";
 
@@ -251,53 +251,38 @@ const Header = () => {
           opacity: "var(--nav-opacity, 1)",
         }}
       >
-        {/* ── TOP INFO BAR (desktop only) ── */}
-        <div className="hidden lg:block bg-[#0b2a4a] py-2 text-white">
-          <div className="container mx-auto px-2 sm:px-6 lg:px-8 h-11 flex items-center justify-between text-sm">
-            {/* LEFT — contact info (single icon set: lucide-react) */}
-            <div className="flex items-center gap-6">
-              {/* <Link to="/" className="flex items-center shrink-0 group">
-                <img
-                  src={Logo}
-                  alt="Baishdhara Dental Clinic logo"
-                  className={`w-auto object-contain transition-all duration-300 ${scrolled ? "h-9 sm:h-10" : "h-10 sm:h-11"}`}
-                />
-                <span className="ml-3 leading-tight">
-                  <span className="block text-xl sm:text-2xl font-bold text-primary group-hover:text-primary-dark transition-colors">
-                    Baishdhara
-                  </span>
-                  <span className="block text-secondary text-xs sm:text-sm">
-                    Dental Clinic
-                  </span>
-                </span>
-              </Link> */}
+        {/* ── TOP INFO BAR (desktop & tablet) ── */}
+        <div className="hidden md:block bg-[#0b2a4a] py-2 text-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center justify-between text-xs lg:text-sm">
+            {/* LEFT — contact info */}
+            <div className="flex items-center gap-4 lg:gap-6">
               <a
                 href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
-                className="flex items-center gap-2 hover:text-[#86d7e9] transition-colors"
+                className="flex items-center gap-1.5 hover:text-[#86d7e9] transition-colors"
               >
-                <Phone size={15} aria-hidden="true" />
+                <Phone size={14} aria-hidden="true" />
                 <span>{CLINIC_INFO.phonePrimary.display}</span>
               </a>
               <a
                 href={`tel:${CLINIC_INFO.phoneLandline.tel}`}
-                className="flex items-center gap-2 hover:text-[#86d7e9] transition-colors"
+                className="hidden lg:flex items-center gap-1.5 hover:text-[#86d7e9] transition-colors"
               >
-                <Phone size={15} aria-hidden="true" />
+                <Phone size={14} aria-hidden="true" />
                 <span>{CLINIC_INFO.phoneLandline.display}</span>
               </a>
               <a
                 href={`mailto:${CLINIC_INFO.email}`}
-                className="flex items-center gap-2 hover:text-[#86d7e9] transition-colors"
+                className="flex items-center gap-1.5 hover:text-[#86d7e9] transition-colors"
               >
-                <Mail size={15} aria-hidden="true" />
+                <Mail size={14} aria-hidden="true" />
                 <span>{CLINIC_INFO.email}</span>
               </a>
             </div>
 
             {/* RIGHT — hours + WhatsApp */}
-            <div className="flex items-center gap-5">
-              <div className="flex items-center gap-2 text-blue-100">
-                <Clock size={15} aria-hidden="true" />
+            <div className="flex items-center gap-4 lg:gap-5">
+              <div className="hidden lg:flex items-center gap-2 text-blue-100">
+                <Clock size={14} aria-hidden="true" />
                 <span className="font-medium text-white">
                   {CLINIC_INFO.hours.days}:
                 </span>
@@ -312,9 +297,9 @@ const Header = () => {
                 href={`https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${CLINIC_INFO.whatsappMessage}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors font-medium"
+                className="flex items-center gap-1.5 text-green-400 hover:text-green-300 transition-colors font-medium"
               >
-                <FaWhatsapp size={15} aria-hidden="true" />
+                <FaWhatsapp size={14} aria-hidden="true" />
                 WhatsApp
               </a>
             </div>
@@ -322,11 +307,11 @@ const Header = () => {
         </div>
 
         {/* ── MAIN NAVBAR ── */}
-        <nav className="container mx-auto px-4  sm:px-6 lg:px-8">
+        <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div
             className={`flex justify-between items-center transition-all duration-300 ${scrolled ? "h-[68px]" : "h-[78px]"}`}
           >
-            {/* LOGO — image + text now a single link */}
+            {/* LOGO */}
             <Link to="/" className="flex items-center shrink-0 group">
               <img
                 src={Logo}
@@ -337,14 +322,14 @@ const Header = () => {
                 <span className="block text-xl sm:text-2xl font-bold text-primary group-hover:text-primary-dark transition-colors">
                   Baishdhara
                 </span>
-                <span className="block text-secondary text-xs sm:text-sm">
+                <span className="block text-accent text-xs sm:text-sm">
                   Dental Clinic
                 </span>
               </span>
             </Link>
 
-            {/* DESKTOP MENU */}
-            <div className="hidden lg:flex items-center gap-1">
+            {/* DESKTOP MENU (xl and up) */}
+            <div className="hidden xl:flex items-center gap-1">
               {NAV.map((item) =>
                 item.dropdown ? (
                   <div key={item.name} ref={dropdownRef} className="relative">
@@ -352,7 +337,7 @@ const Header = () => {
                       onClick={() => setServicesOpen((o) => !o)}
                       aria-haspopup="true"
                       aria-expanded={servicesOpen}
-                      className={`flex  items-center gap-1 px-2 py-1 rounded-lg text-[15px] font-medium
+                      className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[14px] 2xl:text-[15px] font-medium
                                   transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary
                                   ${isActive(item.path) || servicesOpen ? "text-primary" : "text-gray-700 hover:text-primary"}`}
                     >
@@ -428,7 +413,7 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.path}
-                    className={`relative px-4 py-2 rounded-lg text-[15px] font-medium transition-colors duration-200
+                    className={`relative px-3 2xl:px-4 py-2 rounded-lg text-[14px] 2xl:text-[15px] font-medium transition-colors duration-200
                                 focus-visible:ring-2 focus-visible:ring-[#3b7dbd]
                                 ${isActive(item.path) ? "text-[#3b7dbd]" : "text-gray-700 hover:text-[#3b7dbd]"}`}
                   >
@@ -445,37 +430,55 @@ const Header = () => {
             </div>
 
             {/* DESKTOP ACTIONS */}
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden xl:flex items-center gap-2 2xl:gap-3">
               {/* Call Now */}
-              <a
-                href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
-                aria-label="Call dental clinic now"
-                className="
-      inline-flex h-11 items-center justify-center gap-2 px-5
-      rounded-xl border border-slate-200 bg-white
-      text-[15px] font-semibold leading-none text-[#0B2A4A]
-      shadow-sm transition-all duration-200
-      hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-md
-      active:scale-[0.97]
-      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4] focus-visible:ring-offset-2
-    "
-              >
-                <Phone
-                  size={20}
-                  strokeWidth={2.25}
-                  aria-hidden="true"
-                  className="animate-phone-ring"
-                />
-                <span>Call Now</span>
-              </a>
+             <a
+  href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
+  aria-label="Call dental clinic now"
+  className="
+    inline-flex h-10 2xl:h-11 items-center justify-center gap-2 px-4 2xl:px-5
+    rounded-xl border border-slate-200 bg-white
+    text-[14px] 2xl:text-[15px] font-semibold leading-none text-[#0B2A4A]
+    shadow-sm transition-all duration-200
+    hover:border-[#3B82C4] hover:text-[#3B82C4] hover:shadow-md
+    active:scale-[0.97]
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3B82C4] focus-visible:ring-offset-2
+  "
+>
+  <div className="relative flex items-center justify-center">
+    <Phone
+      size={18}
+      strokeWidth={2.25}
+      aria-hidden="true"
+      className="animate-phone-ring"
+    />
+
+    {/* Activity Dots */}
+    <div className="absolute -top-0 -right-3 flex items-end gap-[2px] pointer-events-none">
+      <span className="w-[3px] h-[3px] rounded-full bg-[#3B82C4] animate-dot-wave" />
+
+      <span
+        className="w-1 h-1 rounded-full bg-[#3B82C4] animate-dot-wave"
+        style={{ animationDelay: ".2s" }}
+      />
+
+      <span
+        className="w-[5px] h-[5px] rounded-full bg-[#3B82C4] animate-dot-wave"
+        style={{ animationDelay: ".4s" }}
+      />
+    </div>
+  </div>
+
+  <span className="hidden 2xl:inline">Call Now</span>
+</a>
 
               {/* Book Appointment */}
               <button
                 onClick={openBooking}
                 className="
-      inline-flex h-11 items-center justify-center gap-2 px-5
+      inline-flex h-10 2xl:h-11 items-center justify-center gap-2 px-4 2xl:px-5
       rounded-xl bg-[#3B82C4]
-      text-[15px] font-semibold leading-none text-white
+      text-[14px] 2xl:text-[15px] font-semibold leading-none text-white
       shadow-md transition-all duration-200
       hover:bg-[#2F6FA8] hover:shadow-lg
       active:scale-[0.97]
@@ -483,7 +486,7 @@ const Header = () => {
     "
               >
                 <CalendarCheck
-                  size={17}
+                  size={16}
                   strokeWidth={2.25}
                   aria-hidden="true"
                 />
@@ -497,7 +500,7 @@ const Header = () => {
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav"
-              className="lg:hidden flex items-center justify-center w-11 h-11 -mr-1
+              className="xl:hidden flex items-center justify-center w-11 h-11 -mr-1
                          rounded-lg text-[#0b2a4a] hover:bg-slate-100 transition-colors
                          focus-visible:ring-2 focus-visible:ring-[#3b7dbd]"
             >
@@ -518,7 +521,7 @@ const Header = () => {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                className="lg:hidden bg-white border-t rounded-b-2xl shadow-xl overflow-hidden"
+                className="xl:hidden bg-white border-t rounded-b-2xl shadow-xl overflow-hidden"
               >
                 <div className="py-3 max-h-[calc(100vh-78px)] overflow-y-auto">
                   {NAV.map((item) =>

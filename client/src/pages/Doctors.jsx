@@ -104,8 +104,7 @@ const DoctorCard = ({ doc }) => (
       {/* Info */}
       <div className="flex flex-col flex-1 p-4">
         <h2
-          className="text-lg font-semibold text-[#0b2a4a] leading-snug mb-0.5"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+          className="text-lg md:text-xl font-semibold font-playfair text-[#0b2a4a] leading-snug mb-0.5"
         >
           {doc.name}
         </h2>
@@ -186,8 +185,7 @@ const Doctors = () => (
             Our Specialists
           </span>
           <h1
-            className="text-2xl md:text-3xl font-bold text-[#0b2a4a]"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+            className="text-3xl md:text-4xl font-bold font-playfair text-[#0b2a4a] leading-tight"
           >
             Meet Our Doctors
           </h1>

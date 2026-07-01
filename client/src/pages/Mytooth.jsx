@@ -125,12 +125,11 @@ const TopicCard = ({ item }) => {
 
       {/* Text */}
       <div className="flex flex-col gap-1">
-        <h3
-          className="text-sm font-semibold text-[#0b2a4a] leading-snug"
-          style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+        <h2
+          className="text-base font-semibold font-playfair text-[#0b2a4a] leading-snug"
         >
           {item.name}
-        </h3>
+        </h2>
         <p className="text-xs text-gray-500 leading-relaxed">{item.text}</p>
       </div>
     </motion.div>
@@ -159,8 +158,7 @@ const MyTooth = () => {
             Dental knowledge hub
           </span> */}
             <h1
-              className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
             >
               Your complete guide
               <br className="hidden md:block" /> to oral health

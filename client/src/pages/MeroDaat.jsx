@@ -1,6 +1,4 @@
 import { useState } from "react";
-// import HeroSection from "../components/HeroSection";
-// import doctor from "../assets/images/doctor.PNG";
 import { motion, AnimatePresence } from "framer-motion";
 import { chapters } from "../Data/chapters";
 import SEO from "../components/SEO";
@@ -66,8 +64,7 @@ const MeroDaat = () => {
             className="text-center mb-12"
           >
             <h1
-              className="text-2xl md:text-3xl font-bold text-[#0b2a4a] leading-tight"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+              className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
             >
               मेरो दाँत, मेरो कथा
             </h1>
@@ -113,76 +110,79 @@ const MeroDaat = () => {
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="grid md:grid-cols-2 gap-4 md:gap-6"
+            className="grid md:grid-cols-2 gap-4 md:gap-6 items-start"
           >
-            {filtered.map((ch) => {
-              const isOpen = expandedId === ch.id;
+            {[0, 1].map((colIndex) => (
+              <div key={colIndex} className="flex flex-col gap-4 md:gap-6">
+                {filtered
+                  .filter((_, i) => i % 2 === colIndex)
+                  .map((ch) => {
+                    const isOpen = expandedId === ch.id;
 
-              return (
-                <div key={ch.id} className="flex flex-col min-h-0">
-                  {" "}
-                  {/* fixes grid row stretch */}
-                  <motion.div
-                    variants={fadeUp}
-                    className={`flex flex-col overflow-hidden rounded-2xl border transition-all duration-200 hover:shadow-md ${
-                      isOpen
-                        ? "border-primary shadow-md"
-                        : "border-gray-200 bg-white"
-                    }`}
-                  >
-                    {/* HEADER */}
-                    <div className="p-4 flex items-start gap-3">
-                      <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white text-sm flex-shrink-0">
-                        {ch.icon}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <span className="text-xs font-semibold text-primary uppercase tracking-wide">
-                          {ch.id} · {ch.categoryLabel}
-                        </span>
-                        <h3 className="text-gray-800 font-medium text-sm md:text-base leading-snug mt-0.5">
-                          {ch.title}
-                        </h3>
-                        <button
-                          onClick={handleExpand(ch.id)}
-                          className="mt-2 text-sm font-medium text-primary hover:text-primary-dark transition"
-                        >
-                          {isOpen ? "▲ कम देखाउनुहोस्" : "▼ थप हेर्नुहोस्"}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* CONTENT – only one can be open at a time */}
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          key="content"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden border-t border-gray-100"
-                        >
-                          <div className="px-4 pb-4 pt-3 space-y-2">
-                            {ch.content.map((para, i) => (
-                              <p
-                                key={i}
-                                className="text-gray-600 text-sm leading-relaxed"
-                              >
-                                <span className="text-primary font-semibold mr-2">
-                                  {i + 1}.
-                                </span>
-                                {para}
-                              </p>
-                            ))}
+                    return (
+                      <motion.div
+                        key={ch.id}
+                        variants={fadeUp}
+                        className={`flex flex-col overflow-hidden rounded-2xl border transition-all duration-200 hover:shadow-md ${
+                          isOpen
+                            ? "border-primary shadow-md"
+                            : "border-gray-200 bg-white"
+                        }`}
+                      >
+                        {/* HEADER */}
+                        <div className="p-4 flex items-start gap-3">
+                          <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white text-sm flex-shrink-0">
+                            {ch.icon}
                           </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.div>
-                </div>
-              );
-            })}
+
+                          <div className="flex-1 min-w-0">
+                            <span className="text-xs font-semibold text-primary uppercase tracking-wide">
+                              {ch.id} · {ch.categoryLabel}
+                            </span>
+                            <h2 className="text-gray-800 font-medium text-sm md:text-base leading-snug mt-0.5">
+                              {ch.title}
+                            </h2>
+                            <button
+                              onClick={handleExpand(ch.id)}
+                              className="mt-2 text-sm font-medium text-primary hover:text-primary-dark transition"
+                            >
+                              {isOpen ? "▲ कम देखाउनुहोस्" : "▼ थप हेर्नुहोस्"}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* CONTENT – only one can be open at a time */}
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              key="content"
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: "easeInOut" }}
+                              className="overflow-hidden border-t border-gray-100"
+                            >
+                              <div className="px-4 pb-4 pt-3 space-y-2">
+                                {ch.content.map((para, i) => (
+                                  <p
+                                    key={i}
+                                    className="text-gray-600 text-sm leading-relaxed"
+                                  >
+                                    <span className="text-primary font-semibold mr-2">
+                                      {i + 1}.
+                                    </span>
+                                    {para}
+                                  </p>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+              </div>
+            ))}
           </motion.div>
         </div>
       </div>

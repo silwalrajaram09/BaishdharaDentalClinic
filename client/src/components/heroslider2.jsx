@@ -216,12 +216,12 @@ const HeroSlider = () => {
 
       {/* OVERLAY */}
       <div
-        className="absolute inset-0 z-10 bg-linear-to-r from-[#081c30]/60 via-[#0b2a4a]/60 to-[#0b2a4a]/10"
+        className=" hidden md:flex absolute  inset-0 z-10 bg-linear-to-r from-[#081c30]/60 via-[#0b2a4a]/60 to-[#0b2a4a]/10"
         aria-hidden="true"
       />
 
       {/* CONTENT */}
-      <div className="relative z-20 h-full flex items-center">
+      <div className="hidden md:flex relative z-20 h-full items-center">
         <div className="max-w-7xl mx-auto w-full px-5 sm:px-8 lg:px-12">
           <AnimatePresence mode="wait">
             <motion.div
@@ -234,8 +234,8 @@ const HeroSlider = () => {
               className="max-w-full sm:max-w-xl lg:max-w-2xl"
             >
               {slide.tag && (
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-5">
-                  <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                <div className=" inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-5">
+                  <div className=" w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                   <span className="text-white text-xs sm:text-sm tracking-wide">
                     {slide.tag}
                   </span>
@@ -243,12 +243,11 @@ const HeroSlider = () => {
               )}
 
               {slide.title && (
-                <h1
-                  className="text-white font-bold leading-[1.05] text-2xl sm:text-4xl md:text-5xl lg:text-4xl mb-4"
-                  style={{ fontFamily: "'Playfair Display', Georgia, serif" }}
+                <h2
+                  className="text-3xl md:text-4xl font-bold font-playfair text-white leading-[1.05] mb-4"
                 >
                   {slide.title}
-                </h1>
+                </h2>
               )}
 
               {slide.subtitle && (
@@ -313,7 +312,7 @@ const HeroSlider = () => {
               currentSlide === index ? "w-8 h-2 bg-[#2e7fc1]" : "w-2 h-2 bg-white/50 hover:bg-white"
             }`}
             aria-label={`Go to slide ${index + 1}`}
-          />
+            />
         ))}
       </div>
     </section>
