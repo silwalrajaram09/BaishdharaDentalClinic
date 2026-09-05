@@ -1,440 +1,395 @@
-import { useEffect, useState } from "react";
-import { color, motion } from "framer-motion";
-import { PhoneCall, MapPin, MailIcon, PinIcon } from "lucide-react";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { TelephoneIcon } from "@hugeicons/core-free-icons";
+import { motion } from "framer-motion";
+import { Clock3, Mail, MapPin, Phone, Send } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
+import { CLINIC_INFO, SERVICES_FORM } from "../Data/BookingOptions";
+import { useAppointmentForm } from "../hooks/useAppointmentForm";
 
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+const MAP_EMBED_URL =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.314449794758!2d85.29962317554164!3d27.738445576164796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19f1fee8d13d%3A0x30058cbbf8bc3d57!2sBaishdhara%20Dental%20Clinic!5e0!3m2!1sen!2snp!4v1786189220726!5m2!1sen!2snp";
 
-// Fix Leaflet marker icons
-delete L.Icon.Default.prototype._getIconUrl;
+const DIRECTIONS_URL =
+  "https://www.google.com/maps/dir/?api=1&destination=Baishdhara+Dental+Clinic,+Kathmandu";
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
-
-const customIcon = new L.Icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
-
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
-
-const Contact = () => {
-  //const [showInfo, setShowInfo] = useState(true);
-  const APP_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-
-  const [errors, setErrors] = useState({});
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const [submitSuccess, setSubmitSuccess] = useState({
-    type: "",
-    message: "",
-  });
-
-  const [submitError, setSubmitError] = useState({
-    type: "",
-    message: "",
-  });
-
-  // AUTO CLEAR SUCCESS MESSAGE
-  useEffect(() => {
-    if (submitSuccess.message) {
-      const timer = setTimeout(() => {
-        setSubmitSuccess({
-          type: "",
-          message: "",
-        });
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [submitSuccess]);
-
-  // VALIDATION
-  const validateForm = () => {
-    const newErrors = {};
-
-    // NAME
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = "Name must be at least 2 characters";
-    }
-
-    // EMAIL
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
-    ) {
-      newErrors.email = "Please enter a valid email";
-    }
-
-    // PHONE
-    if (!formData.phone.trim()) {
-      newErrors.phone = "phone is required";
-    } else if (formData.phone && !/^[0-9+\-\s()]{7,20}$/.test(formData.phone)) {
-      newErrors.phone = "Please enter a valid phone number";
-    }
-
-    // MESSAGE
-    if (!formData.message.trim()) {
-      newErrors.message = "Message is required";
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters";
-    }
-
-    return newErrors;
-  };
-
-  // HANDLE CHANGE
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // CLEAR FIELD ERROR WHILE TYPING
-    if (errors[name]) {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "",
-      }));
-    }
-
-    // CLEAR API ERROR
-    if (submitError.message) {
-      setSubmitError({
-        type: "",
-        message: "",
-      });
-    }
-  };
-
-  // HANDLE SUBMIT
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // RESET STATES
-    setSubmitSuccess({
-      type: "",
-      message: "",
-    });
-
-    setSubmitError({
-      type: "",
-      message: "",
-    });
-
-    // CLIENT VALIDATION
-    const validationErrors = validateForm();
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setErrors({});
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch(`${APP_URL}/api/contact/submit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      // BACKEND VALIDATION ERROR
-      if (!response.ok || !data.success) {
-        if (data.errors) {
-          setErrors(data.errors);
-        }
-
-        throw new Error(data.message || "Failed to send message");
-      }
-
-      // SUCCESS
-      setSubmitSuccess({
-        type: "success",
-        message: data.message || "Message sent successfully!",
-      });
-
-      // RESET FORM
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        message: "",
-      });
-
-      setErrors({});
-    } catch (error) {
-      console.error("Submit Error:", error);
-
-      setSubmitError({
-        type: "error",
-        message: error.message || "Something went wrong",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const position = [27.738446, 85.302198];
-
-  return (
-    <div className="bg-gray-50 min-h-screen py-16">
-      {/* HEADER */}
-      <div className="text-center mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <h1 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">
-            Our Contact
-          </h1>
-          <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
-          <p className="mt-4 text-gray-500 max-w-md mx-auto text-base">
-            Contact us for appointments, inquiries, or to learn more about our
-            dental services. We're here to help you achieve a healthy, beautiful
-            smile!
-          </p>
-        </motion.div>
-      </div>
-
-      {/* MAIN GRID */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10">
-        {/* LEFT FORM */}
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="bg-white p-5 sm:p-6 md:p-8 rounded-xl shadow-lg"
-        >
-          <h2 className="text-xl md:text-2xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
-            Send Us a Message
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* SUCCESS */}
-            {submitSuccess.message && (
-              <div className="bg-green-100 border border-green-300 text-green-700 p-3 rounded-lg text-sm">
-                {submitSuccess.message}
-              </div>
-            )}
-
-            {/* ERROR */}
-            {submitError.message && (
-              <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded-lg text-sm">
-                {submitError.message}
-              </div>
-            )}
-
-            {/* NAME */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name *
-              </label>
-
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your full name"
-                value={formData.name}
-                onChange={handleChange}
-                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errors.name
-                    ? "border-red-400 focus:ring-red-300"
-                    : "border-gray-300 focus:ring-blue-400"
-                }`}
-              />
-
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-600">{errors.name}</p>
-              )}
-            </div>
-
-            {/* EMAIL */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address *
-              </label>
-
-              <input
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errors.email
-                    ? "border-red-400 focus:ring-red-300"
-                    : "border-gray-300 focus:ring-blue-400"
-                }`}
-              />
-
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
-            </div>
-
-            {/* PHONE */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number*
-              </label>
-
-              <input
-                type="tel"
-                name="phone"
-                placeholder="phone number"
-                value={formData.phone}
-                onChange={handleChange}
-                className={`w-full border p-3 rounded-lg focus:outline-none focus:ring-2 transition ${
-                  errors.phone
-                    ? "border-red-400 focus:ring-red-300"
-                    : "border-gray-300 focus:ring-blue-400"
-                }`}
-              />
-
-              {errors.phone && (
-                <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
-              )}
-            </div>
-
-            {/* MESSAGE */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message *
-              </label>
-
-              <textarea
-                name="message"
-                placeholder="How can we help you?"
-                value={formData.message}
-                onChange={handleChange}
-                rows={5}
-                className={`w-full border p-3 rounded-lg resize-none focus:outline-none focus:ring-2 transition ${
-                  errors.message
-                    ? "border-red-400 focus:ring-red-300"
-                    : "border-gray-300 focus:ring-blue-400"
-                }`}
-              />
-
-              {errors.message && (
-                <p className="mt-1 text-sm text-red-600">{errors.message}</p>
-              )}
-            </div>
-
-            {/* BUTTON */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={`w-full bg-primary text-white py-3 rounded-lg font-semibold transition ${
-                isSubmitting
-                  ? "opacity-70 cursor-not-allowed"
-                  : "hover:bg-primary-dark"
-              }`}
-            >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </button>
-          </form>
-        </motion.div>
-
-        {/* RIGHT SIDE */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="space-y-6"
-        >
-          {/* CONTACT INFO */}
-          <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg">
-            <h2 className="text-xl md:text-2xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
-              Contact Details
-            </h2>
-
-            <div className="space-y-4 text-gray-600">
-              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                {" "}
-                <MapPin size={16} color="gray" />
-                Tarun Marga , Bypass, Balaju kathmandu Nepal
-              </p>
-              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <FaWhatsapp size={16} />
-                <a
-                  href="https://wa.me/9779803421766"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  +9779803421766
-                </a>
-              </p>
-              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <HugeiconsIcon icon={TelephoneIcon} />
-                <span>014962513</span>
-              </p>
-              <p style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <MailIcon size={16} /> baishdharadental@gmail.com
-              </p>
-            </div>
-          </div>
-
-          {/* MAP */}
-
-          <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg relative z-0">
-            <h2 className="text-xl md:text-2xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
-              Find Us on Map
-            </h2>
-
-            <section className="max-w-7xl mx-auto overflow-hidden  sm:px-6 lg:px-8 pb-12">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.314449794758!2d85.29962317554164!3d27.738445576164796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19f1fee8d13d%3A0x30058cbbf8bc3d57!2sBaishdhara%20Dental%20Clinic!5e0!3m2!1sen!2snp!4v1786189220726!5m2!1sen!2snp"
-                width="600"
-                height="450"
-                style={{ border: 0 }}
-                loading="lazy"
-              ></iframe>
-            </section>
-            {/* </div> */}
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
-export default Contact;
+function Field({
+  label,
+  name,
+  type = "text",
+  value,
+  onChange,
+  error,
+  placeholder,
+  children,
+}) {
+  const describedBy = error ? `${name}-error` : undefined;
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className="mb-2 block text-sm font-semibold text-[#263b4d]"
+      >
+        {label}
+      </label>
+      {children || (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          aria-invalid={Boolean(error)}
+          aria-describedby={describedBy}
+          className={`w-full rounded-xl border bg-[#fbfdfe] px-4 py-3.5 text-sm text-[#102b45] outline-none transition placeholder:text-[#9aa9b4] focus:bg-white focus:ring-2 ${
+            error
+              ? "border-red-300 focus:border-red-400 focus:ring-red-100"
+              : "border-[#dfe8ee] focus:border-[#3b7dbd] focus:ring-[#3b7dbd]/15"
+          }`}
+        />
+      )}
+      {error && (
+        <p id={`${name}-error`} className="mt-1.5 text-xs text-red-600">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
+export default function Contact() {
+  const {
+    formData,
+    isSubmitting,
+    successMessage,
+    errorMessage,
+    fieldErrors,
+    handleChange,
+    handleSubmit,
+    getAvailableTimeSlots,
+  } = useAppointmentForm();
+
+  const today = new Date().toISOString().split("T")[0];
+  const status = successMessage
+    ? { type: "success", message: successMessage }
+    : { type: "error", message: errorMessage };
+
+  return (
+    <section className="relative overflow-hidden bg-[#f4f8fb] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-[#d9eef5]/65 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-[#e6eefa]/80 blur-3xl"
+      />
+
+      <div className="relative mx-auto max-w-6xl">
+        <motion.header
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.35 }}
+          variants={fadeUp}
+          className="mx-auto max-w-2xl text-center"
+        >
+          <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.05em] text-[#0b2a4a] sm:text-5xl">
+            Contact Us
+          </h1>
+          <div className="mx-auto mt-4 h-0.5 w-10 rounded-full bg-[#86c7dc]" />
+          <p className="mt-4 text-sm leading-7 text-[#627281] sm:text-base">
+            Book a visit, ask a question, or get directions to Baishdhara Dental
+            Clinic in Kathmandu.
+          </p>
+        </motion.header>
+
+        <div className="mt-10 grid gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12 }}
+            variants={fadeUp}
+            className="rounded-[1.5rem] border border-[#e1eaf0] bg-white p-5 shadow-[0_18px_42px_-30px_rgba(11,42,74,0.5)] sm:rounded-[2rem] sm:p-8"
+          >
+            <div className="mb-7">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#3b7dbd]">
+                Book your visit
+              </p>
+              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em] text-[#0b2a4a] sm:text-3xl">
+                Make an appointment
+              </h2>
+              <p className="mt-2 text-sm leading-6 text-[#71808c]">
+                Choose your service, preferred date, and a convenient time.
+              </p>
+            </div>
+
+            {status.message && (
+              <div
+                role="status"
+                className={`mb-5 rounded-xl border px-4 py-3 text-sm ${status.type === "success" ? "border-emerald-200 bg-emerald-50 text-emerald-700" : "border-red-200 bg-red-50 text-red-700"}`}
+              >
+                {status.message}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              <Field
+                label="Full name"
+                name="fullname"
+                value={formData.fullname}
+                onChange={handleChange}
+                error={fieldErrors.fullname}
+                placeholder="Enter your full name"
+              />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  label="Email address"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  error={fieldErrors.email}
+                  placeholder="you@example.com"
+                />
+                <Field
+                  label="Phone number"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  error={fieldErrors.phone}
+                  placeholder="+977 98..."
+                />
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  label="Dental service"
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                  error={fieldErrors.service}
+                >
+                  <select
+                    id="service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    aria-invalid={Boolean(fieldErrors.service)}
+                    className={`w-full rounded-xl border bg-[#fbfdfe] px-4 py-3.5 text-sm text-[#102b45] outline-none transition focus:bg-white focus:ring-2 ${fieldErrors.service ? "border-red-300 focus:border-red-400 focus:ring-red-100" : "border-[#dfe8ee] focus:border-[#3b7dbd] focus:ring-[#3b7dbd]/15"}`}
+                  >
+                    <option value="">Select a service</option>
+                    {SERVICES_FORM.map((service) => (
+                      <option key={service} value={service}>
+                        {service}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field
+                  label="Preferred date"
+                  name="date"
+                  type="date"
+                  value={formData.date}
+                  onChange={handleChange}
+                  error={fieldErrors.date}
+                >
+                  <input
+                    id="date"
+                    name="date"
+                    type="date"
+                    min={today}
+                    value={formData.date}
+                    onChange={handleChange}
+                    aria-invalid={Boolean(fieldErrors.date)}
+                    className={`w-full rounded-xl border bg-[#fbfdfe] px-4 py-3.5 text-sm text-[#102b45] outline-none transition focus:bg-white focus:ring-2 ${fieldErrors.date ? "border-red-300 focus:border-red-400 focus:ring-red-100" : "border-[#dfe8ee] focus:border-[#3b7dbd] focus:ring-[#3b7dbd]/15"}`}
+                  />
+                </Field>
+              </div>
+              <Field
+                label="Preferred time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                error={fieldErrors.time}
+              >
+                <select
+                  id="time"
+                  name="time"
+                  value={formData.time}
+                  onChange={handleChange}
+                  aria-invalid={Boolean(fieldErrors.time)}
+                  className={`w-full rounded-xl border bg-[#fbfdfe] px-4 py-3.5 text-sm text-[#102b45] outline-none transition focus:bg-white focus:ring-2 ${fieldErrors.time ? "border-red-300 focus:border-red-400 focus:ring-red-100" : "border-[#dfe8ee] focus:border-[#3b7dbd] focus:ring-[#3b7dbd]/15"}`}
+                >
+                  <option value="">
+                    {formData.date && getAvailableTimeSlots().length === 0
+                      ? "No times available for this date"
+                      : "Select a time"}
+                  </option>
+                  {getAvailableTimeSlots().map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0b2a4a] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#0b2a4a]/15 transition hover:-translate-y-0.5 hover:bg-[#173f65] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3b7dbd] focus-visible:ring-offset-2 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isSubmitting ? "Booking appointment..." : "Book appointment"}
+                {!isSubmitting && <Send size={16} aria-hidden="true" />}
+              </button>
+            </form>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12 }}
+            variants={fadeUp}
+            className="space-y-6 "
+          >
+            <div className="rounded-[1.5rem] border border-[#e1eaf0]  p-5   bg-primary shadow-[0_18px_42px_-30px_rgba(11,42,74,0.72)] sm:rounded-[2rem] sm:p-8">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#86d7e9]">
+                Visit the clinic
+              </p>
+              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em] sm:text-2xl">
+                Contact details
+              </h2>
+              <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+                <a
+                  href="https://www.google.com/maps/dir/?api=1&destination=Baishdhara+Dental+Clinic,+Kathmandu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-start gap-3 text-sm text-blue-100 transition hover:text-white"
+                >
+                  <MapPin
+                    size={19}
+                    className="mt-0.5 shrink-0 text-[#86d7e9]"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong className="block text-white">Address</strong>
+                    <span className="mt-1 block leading-6">
+                      Tarun Marga, Bypass, Balaju, Kathmandu, Nepal
+                    </span>
+                  </span>
+                </a>
+                <a
+                  href={`tel:${CLINIC_INFO.phonePrimary.tel}`}
+                  className="flex items-start gap-3 text-sm text-blue-100 transition hover:text-white"
+                >
+                  <Phone
+                    size={19}
+                    className="mt-0.5 shrink-0 text-[#86d7e9]"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong className="block text-white">Call us</strong>
+                    <span className="mt-1 block">
+                      {CLINIC_INFO.phonePrimary.display}
+                    </span>
+                  </span>
+                </a>
+                <a
+                  href={`mailto:${CLINIC_INFO.email}`}
+                  className="flex items-start gap-3 text-sm text-blue-100 transition hover:text-white"
+                >
+                  <Mail
+                    size={19}
+                    className="mt-0.5 shrink-0 text-[#86d7e9]"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong className="block text-white">Email</strong>
+                    <span className="mt-1 block break-all">
+                      {CLINIC_INFO.email}
+                    </span>
+                  </span>
+                </a>
+                <div className="flex items-start gap-3 text-sm text-blue-100">
+                  <Clock3
+                    size={19}
+                    className="mt-0.5 shrink-0 text-[#86d7e9]"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong className="block text-white">Opening hours</strong>
+                    <span className="mt-1 block">
+                      {CLINIC_INFO.hours.days}: {CLINIC_INFO.hours.time}
+                    </span>
+                    <span className="block text-blue-200">
+                      {CLINIC_INFO.hours.closed}: Closed
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div className="mt-7 flex flex-wrap gap-3 border-t border-white/15 pt-6">
+                <a
+                  href={`https://wa.me/${CLINIC_INFO.whatsappNumber}?text=${CLINIC_INFO.whatsappMessage}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#25d366] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#1ebe5d]"
+                >
+                  <FaWhatsapp size={18} aria-hidden="true" /> WhatsApp us
+                </a>
+                <a
+                  href={DIRECTIONS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-white/25 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white hover:text-[#0b2a4a]"
+                >
+                  <MapPin size={16} aria-hidden="true" /> Get directions
+                </a>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.12 }}
+          variants={fadeUp}
+          className="mt-6 overflow-hidden rounded-[1.5rem] border border-[#dfe8ee] bg-white shadow-[0_18px_42px_-30px_rgba(11,42,74,0.5)] sm:mt-8 sm:rounded-[2rem]"
+        >
+          {/* <div className="flex items-center justify-between gap-4 px-5 pb-4 pt-5 sm:px-7 sm:pt-7">
+            <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-[#3b7dbd]">Find us easily</p><h2 className="mt-1 text-xl font-bold text-[#0b2a4a] sm:text-2xl">Our location</h2></div>
+            <MessageCircle className="hidden text-[#b4d8e5] sm:block" size={30} aria-hidden="true" />
+          </div> */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#eaf2f6] sm:aspect-[16/8] lg:aspect-[16/6.5]">
+            <iframe
+              title="Baishdhara Dental Clinic location map"
+              src={MAP_EMBED_URL}
+              className="absolute inset-0 h-full w-full border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
+          <div className="flex items-center justify-between gap-3 px-5 py-4 sm:px-7">
+            <p className="text-xs leading-5 text-[#71808c]">
+              Tap the map to explore the clinic location.
+            </p>
+            <a
+              href={DIRECTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 text-xs font-bold text-[#2e78a7] hover:text-[#0b2a4a]"
+            >
+              Open in Maps →
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}

@@ -217,7 +217,7 @@ const HeroSlider = () => {
 
   return (
     <section
-      className="relative  w-full h-[40vh] sm:h-[60vh] md:h-[68vh] lg:h-[60vh] overflow-hidden bg-[#0b2a4a]"
+      className="relative  w-full h-[40vh] sm:h-[60vh] md:h-[68vh] lg:h-[65vh] overflow-hidden bg-[#0b2a4a]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -240,7 +240,7 @@ const HeroSlider = () => {
           exit="exit"
           variants={slideVariants}
           transition={{ ease: "easeInOut" }}
-          className={`absolute inset-0 w-full h-full   ${slide.position}`}
+          className={`absolute inset-0 w-full h-full    ${slide.position}`}
         />
       </AnimatePresence>
 
@@ -349,7 +349,7 @@ const HeroSlider = () => {
 
       {/* DOT INDICATORS */}
       <div
-        className=" absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-2"
+        className=" absolute bottom-1 left-1/2 -translate-x-1/2 z-30 flex gap-2"
         role="tablist"
       >
         {slides.map((_, index) => (
