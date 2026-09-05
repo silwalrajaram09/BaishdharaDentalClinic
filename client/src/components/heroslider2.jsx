@@ -16,7 +16,7 @@ import slide3 from "../assets/images/slide3.jpg";
 import slide4 from "../assets/images/slide4.jpg";
 import slide5 from "../assets/images/slide5.jpg";
 import slide6 from "../assets/images/slide6.jpg";
-import slide7 from "../assets/images/dineshsharmaHeroImage.png";
+import slide7 from "../assets/images/dr-dinesh-hero-slide-alt.png";
 
 const slides = [
   {
@@ -115,10 +115,10 @@ const slides = [
       // { text: "Learn More", link: "/about", primary: false },
     ],
   },
-  // {
-  //   image: slide7,
-  //   position: "object-[center_15%]",
-  // },
+  {
+    image: slide7,
+    position: "object-[center_15%]",
+  },
 ];
 
 const AUTO_SLIDE_INTERVAL = 5000;
@@ -217,7 +217,7 @@ const HeroSlider = () => {
 
   return (
     <section
-      className="relative  w-full h-[40vh] sm:h-[60vh] md:h-[68vh] lg:h-[65vh] overflow-hidden bg-[#0b2a4a]"
+      className="relative  w-full h-[40vh] sm:h-[60vh] md:h-[68vh] lg:h-[60vh] overflow-hidden bg-[#0b2a4a]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}

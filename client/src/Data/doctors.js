@@ -11,7 +11,7 @@ export const doctors = [
     nmc: "6551",
     specialization: "Oral and Maxillofacial Surgery",
     experience: "+12yrs",
-    opjectPos: "center top",
+    objectPos: "center top",
 
     sections: [
       {

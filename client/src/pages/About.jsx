@@ -1,171 +1,152 @@
 import { motion } from "framer-motion";
+import {
+  ArrowRight,
+  CheckCircle2,
+  HeartHandshake,
+  MapPin,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import about from "../assets/images/about.jpg";
 import nextLogo from "../assets/images/nextLogo.PNG";
-import {  ShieldCheck } from "lucide-react";
 import SEO from "../components/SEO";
 import TeamSection from "../components/TeamSection";
 import FAQ from "../components/FAQ";
 
-// Animation Variants
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 22 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const fadeLeft = {
-  hidden: { opacity: 0, x: -40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const fadeRight = {
-  hidden: { opacity: 0, x: 40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const stagger = {
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.08 } },
 };
 
-// const specializations = [
-//   {
-//     title: "Dental Implants",
-//     body: "Placed by a seasoned implantologist with over a decade of proven success.",
-//   },
-//   {
-//     title: "Cosmetic Dentistry",
-//     body: "Smile design, professional teeth whitening, and natural-looking restorations tailored to you.",
-//   },
-//   {
-//     title: "Oral & Maxillofacial Surgery",
-//     body: "Expertise in wisdom tooth removal, minor surgical procedures, and treatment under general anesthesia.",
-//   },
-// ];
+const values = [
+  {
+    title: "Trusted care",
+    text: "Clear guidance and dependable treatment for every family.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Patient first",
+    text: "Gentle communication and comfort at every step.",
+    icon: HeartHandshake,
+  },
+  {
+    title: "Modern dentistry",
+    text: "Thoughtful technology supporting precise clinical care.",
+    icon: Sparkles,
+  },
+];
 
-const StorySection = () => {
+const promises = [
+  "Experienced dental professionals",
+  "Transparent treatment planning",
+  "Comfortable, hygienic environment",
+];
+
+function ValueCard({ value }) {
+  const Icon = value.icon;
   return (
-    <section className="py-5 lg:py-10 bg-white">
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        {/* Section Heading */}
+    <motion.article
+      variants={fadeUp}
+      className="rounded-[1.4rem] border border-[#dcebf0] bg-white p-5 shadow-[0_15px_32px_-25px_rgba(11,42,74,0.55)] sm:p-6"
+    >
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#eaf7f9] text-[#2e7fc1]">
+        <Icon size={21} aria-hidden="true" />
+      </span>
+      <h3 className="mt-5 text-base font-bold text-[#0b2a4a]">{value.title}</h3>
+      <p className="mt-2 text-sm leading-6 text-[#687985]">{value.text}</p>
+    </motion.article>
+  );
+}
+
+function StorySection() {
+  return (
+    <section className="bg-white px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <motion.div
-          variants={fadeUp}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUp}
+          className="rounded-[2rem] bg-[#0b2a4a] p-6 text-white shadow-[0_25px_55px_-30px_rgba(11,42,74,0.75)] sm:p-9"
         >
-          <h2 className="mt-4 text-4xl md:text-4xl font-bold text-[#0b2a4a] leading-tight">
-            Our Story
-          </h2>
-
-          <div className="mt-8 w-20 h-1 rounded-full bg-[#2e7fc1] mx-auto" />
+          <div className="flex justify-center rounded-[1.5rem] bg-white/95 py-8 sm:py-10">
+            <img
+              src={nextLogo}
+              alt="Baishdhara Dental Clinic"
+              className="w-48 object-contain sm:w-56"
+            />
+          </div>
+          <p className="mt-7 text-center text-sm leading-7 text-blue-100">
+            Inspired by the historic Baishdhara heritage — flowing with health,
+            vitality, and a commitment to serving our community with trusted
+            dental care.
+          </p>
+          <div className="mt-8 grid grid-cols-2 gap-3">
+            {[
+              "Trusted care",
+              "Patient first",
+              "Modern dentistry",
+              "Ethical practice",
+            ].map((item) => (
+              <span
+                key={item}
+                className="rounded-xl border border-white/15 bg-white/10 px-3 py-3 text-center text-xs font-semibold text-white"
+              >
+                {item}
+              </span>
+            ))}
+          </div>
         </motion.div>
-
-        {/* Story */}
-        <div className="mt-20 grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left */}
-          <motion.div
-            variants={fadeLeft}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="order-2 lg:order-1"
-          >
-            <div className="bg-primary rounded-4xl p-10 border border-gray-100 shadow-sm">
-              <div className="flex justify-center">
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-full bg-linear-to-r from-[#2e7fc1]/15 to-[#1D9E75]/15 blur-2xl" />
-
-                  <img
-                    src={nextLogo}
-                    alt="Baishdhara Dental Clinic"
-                    className="relative w-48 sm:w-56 object-contain"
-                  />
-                </div>
-              </div>
-
-              <p className="mt-8 text-center italic text-[#0F172A] leading-relaxed">
-                "Inspired by the historic Baishdhara heritage — flowing with
-                health, vitality, and a commitment to serving our community with
-                trusted dental care."
-              </p>
-
-              {/* Values */}
-              <div className="mt-10 grid grid-cols-2 gap-4">
-                {[
-                  "Trusted Care",
-                  "Modern Dentistry",
-                  "Patient First",
-                  "Ethical Practice",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-xl bg-primary-dark  py-4 px-5 text-center text-[#FFFFFF] font-medium shadow-sm"
-                  >
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right */}
-          <motion.div
-            variants={fadeRight}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="order-1 lg:order-2"
-          >
-            <div className="space-y-5 text-gray-600 leading-8 text-lg">
-              <p className="mt- font-bold text-gray-600 text-2xl tracking-wider">
-                Your family dentist since 2021
-              </p>
-              <p>
-                Welcome to Baishdhara Dental Clinic — where expert care meets
-                heartfelt service. Located in the historic heart of Balaju,
-                Kathmandu, we are dedicated to providing exceptional,
-                affordable, and truly personalized dental care for every member
-                of your family.
-              </p>
-              <div className="mt-10 rounded-3xl border border-blue-100 bg-linear-to-r from-blue-50 to-white p-8 shadow-sm">
-                <p className="italic text-xl leading-relaxed text-[#0b2a4a]">
-                  "To restore and maintain healthy, confident smiles through
-                  advanced dentistry, gentle techniques, and genuine patient
-                  relationships built on trust."
-                </p>
-              </div>
-              <p>
-                We believe dentistry is more than a treatment—it’s a
-                partnership. Every smile we treat is unique, and every patient
-                is valued. Our care philosophy is built on transparency,
-                compassion, and respect, with every procedure guided by
-                precision, sincerity, and comfort.
-              </p>
-            </div>
-          </motion.div>
-        </div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeUp}
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#3b7dbd]">
+            Our story
+          </p>
+          <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.045em] text-[#0b2a4a] sm:text-4xl">
+            A clinic built around trust
+          </h2>
+          <div className="mt-4 h-0.5 w-10 rounded-full bg-[#86c7dc]" />
+          <div className="mt-7 space-y-5 text-sm leading-7 text-[#687985] sm:text-base">
+            <p>
+              Baishdhara Dental Clinic was founded to make high-quality dental
+              care feel more personal, transparent, and accessible for families
+              in Balaju and across Kathmandu.
+            </p>
+            <p>
+              We believe dentistry is more than a treatment — it is a
+              partnership. Every smile is unique, and every patient deserves
+              careful listening, honest guidance, and a treatment plan built
+              around long-term oral health.
+            </p>
+          </div>
+          <div className="mt-7 rounded-2xl border border-[#dcebf0] bg-[#f4fbfc] p-5">
+            <p className="text-base font-semibold leading-7 text-[#0b2a4a]">
+              “To restore and maintain healthy, confident smiles through
+              advanced dentistry, gentle techniques, and genuine patient
+              relationships built on trust.”
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
-};
+}
 
-const About = () => {
+export default function About() {
   return (
     <>
       <SEO
@@ -173,104 +154,131 @@ const About = () => {
         description="Learn about Baishdhara Dental Clinic in Balaju, Kathmandu. Our experienced dentists provide trusted, modern dental care and advanced treatments for your smile."
         keywords="Baishdhara Dental Clinic, dentist in Kathmandu, dental clinic Balaju, experienced dentist, modern dental care, family dentist"
       />
-
-      <div className="bg-[#f8f9fb] overflow-hidden">
-        {/* HERO SECTION */}
-        <motion.section
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28 "
-        >
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* TEXT */}
-            <motion.div
-              variants={fadeLeft}
-              className="space-y-6 sm:space-y-7 order-2 lg:order-1"
-            >
-              <div>
-                <span className="inline-block px-4 py-1.5 bg-blue-50 text-[#2e7fc1] text-xs font-bold uppercase tracking-widest rounded-full mb-5">
-                  Established 2021
-                </span>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#0b2a4a] leading-[1.15] sm:leading-[1.1] tracking-tight">
-                  Your Trusted Partner in{" "}
-                  <span className="text-[#2e7fc1]">Dental Health</span>
-                </h1>
-              </div>
-
-              <div className="space-y-5 text-gray-600 text-base md:text-lg leading-relaxed text-justify">
-                <p>
-                  At Baishdhara Dental Clinic, we believe that a healthy smile
-                  is the cornerstone of overall well-being. Located in the heart
-                  of Balaju, Kathmandu, we combine state-of-the-art dental
-                  technology with a deeply personal touch to deliver precise,
-                  comfortable, and reliable care.
-                </p>
-                <p>
-                  Our mission is to make high-quality, ethical, and affordable
-                  dental care accessible to every family. From routine checkups
-                  to advanced implants and complete smile makeovers, every
-                  treatment plan is meticulously designed with transparency and
-                  your long-term oral health in mind.
-                </p>
-                <p>
-                  Our Promise: Expert care, Honest guidance, Lasting confidence.
-                </p>
-              </div>
-
-              <div className="pt-2 sm:pt-4">
-                <a
-                  href="/doctors"
-                  className="inline-block w-full sm:w-auto text-center px-7 py-3 border border-gray-300 text-white bg-primary font-semibold rounded-lg  hover:text-secondary hover:bg-primary-dark transition-all duration-300"
+      <main className="overflow-hidden bg-[#f5f8fa]">
+        <section className="relative px-4 pb-14 pt-12 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-24">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -left-32 top-10 h-80 w-80 rounded-full bg-[#d9eef5]/75 blur-3xl"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#e5eefb]/80 blur-3xl"
+          />
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            animate="visible"
+            className="relative mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16"
+          >
+            <motion.div variants={fadeUp}>
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#3b7dbd]">
+                Established in 2021 · Balaju, Kathmandu
+              </p>
+              <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-[-0.06em] text-[#0b2a4a] sm:text-5xl lg:text-6xl">
+                Your trusted partner in{" "}
+                <span className="text-[#2e7fc1]">dental health.</span>
+              </h1>
+              <p className="mt-6 max-w-xl text-sm leading-7 text-[#647581] sm:text-base">
+                At Baishdhara Dental Clinic, expert care meets heartfelt
+                service. We combine modern technology with a personal touch to
+                deliver precise, comfortable, and reliable care for every
+                family.
+              </p>
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/doctors"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0b2a4a] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#0b2a4a]/15 transition hover:-translate-y-0.5 hover:bg-[#173f65]"
                 >
-                  Meet Our Doctors
-                </a>
+                  Meet our doctors <ArrowRight size={16} />
+                </Link>
+                <Link
+                  to="/services"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#bdd8e2] bg-white px-5 py-3.5 text-sm font-bold text-[#246786] transition hover:border-[#79b8ca] hover:bg-[#f4fbfc]"
+                >
+                  Explore services
+                </Link>
+              </div>
+              <div className="mt-9 flex items-center gap-3 text-xs font-semibold text-[#647581]">
+                <MapPin
+                  size={16}
+                  className="text-[#3b7dbd]"
+                  aria-hidden="true"
+                />{" "}
+                Tarun Marga, Bypass, Balaju, Kathmandu
               </div>
             </motion.div>
-
-            {/* IMAGE */}
             <motion.div
-              variants={fadeRight}
-              className="relative order-2 lg:order-2"
+              variants={fadeUp}
+              className="relative mx-auto w-full max-w-xl lg:max-w-none"
             >
-              <div className="relative max-w-md mx-auto lg:max-w-none">
-                <div
-                  className="w-full aspect-4/3 bg-cover bg-center rounded-3xl sm:rounded-4xl shadow-2xl relative z-10"
-                  style={{ backgroundImage: `url(${about})` }}
-                  role="img"
-                  aria-label="Inside Baishdhara Dental Clinic"
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border-8 border-white bg-[#dceef3] shadow-[0_30px_65px_-30px_rgba(11,42,74,0.55)] sm:rounded-[2.5rem]">
+                <img
+                  src={about}
+                  alt="Inside Baishdhara Dental Clinic"
+                  className="h-full w-full object-cover"
                 />
-
-                {/* Decorative elements */}
-                <div className="absolute -bottom-5 -left-5 sm:-bottom-6 sm:-left-6 w-32 h-32 sm:w-48 sm:h-48 bg-[#2e7fc1] rounded-3xl sm:rounded-4xl opacity-20 -z-10 hidden sm:block" />
-                <div className="absolute -top-5 -right-5 sm:-top-6 sm:-right-6 w-32 h-32 sm:w-48 sm:h-48 bg-[#1D9E75] rounded-full opacity-10 -z-10 hidden sm:block" />
-
-                {/* Floating Trust Badge */}
-                <div className="absolute bottom-4 left-4 sm:bottom-8 sm:left-8 bg-white/90 backdrop-blur-sm px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl shadow-lg flex items-center gap-3 z-20">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-green-100 text-[#1D9E75] rounded-full flex items-center justify-center shrink-0">
-                    <ShieldCheck size={18} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-xs sm:text-sm font-bold text-[#0b2a4a] leading-tight">
-                      Patient-Centric
-                    </p>
-                    <p className="text-[11px] sm:text-xs text-gray-500 leading-tight">
-                      Ethical & Safe Care
-                    </p>
-                  </div>
-                </div>
+              </div>
+              <div className="absolute -bottom-5 left-4 flex items-center gap-3 rounded-2xl border border-white/80 bg-white/95 px-4 py-3 shadow-xl sm:bottom-6 sm:left-6">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e5f7ef] text-[#1d9e75]">
+                  <ShieldCheck size={19} aria-hidden="true" />
+                </span>
+                <span>
+                  <strong className="block text-sm text-[#0b2a4a]">
+                    Patient-centred care
+                  </strong>
+                  <small className="text-xs text-[#71808c]">
+                    Ethical & safe treatment
+                  </small>
+                </span>
               </div>
             </motion.div>
+          </motion.div>
+        </section>
+
+        <section className="border-y border-[#dcebf0] bg-white px-4 py-10 sm:px-6 lg:px-8">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3 sm:gap-5"
+          >
+            {values.map((value) => (
+              <ValueCard key={value.title} value={value} />
+            ))}
+          </motion.div>
+        </section>
+
+        {/* <section className="bg-[#eaf6f8] px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+          <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#3180a5]">
+                Our promise
+              </p>
+              <h2 className="mt-3 text-3xl font-extrabold tracking-[-0.045em] text-[#0b2a4a] sm:text-4xl">
+                Care that feels clear and comfortable.
+              </h2>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {promises.map((promise) => (
+                <div
+                  key={promise}
+                  className="flex items-start gap-2 rounded-xl border border-[#cfe5eb] bg-white/75 p-4 text-sm font-semibold leading-6 text-[#31536d]"
+                >
+                  <CheckCircle2
+                    size={18}
+                    className="mt-0.5 shrink-0 text-[#2e7fc1]"
+                    aria-hidden="true"
+                  />
+                  {promise}
+                </div>
+              ))}
+            </div>
           </div>
-        </motion.section>
+        </section> */}
 
-        {/* TEAM SECTION */}
         <TeamSection />
-
-        {/* OUR STORY - THE EDITORIAL LAYOUT */}
         <StorySection />
-        {/* FAQ SECTION */}
         <FAQ
           title="Frequently Asked Questions"
           subtitle="Find answers to common questions about our clinic and dental care."
@@ -283,28 +291,26 @@ const About = () => {
             {
               question: "How can I book an appointment?",
               answer:
-                "You can book an appointment by calling our clinic directly or using our online booking system available on our website click the 'Book Appointment' button or navigate to our home page.",
+                "You can book an appointment by calling our clinic directly or using the online appointment form available throughout the website.",
             },
             {
               question: "Do you accept insurance?",
               answer:
-                "Yes, we accept most major dental insurance plans. Please contact our office for specific details regarding your insurance coverage.",
+                "Please contact our office for current information about insurance coverage and payment options.",
             },
             {
               question: "What should I expect during my first visit?",
               answer:
-                "During your first visit, we will conduct a comprehensive dental examination, discuss your oral health history, and create a personalized treatment plan tailored to your needs.",
+                "We conduct a comprehensive dental examination, discuss your oral health history, and create a personalized treatment plan for your needs.",
             },
             {
               question: "Are your dentists experienced?",
               answer:
-                "Yes, our team consists of highly qualified and experienced dental professionals dedicated to providing the best care possible.",
+                "Yes. Our team consists of qualified and experienced dental professionals dedicated to safe, precise, and compassionate care.",
             },
           ]}
         />
-      </div>
+      </main>
     </>
   );
-};
-
-export default About;
+}
