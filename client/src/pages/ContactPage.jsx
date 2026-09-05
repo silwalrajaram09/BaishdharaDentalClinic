@@ -6,9 +6,9 @@ const ContactPage = () => {
   return (
     <>
       <SEO
-        title="Contact| Bsishdhara Dental Clinic"
-        description="Book Your Appointment and get Expert Dental Care"
-        keywords="Book Appointment, Dentist Near Me, Contact for Services"
+        title="Contact Baishdhara Dental Clinic | Book an Appointment"
+        description="Contact Baishdhara Dental Clinic in Kathmandu to book your dental appointment. Get expert dental care, consultations, and advanced oral health services."
+        keywords="contact dentist Kathmandu, book dental appointment Kathmandu, dentist near me, Baishdhara Dental Clinic contact, dental consultation Kathmandu, dental services"
       />
       <div className="bg-gray-50">
         <Contact />

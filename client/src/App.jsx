@@ -57,14 +57,14 @@ const Services = lazy(() => import("./pages/Services"));
 const Doctors = lazy(() => import("./pages/Doctors"));
 const Contact = lazy(() => import("./pages/ContactPage"));
 const MyTooth = lazy(() => import("./pages/Mytooth"));
-const Appointment = lazy(() => import("./pages/Appointment"));
 const MeroDaat = lazy(() => import("./pages/MeroDaat"));
 const Gallery = lazy(() => import("./pages/Gallery"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const DoctorProfile = lazy(() => import("./pages/Doctors/DoctorProfile"));
 const ServicePage = lazy(() => import("./pages/Services/ServicePage"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 import PageLoader from "./components/PageLoader";
-import { AnimatePresence } from "framer-motion";
+// import { AnimatePresence } from "framer-motion";
 
 function App() {
   return (
@@ -73,8 +73,8 @@ function App() {
         <ScrollToTop />
 
         <Layout>
-          <AnimatePresence mode="wait" >
-          <Suspense fallback={<PageLoader />}>
+          {/* <AnimatePresence mode="wait" > */}
+          {/* <Suspense fallback={<PageLoader />}> */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -84,13 +84,13 @@ function App() {
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/my-teeth" element={<MyTooth />} />
               <Route path="/मेरो-दाँत" element={<MeroDaat />} />
-              <Route path="/appointment" element={<Appointment />} />
               <Route path="/doctor/:id" element={<DoctorProfile />} />
               <Route path="/services/:slug" element={<ServicePage />} />
               <Route path="/gallery" element={<Gallery />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
-          </Suspense>
-          </AnimatePresence>
+          {/* </Suspense> */}
+          {/* </AnimatePresence> */}
         </Layout>
       </Router>
     </HelmetProvider>

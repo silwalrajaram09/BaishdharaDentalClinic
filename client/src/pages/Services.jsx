@@ -39,7 +39,6 @@ const ServiceCard = ({ service }) => {
 
   return (
     <motion.article
-      variants={cardVariants}
       whileHover={{
         y: -8,
         scale: 1.015,
@@ -163,9 +162,7 @@ const ServiceCard = ({ service }) => {
       {/* Content */}
       <div className="relative z-10 p-6">
         {/* Title */}
-        <h2
-          className="mb-3 min-h-[60px] text-lg md:text-xl font-semibold font-playfair leading-snug text-[#0b2a4a] line-clamp-2"
-        >
+        <h2 className="mb-3 min-h-[60px] text-lg md:text-xl font-semibold font-playfair leading-snug text-[#0b2a4a] line-clamp-2">
           {service.title}
         </h2>
 
@@ -217,43 +214,28 @@ const ServiceCard = ({ service }) => {
 const Services = () => {
   return (
     <>
-    <SEO
-        title="Dental Services | Bishdhara Dental Clinic"
-        description="Explore our comprehensive dental services."
-        keywords="dental services, dental implants, braces, root canal, emergency care"
+      <SEO
+        title="Dental Services in Kathmandu | Baishdhara Dental Clinic"
+        description="Explore comprehensive dental services at Baishdhara Dental Clinic Kathmandu: dental implants, braces, root canal treatment, teeth whitening, and emergency care."
+        keywords="dental services Kathmandu, dental clinic Kathmandu, dental implants, braces, root canal treatment, teeth whitening, emergency dental care, oral health"
       />
-    
-    <section
-      className="
+
+      <section
+        className="
         min-h-screen
         bg-gradient-to-b
         from-[#f4f7fb]
         via-white
         to-white
       "
-    >
-      {/* Hero */}
-      <div className="mx-auto max-w-6xl px-4 pt-24 pb-6 text-center">
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 30,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.8,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-        >
-          <span
-            className="
+      >
+        {/* Hero */}
+        <div className="mx-auto max-w-6xl px-4 pt-24 pb-6 text-center">
+          <div
+            className="text-center"
+          >
+            <span
+              className="
               mb-4
               inline-block
               text-[11px]
@@ -262,18 +244,16 @@ const Services = () => {
               tracking-[0.24em]
               text-[#2e7fc1]
             "
-          >
-            Our Specialists
-          </span>
+            >
+              Our Specialists
+            </span>
 
-          <h1
-            className="text-3xl md:text-4xl font-bold font-playfair text-[#0b2a4a] leading-tight"
-          >
-            Our Dental Services
-          </h1>
+            <h1 className="text-3xl md:text-4xl font-bold font-playfair text-[#0b2a4a] leading-tight">
+              Our Dental Services
+            </h1>
 
-          <div
-            className="
+            <div
+              className="
               mx-auto
               mt-5
               h-[3px]
@@ -281,10 +261,10 @@ const Services = () => {
               rounded-full
               bg-[#2e7fc1]
             "
-          />
+            />
 
-          <p
-            className="
+            <p
+              className="
               mx-auto
               mt-6
               max-w-2xl
@@ -293,37 +273,31 @@ const Services = () => {
               text-gray-500
               md:text-lg
             "
-          >
-            Comprehensive dental care with advanced technology and personalized
-            attention for your healthiest and most confident smile.
-          </p>
-        </motion.div>
-      </div>
+            >
+              Comprehensive dental care with advanced technology and
+              personalized attention for your healthiest and most confident
+              smile.
+            </p>
+          </div>
+        </div>
 
-      {/* Grid */}
-      <div className="mx-auto max-w-6xl px-4 py-16">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          className="
+        {/* Grid */}
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div
+            className="
             grid
             grid-cols-1
             gap-7
             md:grid-cols-2
             lg:grid-cols-3
           "
-        >
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
-        </motion.div>
-      </div>
-    </section>
+          >
+            {services.map((service) => (
+              <ServiceCard key={service.id} service={service} />
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 };

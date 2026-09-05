@@ -63,7 +63,7 @@ export const doctors = [
     nmc: "6554",
     objectPos: "center top",
     specialization: "Prosthodontics & Implantology",
-    experience: "+10yrs",
+    experience: "+12yrs",
 
     sections: [
       {
@@ -156,53 +156,53 @@ Beyond clinical practice, he actively mentors undergraduate and postgraduate den
       },
     ],
   },
-  {
-    id: "rakshya",
-    name: "Dr. Rakshya Neupane",
-    image: rakshya,
+  // {
+  //   id: "rakshya",
+  //   name: "Dr. Rakshya Neupane",
+  //   image: rakshya,
 
-    title: "General Dental Practitioner",
-    nmc: "40251",
-    objectPos: "center top",
-    specialization: "General Dentistry",
-    experience: "+10yrs",
+  //   title: "General Dental Practitioner",
+  //   nmc: "40251",
+  //   objectPos: "center top",
+  //   specialization: "General Dentistry",
+  //   experience: "+1yrs",
 
-    sections: [
-      {
-        title: "Clinical Experience & Expertise",
-        items: [
-          "Skilled in all aspects of general dentistry",
-          "Specializes in preventive care and patient education",
-          "Expertise in routine check-ups, fillings, and extractions",
-          "Known for gentle approach with children and anxious patients",
-        ],
-      },
-      {
-        title: "Education",
-        items: [
-          "BDS – Kathmandu University (Kantipur Dental College)",
-          "Registered with Nepal Medical Council",
-        ],
-      },
-      {
-        title: "Approach to Care",
-        items: [
-          "Gentle and compassionate patient care",
-          "Focus on long-term oral health",
-          "Creates comfortable environment for children",
-        ],
-      },
-      {
-        content: `Dr. Rakshya Neupane is a dedicated General Dental Practitioner committed to providing comfortable, compassionate, and high-quality dental care. 
+  //   sections: [
+  //     {
+  //       title: "Clinical Experience & Expertise",
+  //       items: [
+  //         "Skilled in all aspects of general dentistry",
+  //         "Specializes in preventive care and patient education",
+  //         "Expertise in routine check-ups, fillings, and extractions",
+  //         "Known for gentle approach with children and anxious patients",
+  //       ],
+  //     },
+  //     {
+  //       title: "Education",
+  //       items: [
+  //         "BDS – Kathmandu University (Kantipur Dental College)",
+  //         "Registered with Nepal Medical Council",
+  //       ],
+  //     },
+  //     {
+  //       title: "Approach to Care",
+  //       items: [
+  //         "Gentle and compassionate patient care",
+  //         "Focus on long-term oral health",
+  //         "Creates comfortable environment for children",
+  //       ],
+  //     },
+  //     {
+  //       content: `Dr. Rakshya Neupane is a dedicated General Dental Practitioner committed to providing comfortable, compassionate, and high-quality dental care. 
           
-          She earned her Bachelor of Dental Surgery (BDS) from Kathmandu University School of Medical Sciences through Kantipur Dental College and is registered with the Nepal Medical Council. 
+  //         She earned her Bachelor of Dental Surgery (BDS) from Kathmandu University School of Medical Sciences through Kantipur Dental College and is registered with the Nepal Medical Council. 
           
-          Dr. Neupane enjoys all aspects of general dentistry, with a strong focus on preventive care, patient education, and long-term oral health. She is especially appreciated for her gentle manner, soft-spoken personality, and ability to make children feel comfortable during dental visits. 
+  //         Dr. Neupane enjoys all aspects of general dentistry, with a strong focus on preventive care, patient education, and long-term oral health. She is especially appreciated for her gentle manner, soft-spoken personality, and ability to make children feel comfortable during dental visits. 
           
-          Outside the clinic, she enjoys trekking and writing poetry. Her warm approach, dedication to dentistry, and commitment to patient well-being make her a valued member of the Baishdhara Dental Clinic team.`,
-      },
-    ],
-  },
+  //         Outside the clinic, she enjoys trekking and writing poetry. Her warm approach, dedication to dentistry, and commitment to patient well-being make her a valued member of the Baishdhara Dental Clinic team.`,
+  //     },
+  //   ],
+  // },
 ];
 
 export default doctors;

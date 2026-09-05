@@ -466,7 +466,7 @@ const BookingModal = ({ open, onClose }) => {
                   className={inputCls("date")}
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  Open Sunday–Friday, 9:00 AM – 6:00 PM (Closed Saturdays)
+                  Open Sunday–Friday, 10:00 AM – 6:00 PM (Closed Saturdays)
                 </p>
                 {fieldErrors.date && (
                   <p className={errorTextCls}>{fieldErrors.date}</p>

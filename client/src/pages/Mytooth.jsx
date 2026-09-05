@@ -1,208 +1,195 @@
 import { motion } from "framer-motion";
-import {
-  Info,
-  Zap,
-  Frown,
-  Droplets,
-  Wrench,
-  ShieldCheck,
-  RefreshCw,
-  Wind,
-  Activity,
-  Thermometer,
-  SlidersHorizontal,
-  Cross,
-  CalendarCheck,
-  Lightbulb,
-} from "lucide-react";
 import SEO from "../components/SEO";
+import FAQ from "../components/FAQ";
 
-const topics = [
-  {
-    name: "Fun & useful facts",
-    icon: Info,
-    color: "bg-blue-50 text-blue-700",
-    text: "Enamel is the hardest body part. Teeth are unique like fingerprints. Gum disease links to heart disease.",
-  },
-  {
-    name: "Toothache",
-    icon: Zap,
-    color: "bg-red-50 text-red-700",
-    text: "Decay causes sharp pain. May need a filling or root canal depending on severity.",
-  },
-  {
-    name: "Tooth decay",
-    icon: Frown,
-    color: "bg-amber-50 text-amber-700",
-    text: "Bacteria + sugar = acid → cavities. Prevent with brushing and fluoride toothpaste.",
-  },
-  {
-    name: "Acid wear",
-    icon: Droplets,
-    color: "bg-amber-50 text-amber-700",
-    text: "Acidic drinks erode enamel over time, causing sensitivity and visible damage.",
-  },
-  {
-    name: "Fillings",
-    icon: Wrench,
-    color: "bg-blue-50 text-blue-700",
-    text: "Amalgam, composite, and GIC used depending on tooth condition and cavity size.",
-  },
-  {
-    name: "Fluoride protection",
-    icon: ShieldCheck,
-    color: "bg-teal-50 text-teal-700",
-    text: "Strengthens enamel, remineralises early decay, and prevents new cavities effectively.",
-  },
-  {
-    name: "Oral care routine",
-    icon: RefreshCw,
-    color: "bg-teal-50 text-teal-700",
-    text: "Brush twice daily, floss, clean your tongue, and visit your dentist regularly.",
-  },
-  {
-    name: "Bad breath",
-    icon: Wind,
-    color: "bg-purple-50 text-purple-700",
-    text: "Caused by bacteria, poor oral hygiene, or underlying infections.",
-  },
-  {
-    name: "Gum disease",
-    icon: Activity,
-    color: "bg-red-50 text-red-700",
-    text: "Plaque buildup leads to gingivitis, and periodontitis if left untreated.",
-  },
-  {
-    name: "Tooth sensitivity",
-    icon: Thermometer,
-    color: "bg-blue-50 text-blue-700",
-    text: "Caused by enamel loss or gum recession. Use a sensitivity toothpaste.",
-  },
-  {
-    name: "Braces & aligners",
-    icon: SlidersHorizontal,
-    color: "bg-purple-50 text-purple-700",
-    text: "Correct crooked teeth and improve bite alignment over time.",
-  },
-  {
-    name: "Dental implants",
-    icon: Cross,
-    color: "bg-teal-50 text-teal-700",
-    text: "Permanent tooth replacement using titanium posts anchored in the jawbone.",
-  },
+const columns = [
+  [
+    {
+      label: "Prevention",
+      topics: [
+        {
+          name: "Fluoride protection",
+          text: "Strengthens enamel, remineralises early decay, and prevents new cavities effectively.",
+        },
+        {
+          name: "Oral care routine",
+          text: "Brush twice daily, floss, clean your tongue, and visit your dentist regularly.",
+        },
+        {
+          name: "Dental implants",
+          text: "Permanent tooth replacement using titanium posts anchored in the jawbone.",
+        },
+      ],
+    },
+    {
+      label: "Causes",
+      topics: [
+        {
+          name: "Tooth decay",
+          text: "Bacteria + sugar = acid → cavities. Prevent with brushing and fluoride toothpaste.",
+        },
+        {
+          name: "Acid wear",
+          text: "Acidic drinks erode enamel over time, causing sensitivity and visible damage.",
+        },
+      ],
+    },
+  ],
+  [
+    {
+      label: "Problems & pain",
+      topics: [
+        {
+          name: "Toothache",
+          text: "Decay causes sharp pain. May need a filling or root canal depending on severity.",
+        },
+        {
+          name: "Gum disease",
+          text: "Plaque buildup leads to gingivitis, and periodontitis if left untreated.",
+        },
+      ],
+    },
+    {
+      label: "Treatments & cosmetic",
+      topics: [
+        {
+          name: "Fillings",
+          text: "Amalgam, composite, and GIC used depending on tooth condition and cavity size.",
+        },
+        {
+          name: "Braces & aligners",
+          text: "Correct crooked teeth and improve bite alignment over time.",
+        },
+        {
+          name: "Bad breath",
+          text: "Caused by bacteria, poor oral hygiene, or underlying infections.",
+        },
+        {
+          name: "Tooth sensitivity",
+          text: "Caused by enamel loss or gum recession. Use a sensitivity toothpaste.",
+        },
+      ],
+    },
+  ],
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.97 },
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-const TopicCard = ({ item }) => {
-  const Icon = item.icon;
-  return (
-    <motion.div
-      variants={cardVariants}
-      whileHover={{ y: -3 }}
-      transition={{ type: "spring", stiffness: 300, damping: 22 }}
-      className="group bg-white border border-gray-100 hover:border-[#2e7fc1]/30 rounded-2xl p-5 flex flex-col gap-3 transition-all duration-200 cursor-pointer"
-    >
-      {/* Icon */}
-      <div
-        className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${item.color}`}
-      >
-        <Icon size={17} strokeWidth={1.8} />
-      </div>
+const TopicRow = ({ item }) => (
+  <div className="py-4 border-b border-gray-100 last:border-b-0">
+    <h3 className="text-sm font-semibold text-[#0b2a4a] mb-1">{item.name}</h3>
+    <p className="text-sm text-gray-500 leading-relaxed">{item.text}</p>
+  </div>
+);
 
-      {/* Text */}
-      <div className="flex flex-col gap-1">
-        <h2
-          className="text-base font-semibold font-playfair text-[#0b2a4a] leading-snug"
-        >
-          {item.name}
-        </h2>
-        <p className="text-xs text-gray-500 leading-relaxed">{item.text}</p>
-      </div>
-    </motion.div>
-  );
-};
+const CategorySection = ({ category }) => (
+  <motion.div
+    variants={fadeUp}
+    initial="hidden"
+    whileInView="visible"
+    viewport={{ once: true, margin: "-60px" }}
+    className="mb-10 last:mb-0"
+  >
+    <h2 className="text-xs font-semibold uppercase tracking-wide text-[#2e7fc1] mb-2">
+      {category.label}
+    </h2>
+    <div className="bg-white border border-gray-100 rounded-xl px-5">
+      {category.topics.map((item, i) => (
+        <TopicRow key={i} item={item} />
+      ))}
+    </div>
+  </motion.div>
+);
 
 const MyTooth = () => {
   return (
     <>
       <SEO
-        title="Your Complete Guide to Oral Health | Bishdhara Dental Clinic"
+        title="Your Guide to Oral Health | Baishdhara Dental Clinic"
         description="Learn about tooth decay, gum disease, dental implants, braces, oral hygiene, bad breath, tooth sensitivity, and other essential dental health topics."
         keywords="oral health, tooth decay, gum disease, dental implants, braces, oral hygiene, bad breath, tooth sensitivity, fluoride protection, dental care"
       />
 
-      <div className="bg-[#f4f7fb] min-h-screen">
-        <div className="max-w-6xl mx-auto px-4 pt-20 pb-20">
-          {/* Header */}
+      <div className="bg-gray-50 min-h-screen">
+        <div className="max-w-5xl mx-auto px-4 pt-20 pb-20">
+          {/* Heading — centered */}
           <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center mb-12"
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            className="mb-14 text-center"
           >
-            {/* <span className="inline-block text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2e7fc1] mb-3">
-            Dental knowledge hub
-          </span> */}
-            <h1
-              className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
-            >
-              Your complete guide
-              <br className="hidden md:block" /> to oral health
+            <h1 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">
+              Your complete guide to oral health
             </h1>
             <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
-            <p className="mt-4 text-gray-400 text-sm max-w-sm mx-auto">
-              Simple, practical dental knowledge for a healthy smile
+            <p className="mt-4 text-gray-500 text-sm max-w-md mx-auto">
+              Simple, practical dental knowledge for a healthy smile — organised
+              by what you're looking for.
             </p>
-
-            {/* Fun fact pill */}
           </motion.div>
 
-          {/* Topic cards grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8"
-          >
-            {topics.map((item, i) => (
-              <TopicCard key={i} item={item} />
+          {/* Two-column categorized content */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10">
+            {columns.map((column, colIndex) => (
+              <div key={colIndex}>
+                {column.map((category) => (
+                  <CategorySection key={category.label} category={category} />
+                ))}
+              </div>
             ))}
-          </motion.div>
+          </div>
 
           {/* Footer reminder */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+          {/* <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex items-center gap-4 bg-white border border-gray-100 rounded-2xl p-5"
+            className="mt-10 bg-white border border-gray-100 rounded-xl p-5"
           >
-            <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#2e7fc1] flex items-center justify-center flex-shrink-0">
-              <CalendarCheck size={18} strokeWidth={1.8} />
-            </div>
             <p className="text-sm text-gray-500">
               <span className="font-semibold text-[#0b2a4a]">Remember: </span>
               Visit your dentist every 6 months for prevention, not just
               treatment.
             </p>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
+
+      <FAQ
+        title="Frequently Asked Questions"
+        subtitle="Find answers to common questions"
+        faqs={[
+          {
+            question: "How often should I visit the dentist?",
+            answer:
+              "It's recommended to visit your dentist every 6 months for regular check-ups and cleanings.",
+          },
+          {
+            question: "What causes tooth decay?",
+            answer:
+              "Tooth decay is caused by bacteria in the mouth that produce acids from sugar, leading to cavities.",
+          },
+          {
+            question: "How can I prevent gum disease?",
+            answer:
+              "Maintain good oral hygiene by brushing and flossing daily, and visit your dentist regularly.",
+          },
+          {
+            question: "Are dental implants safe?",
+            answer:
+              "Yes, dental implants are a safe and effective way to replace missing teeth when performed by a qualified professional.",
+          },
+        ]}
+      />
     </>
   );
 };

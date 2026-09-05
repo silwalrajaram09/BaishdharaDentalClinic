@@ -5,23 +5,6 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { TelephoneIcon } from "@hugeicons/core-free-icons";
 import { FaWhatsapp } from "react-icons/fa";
 
-// import {
-//   GoogleMap,
-//   useJsApiLoader,
-//   LoadScript,
-//   InfoWindow,
-//   Marker,
-// } from "@react-google-maps/api";
-
-// const containerStyle = {
-//   width: "400px",
-//   height: "400px",
-// };
-// const pinPoint = {
-//   lng: 85.3052,
-//   lat: 27.7289,
-// };
-import { MapContainer, TileLayer, Popup, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
@@ -238,9 +221,7 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h1
-            className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
-          >
+          <h1 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">
             Our Contact
           </h1>
           <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
@@ -439,98 +420,16 @@ const Contact = () => {
               Find Us on Map
             </h2>
 
-            <div className="rounded-xl overflow-hidden">
-              {/* <LoadScript googleMapsApiKey="AIzaSyA9neqBEFnoOHfdN-Czs3-zBn0BP8J15j8">
-                <GoogleMap
-                  mapContainerStyle={containerStyle}
-                  center={pinPoint}
-                  zoom={15}
-                >
-               
-              <Marker
-                    position={pinPoint}
-                    onClick={() => setShowInfo(true)}
-                  />
-
-              {showInfo && (
-                    <InfoWindow
-                      position={pinPoint}
-                      onCloseClick={() => setShowInfo(false)}
-                    >
-                      <div className="w-[220px] sm:w-[260px] md:w-[280px] p-1">
-                        <h2 className="text-base sm:text-lg font-semibold text-primary mb-1">
-                          Baishdhara Dental Clinic
-                        </h2>
-
-                        <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                          Tarun Marga, Bypass,
-                          <br />
-                          Balaju, Kathmandu, Nepal
-                        </p>
-
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          <a
-                            href="https://wa.me/9779803421766"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-green-500 hover:bg-green-600 text-white text-[11px] sm:text-xs px-3 py-1.5 rounded-md transition"
-                          >
-                            WhatsApp
-                          </a>
-
-                          <a
-                            href="tel:014962513"
-                            className="bg-primary hover:bg-primary-dark text-white text-[11px] sm:text-xs px-3 py-1.5 rounded-md transition"
-                          >
-                            Call
-                          </a>
-                        </div>
-                      </div>
-                    </InfoWindow>
-                  )}
-                </GoogleMap>
-               </LoadScript> */}
-
-              <MapContainer
-                center={position}
-                zoom={17}
-                scrollWheelZoom={false}
-                className="
-                      w-full
-                      h-[250px]
-                      sm:h-[300px]
-                      md:h-[350px]
-                      lg:h-[400px]
-                      rounded-xl
-                      overflow-hidden
-                      z-0
-                    " >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution="&copy; OpenStreetMap contributors"
-                />
-
-                <Marker position={position} icon={customIcon}>
-                  <Popup
-                    autoClose={true}
-                    closeOnClick={true}
-                    closeButton={true}
-                  >
-                    <div className="min-w-45 sm:min-w-55">
-                      <strong className="text-sm sm:text-base">
-                        Baishdhara Dental Clinic
-                      </strong>
-
-                      <p className="text-xs sm:text-sm mt-1 leading-relaxed">
-                        Tarun Marga, Bypass,
-                        <br />
-                        Balaju, Kathmandu, Nepal
-                      </p>
-                    </div>
-                  </Popup>
-                </Marker>
-              </MapContainer>
-            </div>
+            <section className="max-w-7xl mx-auto overflow-hidden  sm:px-6 lg:px-8 pb-12">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.314449794758!2d85.29962317554164!3d27.738445576164796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19f1fee8d13d%3A0x30058cbbf8bc3d57!2sBaishdhara%20Dental%20Clinic!5e0!3m2!1sen!2snp!4v1786189220726!5m2!1sen!2snp"
+                width="600"
+                height="450"
+                style={{ border: 0 }}
+                loading="lazy"
+              ></iframe>
+            </section>
+            {/* </div> */}
           </div>
         </motion.div>
       </div>

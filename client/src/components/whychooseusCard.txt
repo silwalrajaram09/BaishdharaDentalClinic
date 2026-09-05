@@ -1,0 +1,325 @@
+<motion.div
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mt-14 sm:mt-20"
+        >
+          {/* BACKGROUND GLOW */}
+          <div className="absolute -top-10 -left-10 w-40 h-40 bg-blue-200/30 blur-3xl rounded-full pointer-events-none" />
+          <div className="absolute -bottom-10 -right-10 w-52 h-52 bg-cyan-200/20 blur-3xl rounded-full pointer-events-none" />
+
+          {/* MAIN IMAGE WRAPPER */}
+          <div
+            className="
+      group
+      relative
+      overflow-hidden
+      rounded-[28px]
+      border
+      border-white/20
+      bg-white/40
+      backdrop-blur-xl
+      shadow-[0_20px_70px_-15px_rgba(11,42,74,0.22)]
+    "
+          >
+            {/* IMAGE */}
+            <img
+              src={changeImage}
+              alt="Bhushal Dental Clinic"
+              loading="lazy"
+              className="
+        w-full
+        h-50
+  sm:h-95
+  md:h-115
+  lg:h-100
+  xl:h-110
+        
+        object-cover
+        bg-[#dceffd]
+        object-[center_5%]
+        transition-transform
+        duration-700
+        ease-out
+        group-hover:scale-[1.02]
+      "
+            />
+
+            {/* OVERLAY */}
+            <div
+              className="
+        absolute
+        inset-0
+        bg-linear-to-t
+        from-[#0b2a4a]/70
+        via-[#0b2a4a]/15
+        to-transparent
+      "
+            />
+
+            {/* SHINE EFFECT */}
+            <div
+              className="
+        absolute
+        inset-0
+        opacity-0
+        group-hover:opacity-100
+        transition-opacity
+        duration-700
+        bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.18),transparent)]
+        translate-x-[-120%]
+        group-hover:translate-x-[120%]
+      "
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                delay: 0.25,
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+    absolute
+top-5
+lg:top-0
+left-2
+sm:top-8
+sm:left-6
+md:top-5
+md:left-5
+z-20
+
+w-[42%]
+sm:w-75
+md:w-[320px]
+lg:w-[40%]
+lg:h-100
+  "
+            >
+              {/* GLASS CARD */}
+              <div
+                className="
+      relative
+      overflow-hidden
+      rounded-lg
+      sm:rounded-[28px]
+      
+      bg-transparent
+      p-1.5
+      sm:p-6
+      md:p-7
+      
+    "
+              >
+                {/* SOFT GLOW */}
+                <div
+                  className="
+        absolute
+        inset-0
+        bg-gradient-to-br
+        from-white/10
+        via-transparent
+        to-transparent
+        pointer-events-none
+      "
+                />
+
+                {/* TOP LABEL */}
+                <div className=" w-fit hidden sm:flex  items-center gap-1 sm:gap-2 rounded-full bg-white/10 border border-white/15 px-1 sm:px-3 py-0.5 sm:py-1.5">
+                  <span className="  text-[8px] sm:text-xs font-semibold tracking-wide text-blue-100 uppercase whitespace-nowrap">
+                    Prosthodontics & Implant Expert
+                  </span>
+                </div>
+
+                {/* TITLE */}
+                <h3
+                  className="
+        mt-1
+        sm:mt-4
+        text-xl
+        sm:text-2xl
+        md:text-3xl
+        font-bold
+        font-playfair
+        leading-tight
+        text-white
+        tracking-tight
+      "
+                >
+                  Dr. Dinesh Sharma Bhusal
+                </h3>
+
+                {/* DESCRIPTION */}
+                <p
+                  className="
+    hidden sm:block
+    mt-1 sm:mt-4
+    text-[11px] sm:text-base
+    leading-relaxed
+    text-blue-50/90
+    max-w-md
+  "
+                >
+                  Nepal's leading prosthodontics and implant dentistry expert,
+                  delivering advanced smile restoration with precision,
+                  aesthetics, and compassionate care.
+                </p>
+
+                {/* Mobile Description */}
+                <p
+                  className="
+    block sm:hidden
+    mt-1
+    text-[9px]
+    leading-relaxed
+    text-blue-50/90
+  "
+                >
+                  Prosthodontics & Implant Expert
+                </p>
+                {/* STATS */}
+                <div className="flex mt-1 sm:mt-5 flex-wrap gap-1 sm:gap-3">
+                  <div
+                    className="
+         
+        "
+                  >
+                    <p className="text-white text-[8px] sm:text-sm font-bold">
+                      1000+
+                    </p>
+                    <p className="text-blue-100 text-[9px] sm:text-[11px]">
+                      Dental Implants
+                    </p>
+                  </div>
+
+                  <div
+                    className="
+
+        "
+                  >
+                    <p className="text-white text-[8px] sm:text-sm font-bold">
+                      1000+
+                    </p>
+                    <p className="text-blue-100 text-[9px] sm:text-[11px]">
+                      Post &amp; Core
+                    </p>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  to="/doctor/dinesh"
+                  className="
+        mt-1
+        sm:mt-6
+        inline-flex
+        items-center
+        gap-0.5
+        sm:gap-2
+        rounded-sm
+        sm:rounded-xl
+        bg-accent
+        px-1
+        py-0.5
+        sm:px-5
+        sm:py-3
+        text-[10px]
+        sm:text-sm
+        font-semibold
+        text-white
+        shadow-lg
+        transition-all
+        duration-300
+        hover:translate-y-[-2px]
+        hover:bg-[#94311B]
+        hover:text-white
+        hover:shadow-2xl
+        active:scale-[0.98]
+      "
+                >
+                  Learn More
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="w-1.5 h-1.5 sm:w-4 sm:h-4"
+                  >
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </motion.div>
+            {/* FLOATING STATS CARD */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -10 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                delay: 0.35,
+                duration: 0.55,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="
+        absolute
+        bottom-5 
+        right-0
+        sm:bottom-5
+        sm:right-5
+        w-fit
+        grid
+        grid-cols-3
+        gap-3
+        sm:gap-5
+        rounded-2xl
+        border
+        border-white/20
+        bg-white/15
+        backdrop-blur-xl
+        px-1
+        py-1
+        sm:px-2
+        sm:py-2
+        shadow-2xl
+      "
+            >
+              {[
+                { value: "10+", label: "Years" },
+                { value: "12k+", label: "Patients" },
+                { value: "98%", label: "Happy" },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p
+                    className="
+              text-sm
+              sm:text-lg
+              md:text-xl
+              font-bold
+              text-green-600
+            "
+                  >
+                    {stat.value}
+                  </p>
+
+                  <p
+                    className="
+              mt-1
+              text-[9px]
+              sm:text-[11px]
+              uppercase
+              tracking-wider
+              text-white
+            "
+                  >
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>

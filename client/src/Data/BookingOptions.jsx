@@ -44,5 +44,5 @@ export const CLINIC_INFO = {
   whatsappMessage: encodeURIComponent(
     "Hello, I'd like to book a dental appointment at Baishdhara Dental Clinic.",
   ),
-  hours: { days: "Sun–Fri", time: "9:00 AM – 6:00 PM", closed: "Saturday" },
+  hours: { days: "Sun–Fri", time: "10:00 AM – 6:00 PM", closed: "Saturday" },
 };

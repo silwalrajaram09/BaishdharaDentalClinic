@@ -121,12 +121,10 @@ const DoctorProfile = () => {
   return (
     <>
       <SEO
-        title={`${doctor.name} | Bishdhara Dental Clinic`}
-        description={
-          doctor.specialization ??
-          doctor.title ??
-          "Experienced dental specialist at Bishdhara Dental Clinic."
-        }
+        title={`Dentist ${doctor.name}, - Baishdhara Dental Clinic`}
+        description={`Consult ${doctor.name}, ${
+          doctor.specialization || "experienced dentist"
+        } at Baishdhara Dental Clinic in Kathmandu for expert dental care, treatments, and a healthy smile.`}
         keywords={`${doctor.name}, ${
           doctor.specialization ?? ""
         }, dentist, dental specialist, Bishdhara Dental Clinic`}

@@ -62,9 +62,9 @@ const ServicePage = () => {
   return (
     <>
       <SEO
-        title={`${service.title} | Bishdhara Dental Clinic`}
-        description={service.intro}
-        keywords={`${service.title}, dental treatment, Bishdhara Dental Clinic`}
+        title={`${service.title} | Baishdhara Dental Clinic`}
+        description={`Baishdhara Dental Clinic Kathmandu: ${service.intro}`}
+        keywords={`${service.title}, dental treatment, Baishdhara Dental Clinic`}
       />
 
       <div className="bg-white min-h-screen">

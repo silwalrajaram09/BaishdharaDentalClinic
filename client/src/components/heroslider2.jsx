@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import BookingModal from "./BookingModel";
 
 import hero1 from "../assets/images/hero1.PNG";
 import hero2 from "../assets/images/hero2.PNG";
@@ -8,6 +7,8 @@ import hero3 from "../assets/images/hero3.PNG";
 import welcomeImage from "../assets/images/welcomeImage.jpeg";
 import doctor from "../assets/images/doctor.PNG";
 import changeImage from "../assets/images/changeImage.PNG";
+import teethImage from "../assets/images/teethImage.jpg";
+import heroImage from "../assets/images/heroImage.png";
 
 import imageFull from "../assets/images/imagefull.jpg";
 import slide2 from "../assets/images/slide2.jpg";
@@ -15,13 +16,18 @@ import slide3 from "../assets/images/slide3.jpg";
 import slide4 from "../assets/images/slide4.jpg";
 import slide5 from "../assets/images/slide5.jpg";
 import slide6 from "../assets/images/slide6.jpg";
+import slide7 from "../assets/images/dineshsharmaHeroImage.png";
 
 const slides = [
   {
     tag: "Professional Dental Care",
     image: imageFull,
     mobileImage: welcomeImage,
-    title: "Creating Confident Smiles Every Day",
+    title: [
+      { text: "Creating Confident", highlight: false },
+      { text: " Smiles", highlight: true },
+      { text: " Every Day", highlight: false },
+    ],
     subtitle:
       "Advanced dental care with compassion, precision, and modern technology.",
     position: "object-[top]",
@@ -34,7 +40,11 @@ const slides = [
     tag: "Professional Dental Care",
     image: slide2,
     mobileImage: hero2,
-    title: "Where Healthy Smiles Begin",
+    title: [
+      { text: "Where Healthy ", highlight: false },
+      { text: " Smiles", highlight: true },
+      { text: " Begin", highlight: false },
+    ],
     subtitle:
       "Comprehensive dental treatments tailored for your entire family.",
     position: "object-[center_20%]",
@@ -49,7 +59,8 @@ const slides = [
     mobileImage: changeImage,
     // title: "Comfort You Can Count On",
     // subtitle: "A relaxing environment focused on your comfort and care.",
-    position: "object-[top_20%]",
+    position: "object-[left_10%]",
+    // position: "object-[center_5%]",
     // cta: [
     //   { text: "Book Appointment", link: "/contact", primary: true },
     //   { text: "View Services", link: "/services", primary: false },
@@ -59,7 +70,11 @@ const slides = [
     tag: "Professional Dental Care",
     image: slide4,
     mobileImage: hero3,
-    title: "Trusted Dental Experts",
+    title: [
+      { text: "Trusted", highlight: false },
+      { text: " Dental ", highlight: false },
+      { text: " Experts", highlight: true },
+    ],
     subtitle:
       "Experienced professionals dedicated to your comfort and oral health.",
     position: "object-[top_0.5%]",
@@ -72,7 +87,12 @@ const slides = [
     tag: "Professional Dental Care",
     image: slide5,
     mobileImage: doctor,
-    title: "Modern Dentistry, Personal Care",
+    title: [
+      { text: "Modern", highlight: false },
+      { text: " Dentistry", highlight: true },
+      { text: ", Personal ", highlight: false },
+      { text: "Care", highlight: true },
+    ],
     subtitle:
       "State-of-the-art treatments delivered in a warm and welcoming environment.",
     position: "object-center",
@@ -82,7 +102,12 @@ const slides = [
     tag: "Professional Dental Care",
     image: slide6,
     mobileImage: hero1,
-    title: "Your Smile is Our Commitment",
+    title: [
+      { text: "Your", highlight: false },
+      { text: " Smile", highlight: true },
+      { text: " is Our ", highlight: false },
+      { text: "Commitment", highlight: true },
+    ],
     subtitle: "Helping families achieve healthy, beautiful smiles for life.",
     position: "object-[center_15%]",
     cta: [
@@ -90,6 +115,10 @@ const slides = [
       // { text: "Learn More", link: "/about", primary: false },
     ],
   },
+  // {
+  //   image: slide7,
+  //   position: "object-[center_15%]",
+  // },
 ];
 
 const AUTO_SLIDE_INTERVAL = 5000;
@@ -101,7 +130,7 @@ const slideVariants = {
 };
 
 const contentVariants = {
-  enter: { opacity: 0, y: 35 },
+  enter: { opacity: 0, y: 45 },
   center: { opacity: 1, y: 0 },
   exit: { opacity: 0, y: 20 },
 };
@@ -183,7 +212,8 @@ const HeroSlider = () => {
   };
 
   const slide = slides[currentSlide];
-  const activeImage = isMobile && slide.mobileImage ? slide.mobileImage : slide.image;
+  const activeImage =
+    isMobile && slide.mobileImage ? slide.mobileImage : slide.image;
 
   return (
     <section
@@ -209,20 +239,22 @@ const HeroSlider = () => {
           animate="center"
           exit="exit"
           variants={slideVariants}
-          transition={{  ease: "easeInOut" }}
-          className={`absolute inset-0 w-full h-full object-cover ${slide.position}`}
+          transition={{ ease: "easeInOut" }}
+          className={`absolute inset-0 w-full h-full   ${slide.position}`}
         />
       </AnimatePresence>
 
       {/* OVERLAY */}
-      <div
-        className=" hidden md:flex absolute  inset-0 z-10 bg-linear-to-r from-[#081c30]/60 via-[#0b2a4a]/60 to-[#0b2a4a]/10"
-        aria-hidden="true"
-      />
+      {slide.title && (
+        <div
+          className={`absolute inset-0 z-10 ${slide.overlayClass || "bg-gradient-to-r from-black/80 via-black/50 to-transparent"}`}
+          aria-hidden="true"
+        />
+      )}
 
       {/* CONTENT */}
-      <div className="hidden md:flex relative z-20 h-full items-center">
-        <div className="max-w-7xl mx-auto w-full px-5 sm:px-8 lg:px-12">
+      <div className="ml-1 absolute inset-0 z-20 flex items-center">
+        <div className="max-w-7xl mx-auto w-full px-2 sm:px-4 lg:px-6">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentSlide}
@@ -231,35 +263,34 @@ const HeroSlider = () => {
               exit="exit"
               variants={contentVariants}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-full sm:max-w-xl lg:max-w-2xl"
+              className="max-w-7xl sm:pl-10 sm:max-w-xl lg:max-w-2xl"
             >
-              {slide.tag && (
-                <div className=" inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm mb-5">
-                  <div className=" w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <span className="text-white text-xs sm:text-sm tracking-wide">
-                    {slide.tag}
-                  </span>
-                </div>
-              )}
-
               {slide.title && (
-                <h2
-                  className="text-3xl md:text-4xl font-bold font-playfair text-white leading-[1.05] mb-4"
-                >
-                  {slide.title}
+                <h2 className=" relative z-10 md:bg-transparent text-3xl md:text-4xl lg:text-5xl font-bold font-playfair md:mt-0 lg:mt-11 text-white leading-[1.1] mb-2 drop-shadow-xl">
+                  {slide.title.map((part, index) => (
+                    <span
+                      key={index}
+                      className={
+                        part.highlight
+                          ? "text-[#38bdf8] drop-shadow-md"
+                          : "text-white"
+                      }
+                    >
+                      {part.text}
+                    </span>
+                  ))}
                 </h2>
               )}
 
               {slide.subtitle && (
-                <p className="text-blue-50/90 text-sm sm:text-base md:text-lg leading-relaxed max-w-xl">
+                <p className=" relative z-10 text-gray-100 text-lg sm:text-xl md:text-2xl leading-relaxed max-w-xl drop-shadow-lg mb-6">
                   {slide.subtitle}
                 </p>
               )}
-
               {slide.cta?.length > 0 && (
-                <div className="flex flex-col sm:flex-row items-start gap-3 mt-7 w-full">
+                <div className=" hidden md:flex flex-col sm:flex-row items-start gap-4 mt-8 w-full">
                   {slide.cta.map((button, index) => (
-                    <a 
+                    <a
                       key={index}
                       href={button.link}
                       className={`w-fit min-w-[170px] px-5 py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 text-center hover:scale-[1.03] ${
@@ -281,27 +312,46 @@ const HeroSlider = () => {
       {/* LEFT BUTTON */}
       <button
         onClick={prevSlide}
-        className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md items-center justify-center transition-all duration-300 hover:scale-110"
+        className="hidden md:hidden lg:flex absolute left-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md items-center justify-center transition-all duration-300 hover:scale-110"
         aria-label="Previous slide"
       >
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+        <svg
+          className="w-5 h-5 text-white"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 19l-7-7 7-7"
+          />
         </svg>
       </button>
 
       {/* RIGHT BUTTON */}
       <button
         onClick={nextSlide}
-        className="hidden md:flex absolute right-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md items-center justify-center transition-all duration-300 hover:scale-110"
+        className="hidden md:hidden sm:hidden lg:flex absolute right-5 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md items-center justify-center transition-all duration-300 hover:scale-110"
         aria-label="Next slide"
       >
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+        <svg
+          className="w-5 h-5 text-white"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
       {/* DOT INDICATORS */}
-      <div className=" bottom-5 left-1/2 -translate-x-1/2 z-30 flex gap-2" role="tablist">
+      <div
+        className=" absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-2"
+        role="tablist"
+      >
         {slides.map((_, index) => (
           <button
             key={index}
@@ -309,10 +359,12 @@ const HeroSlider = () => {
             role="tab"
             aria-selected={currentSlide === index}
             className={`rounded-full transition-all duration-300 ${
-              currentSlide === index ? "w-8 h-2 bg-[#2e7fc1]" : "w-2 h-2 bg-white/50 hover:bg-white"
+              currentSlide === index
+                ? "w-8 h-2 bg-[#2e7fc1]"
+                : "w-2 h-2 bg-white hover:bg-white/50"
             }`}
             aria-label={`Go to slide ${index + 1}`}
-            />
+          />
         ))}
       </div>
     </section>

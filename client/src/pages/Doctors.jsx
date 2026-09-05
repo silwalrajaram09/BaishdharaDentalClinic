@@ -103,9 +103,7 @@ const DoctorCard = ({ doc }) => (
 
       {/* Info */}
       <div className="flex flex-col flex-1 p-4">
-        <h2
-          className="text-lg md:text-xl font-semibold font-playfair text-[#0b2a4a] leading-snug mb-0.5"
-        >
+        <h2 className="text-lg md:text-xl font-semibold font-playfair text-[#0b2a4a] leading-snug mb-0.5">
           {doc.name}
         </h2>
         <p className="text-xs text-gray-400 mb-3">{doc.title}</p>
@@ -168,9 +166,9 @@ const DoctorCard = ({ doc }) => (
 const Doctors = () => (
   <>
     <SEO
-      title="Our Doctors | Bishdhara Dental Clinic"
-      description="Meet our experienced dental specialists dedicated to providing high-quality oral healthcare in Kathmandu."
-      keywords="dentists in Kathmandu, dental specialists, orthodontist, oral surgeon, Bishdhara Dental Clinic doctors"
+      title="Our Dentists in Kathmandu | Baishdhara Dental Clinic"
+      description="Meet experienced dentists at Baishdhara Dental Clinic, Kathmandu. Our team provides expert, ethical, and advanced dental care for your healthy smiles."
+      keywords="dentists in Kathmandu, dental specialists Kathmandu, Baishdhara Dental Clinic doctors, orthodontist Kathmandu, experienced dentist, dental care team"
     />
     <div className="bg-[#f4f7fb] min-h-screen">
       {/* Header */}
@@ -184,9 +182,7 @@ const Doctors = () => (
           <span className="inline-block text-[11px] font-semibold tracking-[0.22em] uppercase text-[#2e7fc1] mb-3">
             Our Specialists
           </span>
-          <h1
-            className="text-3xl md:text-4xl font-bold font-playfair text-[#0b2a4a] leading-tight"
-          >
+          <h1 className="text-3xl md:text-4xl font-bold font-playfair text-[#0b2a4a] leading-tight">
             Meet Our Doctors
           </h1>
           <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
@@ -202,7 +198,7 @@ const Doctors = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-60px" }}
-        className="max-w-6xl mx-auto px-4 pb-20 pt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
+        className="max-w-4xl mx-auto  pb-20 pt-10 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 md:gap-8"
       >
         {doctors.map((doc) => (
           <DoctorCard key={doc.id} doc={doc} />

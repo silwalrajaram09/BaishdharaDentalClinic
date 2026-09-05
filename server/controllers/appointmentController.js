@@ -188,6 +188,7 @@ const submitAppointment = async (req, res) => {
 
     await sendEmail(
       process.env.RECIPIENT_EMAIL,
+      //process.env.ADMIN_EMAIL,
       notification.subject,
       notification.html,
     );

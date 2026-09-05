@@ -7,7 +7,7 @@ export default function Layout({ children }) {
     <div className="min-h-screen flex flex-col relative">
       <Header />
 
-      <main className="grow pt-19.5 lg:pt-30.5">{children}</main>
+      <main className="grow">{children}</main>
 
       <Footer />
 
@@ -29,8 +29,8 @@ export default function Layout({ children }) {
           bg-[#25D366]
           hover:bg-[#1ebe5d]
           text-white
-          px-4
-          py-3
+          px-2
+          py-2
           rounded-full
           shadow-2xl
           transition-all
@@ -41,13 +41,12 @@ export default function Layout({ children }) {
         aria-label="Chat on WhatsApp"
       >
         {/* ICON */}
-        <FaWhatsapp className="text-2xl" />
-
+        <FaWhatsapp className="text-2xl " />
         {/* TEXT */}
         <span
           className="
             hidden
-            sm:block
+            lg:block
             text-sm
             font-medium
             whitespace-nowrap

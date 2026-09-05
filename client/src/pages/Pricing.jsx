@@ -214,9 +214,9 @@ const Pricing = () => {
   return (
     <section className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-4 py-12">
       <SEO
-        title="Pricing | Bishdhara Dental Clinic"
-        description="View our dental treatment pricing, consultation fees, and affordable dental care services."
-        keywords="dental pricing, dental treatment cost, consultation fee, dental clinic pricing, affordable dental care"
+        title="Dental Treatment Cost & Pricing | Baishdhara Dental Clinic"
+        description="View dental treatment costs, consultation fees, and affordable dental care options at Baishdhara Dental Clinic in Kathmandu. Get transparent pricing."
+        keywords="dental treatment cost Kathmandu, dental pricing Kathmandu, dentist consultation fee, dental clinic charges, affordable dental care, Baishdhara Dental Clinic pricing"
       />
       {/* Hero */}
       <motion.div
@@ -226,9 +226,7 @@ const Pricing = () => {
         viewport={{ once: true }}
         className="text-center mb-14"
       >
-        <h1
-          className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
-        >
+        <h1 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">
           Dental Services & Pricing
         </h1>
         <div className="mt-4 mx-auto w-14 h-1 rounded-full bg-[#2e7fc1]" />
@@ -287,14 +285,14 @@ const Pricing = () => {
           <div className="hidden md:block rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
             <table className="w-full">
               <thead>
-                <tr className="bg-[#0b2a4a]">
-                  <th className="px-5 py-3.5 text-left text-[11px] font-medium uppercase tracking-widest text-white/60">
+                <tr className="bg-primary">
+                  <th className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-widest text-white">
                     Service
                   </th>
-                  <th className="px-5 py-3.5 text-left text-[11px] font-medium uppercase tracking-widest text-white/60">
+                  <th className="px-5 py-3.5 text-left text-[11px] font-semibold uppercase tracking-widest text-white">
                     Category
                   </th>
-                  <th className="px-5 py-3.5 text-right text-[11px] font-medium uppercase tracking-widest text-white/60">
+                  <th className="px-5 py-3.5 text-right text-[11px] font-semibold uppercase tracking-widest text-white">
                     Price
                   </th>
                 </tr>

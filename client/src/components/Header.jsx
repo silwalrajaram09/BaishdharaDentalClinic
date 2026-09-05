@@ -94,10 +94,7 @@ const Header = () => {
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const headerRef = useRef(null);
   const dropdownRef = useRef(null);
-  const lastScrollY = useRef(0);
-  const lastDirection = useRef(null);
   const ticking = useRef(false);
 
   const isActive = (path) =>
@@ -105,98 +102,22 @@ const Header = () => {
       ? location.pathname === "/"
       : location.pathname.startsWith(path);
 
-  // ── Auto-hide header on scroll ──
-  // Re-implemented against a ref instead of document.querySelector — same
-  // hysteresis behaviour (8px jitter threshold, direction-change-only
-  // updates, settles after scroll-restore on refresh) but no manual DOM
-  // queries.
+  // ── Track scroll for styling ──
   useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (prefersReducedMotion) {
-      header.style.setProperty("--nav-translate-y", "0px");
-      header.style.setProperty("--nav-opacity", "1");
-      return;
-    }
-
-    const setHeaderHeightVar = () => {
-      const h = header.getBoundingClientRect().height;
-      document.documentElement.style.setProperty(
-        "--header-height",
-        `${Math.ceil(h)}px`,
-      );
-      return h;
-    };
-
-    const reveal = () => {
-      header.style.setProperty("--nav-translate-y", "0px");
-      header.style.setProperty("--nav-opacity", "1");
-    };
-    const hide = () => {
-      const h = setHeaderHeightVar();
-      header.style.setProperty("--nav-translate-y", `-${h}px`);
-      header.style.setProperty("--nav-opacity", "0.85");
-    };
-
     const onScroll = () => {
       if (ticking.current) return;
       ticking.current = true;
       requestAnimationFrame(() => {
-        const y = window.scrollY;
-        setHeaderHeightVar();
-
-        if (y <= 0) {
-          reveal();
-          lastDirection.current = null;
-          lastScrollY.current = y;
-          setScrolled(false);
-          ticking.current = false;
-          return;
-        }
-
-        setScrolled(true);
-
-        const delta = Math.abs(y - lastScrollY.current);
-        const direction = y > lastScrollY.current ? "down" : "up";
-
-        // Ignore tiny movements to avoid jitter, but always close the menu
-        // overlay if it's open and the user scrolls past the threshold.
-        if (delta >= 8 && direction !== lastDirection.current) {
-          lastDirection.current = direction;
-          if (direction === "down" && !mobileOpen) hide();
-          else reveal();
-        }
-
-        lastScrollY.current = y;
+        setScrolled(window.scrollY > 0);
         ticking.current = false;
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-
-    // Settle after scroll-restoration on refresh
-    const init = async () => {
-      if (document.readyState !== "complete") {
-        await new Promise((r) =>
-          window.addEventListener("load", r, { once: true }),
-        );
-      }
-      await new Promise((r) =>
-        requestAnimationFrame(() => requestAnimationFrame(r)),
-      );
-      setHeaderHeightVar();
-      lastScrollY.current = window.scrollY;
-      setScrolled(window.scrollY > 0);
-      reveal();
-    };
-    init();
+    setScrolled(window.scrollY > 0);
 
     return () => window.removeEventListener("scroll", onScroll);
-  }, [mobileOpen]);
+  }, []);
 
   // ── Close everything on route change ──
   useEffect(() => {
@@ -241,18 +162,8 @@ const Header = () => {
 
   return (
     <>
-      <header
-        ref={headerRef}
-        data-autohide="true"
-        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md
-                   shadow-md transition-all duration-300"
-        style={{
-          transform: "translateY(var(--nav-translate-y, 0px))",
-          opacity: "var(--nav-opacity, 1)",
-        }}
-      >
-        {/* ── TOP INFO BAR (desktop & tablet) ── */}
-        <div className="hidden md:block bg-[#0b2a4a] py-2 text-white">
+      {/* ── TOP INFO BAR (desktop & tablet) ── */}
+      <div className="hidden md:block bg-[#0b2a4a] py-2 text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-11 flex items-center justify-between text-xs lg:text-sm">
             {/* LEFT — contact info */}
             <div className="flex items-center gap-4 lg:gap-6">
@@ -306,6 +217,9 @@ const Header = () => {
           </div>
         </div>
 
+      <header
+        className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-md transition-all duration-200"
+      >
         {/* ── MAIN NAVBAR ── */}
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div

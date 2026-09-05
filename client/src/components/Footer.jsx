@@ -35,6 +35,7 @@ const itemVariants = {
 
 const Footer = () => {
   return (
+  
     <motion.footer
       initial="hidden"
       whileInView="visible"

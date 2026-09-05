@@ -27,12 +27,12 @@ const team = [
     img: merina,
     objectPos: "center top",
   },
-  {
-    name: "Dr. Rakshya Neupane",
-    role: "General Dental Practitioner",
-    img: rakshya,
-    objectPos: "center top",
-  },
+  // {
+  //   name: "Dr. Rakshya Neupane",
+  //   role: "General Dental Practitioner",
+  //   img: rakshya,
+  //   objectPos: "center top",
+  // },
   {
     img: staff2,
     objectPos: "center top",
@@ -64,7 +64,7 @@ const cardVariants = {
 
 const TeamSection = () => {
   return (
-    <section className="relative py-24 px-4 overflow-hidden bg-[#f0f5fa]">
+    <section className="relative py-24 px-4 overflow-hidden bg-gray-100">
       {/* Decorative blobs */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-[#c8dff5] rounded-full blur-3xl opacity-40 -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#b8d4ee] rounded-full blur-3xl opacity-30 translate-x-1/3 translate-y-1/3 pointer-events-none" />
@@ -98,7 +98,7 @@ const TeamSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6"
         >
           {team.map((member, i) => (
             <motion.div

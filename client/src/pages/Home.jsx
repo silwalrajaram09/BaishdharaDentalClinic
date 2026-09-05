@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Contact from "../components/Contact";
 import Heroslider2 from "../components/heroslider2";
 import WhyChooseUs from "../components/WhyChooseUs";
-
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { AnimatePresence } from "framer-motion";
 import maskey from "../assets/images/maskey.png";
@@ -128,7 +128,6 @@ const staggerContainer = {
 };
 
 const Home = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
 
   const {
@@ -142,25 +141,30 @@ const Home = () => {
     getAvailableTimeSlots,
   } = useAppointmentForm();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % HappyPatients.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const today = new Date().toISOString().split("T")[0];
+const [currentPatient, setCurrentPatient] = useState(0);
+
+const nextPatient = () => {
+  setCurrentPatient((prev) => (prev + 1) % HappyPatients.length);
+};
+
+const prevPatient = () => {
+  setCurrentPatient(
+    (prev) => (prev - 1 + HappyPatients.length) % HappyPatients.length
+  );
+};
 
   return (
     <>
       <SEO
-        title="Home | Bsishdhara Dental Clinic"
-        description="Professionla dental care in Kathmandu Nepal"
-      />
-
+  title="Best Dental Clinic in Kathmandu | Baishdhara Dental Clinic"
+  description="Baishdhara Dental Clinic in Kathmandu offers advanced care, including dental implants, root canal treatments, and complete oral health services."
+  keywords="best dental clinic in Kathmandu, dentist in Kathmandu, dental clinic Kathmandu, dental implants Kathmandu, braces Kathmandu, root canal treatment Kathmandu, teeth whitening, oral health care"
+/>
       <div className="bg-gray-50">
-        <h1 className="sr-only">Baishdhara Dental Clinic - Professional Dental Care in Kathmandu</h1>
+        <h1 className="sr-only">
+          Baishdhara Dental Clinic - Professional Dental Care in Kathmandu
+        </h1>
         {/* HERO */}
         <Heroslider2 />
 
@@ -171,9 +175,9 @@ const Home = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           id="bookModal"
-          className="max-w-6xl mx-auto px-4 -mt-10 md:-mt-10 "
+          className="max-w-6xl mx-auto px-2 -mt-10 md:-mt-10 "
         >
-          <div className="w-full px-6  relative z-20">
+          <div className="w-full px-4 sm:px-6  relative z-20">
             <div className="grid grid-cols-1 md:grid-cols-2 border border-border rounded-xl overflow-hidden shadow-xl">
               <div className="grid grid-cols-1 md:grid-cols-2">
                 <div className="bg-secondary  p-8 md:col-span-2">
@@ -214,9 +218,10 @@ const Home = () => {
               </div>
 
               {/* RIGHT HALF */}
-              <div className="bg-primary text-slate-900 p-8 ">
-                <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-6">
-                  Make an Appointment
+              <div className=" bg-primary p-8 md:p-10 flex flex-col justify-center">
+                <div className="">
+                  <h2 className="text-2xl md:text-3xl font-bold font-playfair text-black leading-tight mb-6">
+                    Book Your Visit
                 </h2>
 
                 {/* SUCCESS */}
@@ -241,7 +246,7 @@ const Home = () => {
 
                 <form
                   onSubmit={handleSubmit}
-                  className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-5"
                 >
                   {/* SERVICE */}
                   <select
@@ -249,7 +254,7 @@ const Home = () => {
                     aria-label="Select Service"
                     value={formData.service}
                     onChange={handleChange}
-                    className={`p-3 rounded border text-black ${fieldErrors.service ? "border-red-500" : ""}`}
+                    className={`p-3 rounded-lg border  text-black ${fieldErrors.service ? "border-red-500" : ""}`}
                   >
                     <option value="">Select Services</option>
                     {SERVICES_FORM.map((service) => (
@@ -267,7 +272,7 @@ const Home = () => {
                     placeholder="Full Name"
                     value={formData.fullname}
                     onChange={handleChange}
-                    className={`p-3 rounded border text-black ${fieldErrors.fullname ? "border-red-500" : ""}`}
+                    className={`p-3 rounded-lg border text-black ${fieldErrors.fullname ? "border-red-500" : ""}`}
                   />
 
                   {/* EMAIL */}
@@ -278,19 +283,30 @@ const Home = () => {
                     placeholder="Email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`p-3 rounded border text-black ${fieldErrors.email ? "border-red-500" : ""}`}
+                    className={`p-3 rounded-xl border text-black ${fieldErrors.email ? "border-red-500" : ""}`}
+                  />
+                  {/* PHONE */}
+                  <input
+                    type="tel"
+                    name="phone"
+                    aria-label="Phone Number"
+                    placeholder="Phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={`p-3 rounded-xl border text-black ${fieldErrors.phone ? "border-red-500" : ""}`}
                   />
 
                   {/* DATE */}
                   <input
+                   placeholder="Appointment Date"
                     type="date"
                     name="date"
                     aria-label="Appointment Date"
                     min={today}
-                    placeholder="Date"
+                   
                     value={formData.date}
                     onChange={handleChange}
-                    className={`p-3 rounded border text-black ${fieldErrors.date ? "border-red-500" : ""}`}
+                    className={`p-3 rounded-xl border text-black ${fieldErrors.date ? "border-red-500" : ""}`}
                   />
 
                   {/* TIME - NOW USING FILTERED TIME SLOTS */}
@@ -300,7 +316,7 @@ const Home = () => {
                       aria-label="Select Time"
                       value={formData.time}
                       onChange={handleChange}
-                      className={`p-3 rounded border text-black ${fieldErrors.time ? "border-red-500" : ""}`}
+                      className={`p-3 rounded-xl border text-black ${fieldErrors.time ? "border-red-500" : ""}`}
                     >
                       <option value="">Select time</option>
                       {getAvailableTimeSlots().map((time) => (
@@ -310,42 +326,36 @@ const Home = () => {
                       ))}
                     </select>
                   ) : (
-                    <div className="p-3 rounded border border-amber-300 bg-amber-50 text-amber-700 text-sm w-full">
+                    <div className="p-3 rounded-xl border border-amber-300 text-amber-700 text-sm w-full">
                       Change the Date
                     </div>
                   )}
 
-                  {/* PHONE */}
-                  <input
-                    type="tel"
-                    name="phone"
-                    aria-label="Phone Number"
-                    placeholder="Phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className={`p-3 rounded border text-black ${fieldErrors.phone ? "border-red-500" : ""}`}
-                  />
-
+                  
                   {/* BUTTON */}
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`sm:col-span-3 py-3 rounded border-border transition ${
-                      isSubmitting
-                        ? "bg-primary cursor-not-allowed"
-                        : "bg-primary-dark hover:bg-[#05567E] text-[#010710]"
-                    }`}
-                  >
-                    {isSubmitting ? "Booking..." : "Make Appointment"}
-                  </button>
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className={`sm:col-span-3 py-3 mt-5 rounded-xl font-semibold transition-all  duration-300 ${
+                          isSubmitting
+                            ? "bg-white/70 text-gray-500 cursor-not-allowed"
+                            : "bg-transparent text-black hover:text-primary hover:bg-gray-100 hover:scale-[1.02] hover:font-bold border-black hover:border-primary border transition-all duration-300 shadow-lg shadow-black"
+                        }`}
+                      >
+                        {isSubmitting ? "Booking..." : "Make Appointment"}
+                      </button>
                 </form>
               </div>
             </div>
           </div>
+          </div>
         </motion.section>
-
+<hr className=" mt-5 border-0.5 border-gray-200 mx-auto max-w-6xl" />
         {/* EXPERTISE */}
         <WhyChooseUs />
+<hr className=" mt-5 border-0.5 border-gray-200 mx-auto max-w-6xl" style={{
+  borderRadius: "0 0 50% 50% / 0 0 100% 100%",
+}}/>
 
         <motion.section
           initial="hidden"
@@ -355,7 +365,9 @@ const Home = () => {
           className="max-w-6xl mx-auto px-4 py-16"
         >
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">Our Expertise</h2>
+            <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">
+              Our Expertise
+            </h2>
             <p className="text-gray-500 mt-2">
               Specialized dental care for every need
             </p>
@@ -371,7 +383,7 @@ const Home = () => {
                 variants={fadeUp}
                 whileHover={{ scale: 1.05 }}
                 onClick={() => navigate(item.link)}
-                className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer"
+                className="bg-gray-100 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer"
               >
                 <img
                   src={item.img}
@@ -389,114 +401,122 @@ const Home = () => {
             ))}
           </motion.div>
         </motion.section>
+        {/* Happy Patients */}
+<div className="relative">
+  {/* Top Wave */}
+  <svg
+    className="w-full h-16 md:h-20 text-secondary"
+    viewBox="0 0 1440 120"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="currentColor"
+      d="M0,64 C320,150 1120,0 1440,64 L1440,120 L0,120 Z"
+    />
+  </svg>
 
-        {/* Happy patients */}
-        <motion.section
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="bg-gray-100 py-16 md:py-20"
-        >
-          <div className="max-w-4xl mx-auto text-center px-4">
-            <h2 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight mb-10 md:mb-12">
-              Happy Patients
-            </h2>
+  <motion.section
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+    viewport={{ once: true }}
+    className="bg-secondary py-6 md:py-10"
+  >
+    <div className="max-w-6xl mx-auto px-4">
+      <h2 className="text-2xl md:text-3xl font-bold text-[#0b2a4a] text-center mb-8 md:mb-12">
+        Happy Patients
+      </h2>
 
-            <div className="relative">
-              {/* LEFT ARROW */}
-              <button
-                onClick={() =>
-                  setActiveIndex(
-                    (activeIndex - 1 + HappyPatients.length) %
-                      HappyPatients.length,
-                  )
-                }
-                aria-label="Previous patient review"
-                className="absolute left-0 top-1/2 -translate-y-1/2 
-                   text-2xl md:text-3xl text-gray-400 
-                   hover:text-blue-500 transition 
-                   p-2 md:p-3"
-              >
-                ‹
-              </button>
-
-              {/* RIGHT ARROW */}
-              <button
-                onClick={() =>
-                  setActiveIndex((activeIndex + 1) % HappyPatients.length)
-                }
-                aria-label="Next patient review"
-                className="absolute right-0 top-1/2 -translate-y-1/2 
-                   text-2xl md:text-3xl text-gray-400 
-                   hover:text-primary transition 
-                   p-2 md:p-3"
-              >
-                ›
-              </button>
-
-              {/* SLIDE */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeIndex}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                  className="px-6 md:px-10"
-                >
-                  <div className="flex flex-col items-center">
-                    {/* IMAGE */}
-                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-primary overflow-hidden mb-4">
-                      <img
-                        src={HappyPatients[activeIndex].img}
-                        alt={`Patient ${HappyPatients[activeIndex].name}`}
-                        loading="lazy"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-
-                    {/* NAME */}
-                    <h3 className="text-lg md:text-xl font-semibold text-black mb-1">
-                      {HappyPatients[activeIndex].name}
-                    </h3>
-
-                    {/* WORK */}
-                    <p className="text-xs md:text-sm text-gray-500 mb-4 md:mb-6">
-                      {HappyPatients[activeIndex].work}
-                    </p>
-
-                    {/* TEXT */}
-                    <p className="text-sm md:text-base text-gray-700 max-w-2xl leading-relaxed px-2">
-                      {HappyPatients[activeIndex].opinion}
-                    </p>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-
-              {/* DOTS */}
-              <div className="flex justify-center gap-2 mt-6 md:mt-8">
-                {HappyPatients.map((_, i) => (
-                  <button
-                    key={i}
-                    aria-label={`Go to patient review slide ${i + 1}`}
-                    onClick={() => setActiveIndex(i)}
-                    className="p-2 flex items-center justify-center group"
-                  >
-                    <div
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        i === activeIndex
-                          ? "w-6 bg-secondary"
-                          : "w-2 bg-gray-400 group-hover:bg-gray-500"
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
-            </div>
+      <div className="md:hidden">
+        <div className="bg-white rounded-3xl shadow-lg p-6 text-center">
+          <div className="w-24 h-24 mx-auto rounded-full border-4 border-primary overflow-hidden mb-4">
+            <img
+              src={HappyPatients[currentPatient].img}
+              alt={HappyPatients[currentPatient].name}
+              className="w-full h-full object-cover"
+            />
           </div>
-        </motion.section>
 
+          <h3 className="text-xl font-semibold">
+            {HappyPatients[currentPatient].name}
+          </h3>
+
+          <p className="text-sm text-gray-500 mb-4">
+            {HappyPatients[currentPatient].work}
+          </p>
+
+          <p className="text-gray-700 italic leading-relaxed">
+            "{HappyPatients[currentPatient].opinion}"
+          </p>
+
+          {/* Buttons */}
+          <div className="flex justify-center items-center gap-4 mt-6">
+            <button
+              onClick={prevPatient}
+              className="bg-primary text-white p-3 rounded-full hover:scale-105 transition"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            <span className="text-sm font-medium text-gray-500">
+              {currentPatient + 1} / {HappyPatients.length}
+            </span>
+
+            <button
+              onClick={nextPatient}
+              className="bg-primary text-white p-3 rounded-full hover:scale-105 transition"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+     
+      <div className="hidden md:grid grid-cols-3 gap-8">
+        {HappyPatients.map((patient) => (
+          <div
+            key={patient.id}
+            className="bg-white p-6 md:p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center"
+          >
+            <div className="w-24 h-24 rounded-full border-4 border-primary overflow-hidden mb-4">
+              <img
+                src={patient.img}
+                alt={patient.name}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            <h3 className="text-xl font-semibold text-black mb-1">
+              {patient.name}
+            </h3>
+
+            <p className="text-sm text-gray-500 mb-4">
+              {patient.work}
+            </p>
+
+            <p className="text-gray-700 italic leading-relaxed">
+              "{patient.opinion}"
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </motion.section>
+
+  {/* Bottom Wave */}
+  <svg
+    className="w-full h-16 md:h-20 text-secondary rotate-180"
+    viewBox="0 0 1440 120"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="currentColor"
+      d="M0,64 C320,150 1120,0 1440,64 L1440,120 L0,120 Z"
+    />
+  </svg>
+</div>
+ {/* <hr className="border-0.5 border-gray-200 mx-auto max-w-6xl" /> */}
         {/* CONTACT */}
         <Contact />
       </div>

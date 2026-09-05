@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { chapters } from "../Data/chapters";
 import SEO from "../components/SEO";
+import FAQ from "../components/FAQ";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -51,9 +52,9 @@ const MeroDaat = () => {
   return (
     <>
       <SEO
-        title="मेरो दाँत, मेरो कथा | Bishdhara Dental Clinic"
-        description="दाँत, गिजा, इम्प्लान्ट, बच्चाको दाँत र मुख स्वास्थ्य सम्बन्धी उपयोगी जानकारी तथा दन्त शिक्षा।"
-        keywords="दाँत, दन्त स्वास्थ्य, गिजा रोग, दाँतको किरा, इम्प्लान्ट, बच्चाको दाँत, dental care, oral health"
+        title="मेरो दाँत, मेरो कथा | Baishdhara Dental Clinic Kathmandu"
+        description="दाँत, गिजा, दन्त इम्प्लान्ट, बच्चाको दाँत र मुख स्वास्थ्य सम्बन्धी उपयोगी जानकारी तथा दन्त शिक्षा Baishdhara Dental Clinic बाट प्राप्त गर्नुहोस्।"
+        keywords="मेरो दाँत, दन्त स्वास्थ्य, दाँतको हेरचाह, गिजा रोग, दाँतको किरा, दन्त इम्प्लान्ट, बच्चाको दाँत, मुख स्वास्थ्य, dental care, oral health"
       />
       <div className="bg-[#f4f7fb] min-h-screen">
         <div className="max-w-6xl mx-auto px-4 pt-20 pb-20">
@@ -63,9 +64,7 @@ const MeroDaat = () => {
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-12"
           >
-            <h1
-              className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight"
-            >
+            <h1 className="text-2xl md:text-3xl font-bold font-playfair text-[#0b2a4a] leading-tight">
               मेरो दाँत, मेरो कथा
             </h1>
             <div className="mt-4 mx-auto w-10 h-0.5 rounded-full bg-[#2e7fc1]" />
@@ -131,9 +130,9 @@ const MeroDaat = () => {
                       >
                         {/* HEADER */}
                         <div className="p-4 flex items-start gap-3">
-                          <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white text-sm flex-shrink-0">
+                          {/* <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white text-sm flex-shrink-0">
                             {ch.icon}
-                          </div>
+                          </div> */}
 
                           <div className="flex-1 min-w-0">
                             <span className="text-xs font-semibold text-primary uppercase tracking-wide">
@@ -185,6 +184,53 @@ const MeroDaat = () => {
             ))}
           </motion.div>
         </div>
+        {/* FAQ Section title all things in a nepali language */}
+        <FAQ
+          title="बारम्बार सोधिने प्रश्नहरू"
+          subtitle="दाँत तथा मुख स्वास्थ्यसँग सम्बन्धित सामान्य प्रश्नहरूको सरल उत्तर"
+          faqs={[
+            {
+              question: "दाँत दिनमा कति पटक माझ्नुपर्छ?",
+              answer:
+                "दाँत कम्तीमा दिनमा दुई पटक, बिहान र राति सुत्नुअघि फ्लोराइडयुक्त टुथपेस्ट प्रयोग गरेर दुई मिनेटसम्म माझ्नुपर्छ।",
+            },
+            {
+              question: "दाँतको किरा किन लाग्छ?",
+              answer:
+                "धेरै गुलियो खाने, राम्रोसँग दाँत नमाझ्ने र मुखको सरसफाइमा ध्यान नदिँदा ब्याक्टेरियाले एसिड उत्पादन गर्छन्, जसले दाँतमा किरा लाग्ने सम्भावना बढाउँछ।",
+            },
+            {
+              question: "गिजाबाट रगत आउनु सामान्य हो?",
+              answer:
+                "होइन। गिजाबाट बारम्बार रगत आउनु गिजाको सूजन वा गिजा रोगको संकेत हुन सक्छ। यस्तो समस्या देखिएमा दन्त चिकित्सकसँग जाँच गराउनु उचित हुन्छ।",
+            },
+            {
+              question: "बच्चाको दूधे दाँतको पनि उपचार आवश्यक हुन्छ?",
+              answer:
+                "अवश्य। दूधे दाँतले बच्चाको खानपान, बोलाइ र स्थायी दाँतको सही विकासमा महत्वपूर्ण भूमिका खेल्छ। त्यसैले दूधे दाँत बिग्रिएमा समयमै उपचार गर्नुपर्छ।",
+            },
+            {
+              question: "दाँत दुख्न थालेपछि मात्रै दन्त चिकित्सककहाँ जानुपर्छ?",
+              answer:
+                "होइन। समस्या नदेखिए पनि प्रत्येक ६ महिनामा नियमित दन्त परीक्षण गराउँदा धेरै रोगहरू प्रारम्भिक चरणमै पत्ता लगाउन सकिन्छ।",
+            },
+            {
+              question: "दन्त इम्प्लान्ट सबैका लागि उपयुक्त हुन्छ?",
+              answer:
+                "सबैका लागि होइन। इम्प्लान्ट गर्नुअघि हड्डीको अवस्था, मुखको स्वास्थ्य र समग्र स्वास्थ्यको मूल्याङ्कन आवश्यक हुन्छ। दन्त चिकित्सकले जाँचपछि उपयुक्त विकल्प सिफारिस गर्नुहुन्छ।",
+            },
+            {
+              question: "मुखबाट दुर्गन्ध आउनुको मुख्य कारण के हो?",
+              answer:
+                "मुखको सरसफाइमा कमी, गिजाको रोग, दाँतमा किरा, जिब्रोमा ब्याक्टेरिया जम्नु वा केही स्वास्थ्य समस्याका कारण मुखबाट दुर्गन्ध आउन सक्छ।",
+            },
+            {
+              question: "दाँत सेतो बनाउन घरेलु उपाय सुरक्षित हुन्छन्?",
+              answer:
+                "कागती, बेकिङ सोडा वा अन्य घरेलु उपाय बारम्बार प्रयोग गर्दा दाँतको बाहिरी तहमा क्षति पुग्न सक्छ। सुरक्षित रूपमा दाँत सेतो बनाउन दन्त चिकित्सकको सल्लाह लिनु राम्रो हुन्छ।",
+            },
+          ]}
+        />
       </div>
     </>
   );
