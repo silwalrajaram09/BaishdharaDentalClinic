@@ -23,18 +23,12 @@ import { CLINIC_INFO } from "../Data/BookingOptions";
 
 import Button from "./ui/Button";
 
-// ─── Navigation ─────────────────────────────────────────────────────────────
-// Previously included two duplicate "My teeth" entries — one English
-// (/my-teeth) and one Nepali (/मेरो-दाँत). The Devanagari path required a
-// decodeURIComponent() workaround in isActive() and is fragile across
-// browsers/servers/SEO tooling. Removed the duplicate route; if Nepali
-// support is needed, use a proper i18n library (e.g. react-i18next) with a
-// language switcher rather than separate routes per language.
+
 const NAV = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Services", path: "/services", dropdown: true },
-  { name: "Doctors", path: "/doctors" },
+  // { name: "Doctors", path: "/doctors" },
   { name: "Pricing", path: "/pricing" },
   { name: "Gallery", path: "/gallery" },
   { name: "My Teeth", path: "/my-teeth" },
@@ -42,9 +36,7 @@ const NAV = [
   { name: "Contact", path: "/contact" },
 ];
 
-// Featured services for the desktop mega-menu. Anchors degrade gracefully —
-// if a matching #id isn't present on /services, the link simply opens the
-// top of the page.
+
 const FEATURED_SERVICES = [
   {
     name: "General Dentistry",

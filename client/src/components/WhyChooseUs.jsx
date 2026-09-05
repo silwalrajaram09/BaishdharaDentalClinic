@@ -1,236 +1,175 @@
 import { motion } from "framer-motion";
 
-import aboutTeeth from "../assets/images/aboutTeeth.jpg";
-import { Link } from "react-router-dom";
-import changeImage from "../assets/images/teethImage.jpg";
-
-const Choices = [
+const CHOICES = [
   {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <path d="M12 2a7 7 0 0 1 7 7c0 4-3.5 8-7 11C8.5 17 5 13 5 9a7 7 0 0 1 7-7z" />
-        <path d="M12 9v.01" />
-      </svg>
-    ),
-    title: "Experience Dental Team",
+    title: "Experienced Dental Team",
     description:
-      "Skilled professionals focused on safe, precise, and personalized treatment",
+      "Skilled professionals focused on safe, precise, and personalized treatment.",
+    icon: (
+      <>
+        <path d="M12 3a5 5 0 0 0-5 5c0 3 2.2 5.2 5 8 2.8-2.8 5-5 5-8a5 5 0 0 0-5-5Z" />
+        <path d="M12 16v5M9 21h6M8 10H5a2 2 0 0 0-2 2v3M16 10h3a2 2 0 0 1 2 2v3" />
+        <circle cx="12" cy="8" r="1" />
+      </>
+    ),
   },
   {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <circle cx="12" cy="12" r="9" />
-        <path d="M9 12l2 2 4-4" />
-      </svg>
-    ),
     title: "Advanced Technology",
     description:
       "Modern equipment and digital dentistry for accurate and comfortable care.",
+    icon: (
+      <>
+        <rect x="3" y="4" width="18" height="13" rx="2" />
+        <path d="M7 21h10M9 17v4M15 17v4M7 8h10M7 11h6" />
+        <circle cx="18" cy="11" r="1" />
+      </>
+    ),
   },
   {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <rect x="3" y="3" width="7" height="7" rx="1" />
-        <rect x="14" y="3" width="7" height="7" rx="1" />
-        <rect x="3" y="14" width="7" height="7" rx="1" />
-        <path d="M14 17h7M17 14v7" />
-      </svg>
-    ),
     title: "Clean & Safe Environment",
     description:
       "Strict sterilization and hygiene protocols for your safety and peace of mind.",
+    icon: (
+      <>
+        <path d="M12 21s8-3.7 8-10V5l-8-3-8 3v6c0 6.3 8 10 8 10Z" />
+        <path d="m8.5 12 2.3 2.3 4.8-5" />
+      </>
+    ),
   },
   {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-        <path d="M12 12h.01" />
-        <path d="M8 12h.01M16 12h.01" />
-      </svg>
-    ),
-    title: "Comfortable & Patients Experience",
+    title: "Comfortable Patient Experience",
     description:
       "Gentle care and a supportive team to make every visit stress-free.",
+    icon: (
+      <>
+        <path d="M5 14v-2a7 7 0 0 1 14 0v2" />
+        <path d="M5 14H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2v-4ZM19 14h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2v-4Z" />
+        <path d="M8 20h8M12 18v2" />
+        <circle cx="9" cy="12" r="1" />
+        <circle cx="15" cy="12" r="1" />
+      </>
+    ),
   },
   {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
     title: "Transparent & Affordable Care",
     description:
       "Quality dental treatments with fair pricing and flexible payment options.",
+    icon: (
+      <>
+        <rect x="3" y="6" width="18" height="13" rx="2" />
+        <path d="M3 10h18M7 15h4" />
+        <circle cx="17" cy="15" r="1" />
+      </>
+    ),
   },
   {
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="w-6 h-6"
-      >
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
-    title: "Conprehensice Dental Services",
+    title: "Comprehensive Dental Services",
     description:
       "From routine checkups to advanced smile restoration — all in one place.",
+    icon: (
+      <>
+        <path d="M12 3c-3-2-7 0-7 4 0 5 2 6 3 11 .4 1.8 1.4 3 2.5 3 1.3 0 1.4-3 1.5-5h2c.1 2 .2 5 1.5 5 1.1 0 2.1-1.2 2.5-3 1-5 3-6 3-11 0-4-4-6-7-4Z" />
+        <path d="M12 3v13" />
+        <path d="M9 8h6" />
+      </>
+    ),
   },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+const cardMotion = {
+  hidden: { opacity: 0, y: 18 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-const stagger = {
+const gridMotion = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.08 } },
 };
+
+function ChoiceIcon({ children }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.55"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6 sm:h-8 sm:w-8"
+      aria-hidden="true"
+    >
+      {children}
+    </svg>
+  );
+}
 
 export default function WhyChooseUs() {
   return (
-    <section className="relative overflow-hidden bg-gray-50 py-1  sm:py-10 lg:py-5">
-      {/* <div
+    <section
+      aria-labelledby="why-choose-us-heading"
+      className="relative overflow-hidden bg-[#f5f8fa] px-4 py-3 sm:px-3 sm:py-3 lg:px-8 lg:py-2"
+    >
+      <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 -left-32 h-120 w-[480px] rounded-full bg-blue-100/50 blur-3xl"
-      /> */}
-      {/* <div
+        className="pointer-events-none absolute -left-36 top-20 h-80 w-80 rounded-full bg-[#d9eef5]/70 blur-3xl"
+      />
+      <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-24 -right-24 h-100 w-100 rounded-full bg-sky-100/60 blur-3xl"
-      /> */}
-
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        {/* ── Section header ── */}
-        <motion.div
+        className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#e4eefa]/75 blur-3xl"
+      />
+      <div className="relative mx-auto max-w-6xl">
+        <motion.header
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-          variants={fadeUp}
-          className="mb-14 text-center sm:mb-16"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={cardMotion}
+          className="mx-auto max-w-2xl text-center"
         >
-          {/* Badge */}
-
-          <h2 className="mt-3 text-2xl md:text-3xl font-bold font-playfair leading-tight tracking-tight text-[#0b2a4a]">
+          {/* <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#3b7dbd] sm:text-xs">
+            The Baishdhara difference
+          </p> */}
+          <h2
+            id="why-choose-us-heading"
+            className="mt-3 text-3xl font-extrabold tracking-[-0.05em] text-[#0b2a4a] sm:text-4xl lg:text-5xl"
+          >
             Why Choose Us?
           </h2>
-
-          <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-gray-500">
-            Modern Dentistry with Comfort & Care
+          <div className="mx-auto mt-4 h-0.5 w-10 rounded-full bg-[#86c7dc]" />
+          <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[#647581] sm:text-base">
+            Modern dentistry with comfort, care, and confidence at every visit.
           </p>
-        </motion.div>
+        </motion.header>
 
-        
-        {/* ── Feature cards ── */}
         <motion.div
+          variants={gridMotion}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={stagger}
-          className="grid grid-cols-1 py-5 gap-5 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6"
+          viewport={{ once: true, amount: 0.12 }}
+          className="mt-9 grid grid-cols-2 items-start gap-3 sm:mt-10 sm:gap-5 lg:mt-12 lg:grid-cols-3 lg:gap-6"
         >
-          {Choices.map((choice, i) => (
-            <motion.div
-              key={i}
-              variants={fadeUp}
-              whileHover={{
-                y: -5,
-                transition: { duration: 0.22, ease: "easeOut" },
-              }}
-              className="
-                group relative overflow-hidden
-                rounded-2xl border border-gray-100
-                bg-white p-6
-                shadow-[0_2px_16px_-4px_rgba(11,42,74,0.07)]
-                hover:shadow-[0_8px_32px_-6px_rgba(11,42,74,0.13)]
-                transition-shadow duration-300
-              "
+          {CHOICES.map((choice, index) => (
+            <motion.article
+              key={choice.title}
+              variants={cardMotion}
+              whileHover={{ y: -5 }}
+              className={`group h-full ${index % 2 === 1 ? "mt-5 sm:mt-0" : ""}`}
             >
-              {/* Subtle hover shimmer overlay */}
-              <div
-                aria-hidden="true"
-                className="
-                  pointer-events-none absolute inset-0 rounded-2xl
-                  bg-gradient-to-br from-blue-50/0 via-blue-50/0 to-blue-100/0
-                  group-hover:from-blue-50/60 group-hover:to-sky-50/40
-                  transition-all duration-500
-                "
-              />
-
-              {/* Icon container */}
-              <div className="flex gap-5">
-                {/* <div
-                  className="
-                relative mb-5 flex h-12 w-12 items-center justify-center
-                rounded-xl bg-gradient-to-br from-blue-50 to-sky-100
-                text-blue-600 ring-1 ring-blue-100
-                group-hover:from-blue-100 group-hover:to-sky-200
-                transition-colors duration-300
-              "
-                >
-                  {choice.icon}
-                </div> */}
-
-                {/* Text */}
-                <h3 className="relative mb-2 text-[0.95rem] font-semibold text-[#0b2a4a]">
-                  {choice.title}
-                </h3>
+              <div className="flex h-full min-h-[190px] flex-col rounded-[1.25rem] border border-[#e1ebf0] bg-white p-4 text-left shadow-[0_14px_30px_-23px_rgba(11,42,74,0.6)] transition-[border-color,box-shadow,background-color] duration-300 hover:border-[#b8d9e6] hover:bg-[#fcfeff] hover:shadow-[0_22px_42px_-24px_rgba(11,42,74,0.45)] sm:min-h-[205px] sm:rounded-[1.75rem] sm:p-6">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-[0.92rem] font-bold leading-tight tracking-[-0.025em] text-[#0b2a4a] sm:text-xl">
+                    {choice.title}
+                  </h3>
+                  <ChoiceIcon>{choice.icon}</ChoiceIcon>
+                </div>
+                <p className="mt-3 text-[0.78rem] leading-5 text-[#687985] sm:text-sm sm:leading-6">
+                  {choice.description}
+                </p>
               </div>
-
-              <p className="relative text-sm leading-relaxed text-gray-500">
-                {choice.description}
-              </p>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
       </div>

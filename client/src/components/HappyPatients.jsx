@@ -74,12 +74,11 @@ export default function HappyPatients() {
   const previousPatient = () => setCurrentPatient((previous) => (previous - 1 + PATIENTS.length) % PATIENTS.length);
 
   return (
-    <section aria-labelledby="happy-patients-heading" className="relative overflow-hidden bg-[#e9f5f7] px-4 py-14 sm:px-6 sm:py-18 lg:px-8 lg:py-20">
+    <section aria-labelledby="happy-patients-heading" className="relative overflow-hidden bg-[#e9f5f7]  sm:px-3 sm:py-4 lg:px-4 lg:py-4">
       <div aria-hidden="true" className="pointer-events-none absolute -left-28 top-8 h-64 w-64 rounded-full bg-white/60 blur-3xl" />
       <div aria-hidden="true" className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#cfeaf0]/80 blur-3xl" />
       <div className="relative mx-auto max-w-6xl">
         <motion.header initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={cardMotion} className="mx-auto max-w-2xl text-center">
-          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#3180a5] sm:text-xs">Real experiences</p>
           <h2 id="happy-patients-heading" className="mt-3 text-3xl font-extrabold tracking-[-0.05em] text-[#0b2a4a] sm:text-4xl lg:text-5xl">Happy Patients</h2>
           <div className="mx-auto mt-4 h-0.5 w-10 rounded-full bg-[#69b8ce]" />
           <p className="mt-4 text-sm leading-7 text-[#617580] sm:text-base">Comfortable care and confident smiles, shared by our patients.</p>

@@ -167,7 +167,7 @@ const MeetOurDoctors = () => (
   <>
     <div className="bg-[#f4f7fb] min-h-screen">
       {/* Header */}
-      <div className="max-w-6xl mx-auto px-4 pt-3  text-center">
+      <div className="max-w-6xl mx-auto px-4 pt-3 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

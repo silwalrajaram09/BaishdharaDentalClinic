@@ -33,11 +33,11 @@ const Home = () => {
         {/* HERO */}
         <Heroslider2 />
 
-        {/* DOCTORS — immediately below the hero */}
+
         {/* <MeetOurDoctors /> */}
         <MeetOurDoctors />
 
-        <hr className=" mt-5 border-0.5 border-gray-200 mx-auto max-w-6xl" />
+
         {/* WHY CHOOSE US */}
         <WhyChooseUs />
         <hr

@@ -261,7 +261,7 @@ export default function Contact() {
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#86d7e9]">
                 Visit the clinic
               </p>
-              <h2 className="mt-2 text-2xl font-bold tracking-[-0.035em] sm:text-2xl">
+              <h2 className="mt-2 text-2xl font-bold text-white tracking-[-0.035em] sm:text-2xl">
                 Contact details
               </h2>
               <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
